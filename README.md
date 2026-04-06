@@ -10,7 +10,7 @@ Build filters once and apply them to:
 
 ## ✨ Goals
 
-FluentFilters aims to provide:
+FluentFilterForge aims to provide:
 
 - Strongly typed filters (no magic strings)
 - A clean and fluent API
