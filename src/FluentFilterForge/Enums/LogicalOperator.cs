@@ -1,4 +1,4 @@
-﻿namespace FluentFilterForge;
+﻿namespace FluentFilterForge.Enums;
 
 internal enum LogicalOperator
 {

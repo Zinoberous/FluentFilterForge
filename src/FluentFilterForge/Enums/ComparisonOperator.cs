@@ -1,8 +1,7 @@
-﻿namespace FluentFilterForge;
+﻿namespace FluentFilterForge.Enums;
 
 internal enum ComparisonOperator
 {
-    IsNull,
     Equal,
     GreaterThan,
     GreaterThanOrEqual,
@@ -11,4 +10,6 @@ internal enum ComparisonOperator
     StartsWith,
     EndsWith,
     Contains,
+    Between,
+    In,
 }

@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace FluentFilterForge;
+namespace FluentFilterForge.Interfaces;
 
 /// <summary>
 /// TODO: add documentation

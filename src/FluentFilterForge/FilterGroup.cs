@@ -1,4 +1,7 @@
-﻿namespace FluentFilterForge;
+﻿using FluentFilterForge.Enums;
+using FluentFilterForge.Interfaces;
+
+namespace FluentFilterForge;
 
 internal sealed record FilterGroup : IFilterNode
 {

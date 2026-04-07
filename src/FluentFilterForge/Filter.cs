@@ -1,4 +1,7 @@
 ﻿using System.Linq.Expressions;
+using FluentFilterForge.Builder;
+using FluentFilterForge.Interfaces;
+using FluentFilterForge.Interfaces.Builder;
 
 namespace FluentFilterForge;
 

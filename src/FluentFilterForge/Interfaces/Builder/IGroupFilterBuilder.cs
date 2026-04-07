@@ -1,13 +1,13 @@
-﻿namespace FluentFilterForge;
+﻿namespace FluentFilterForge.Interfaces.Builder;
 
 /// <summary>
 /// TODO: add documentation
 /// </summary>
-public interface IGroupFilterBuilder<T>
+public interface IGroupFilterBuilder<TEntity>
 {
     /// <summary>
     /// TODO: add documentation
     /// </summary>
     /// <returns></returns>
-    Filter<T> Build();
+    IFilter<TEntity> Build();
 }

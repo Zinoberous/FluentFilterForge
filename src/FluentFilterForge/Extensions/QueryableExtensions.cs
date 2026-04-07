@@ -1,4 +1,7 @@
-﻿namespace FluentFilterForge;
+﻿using FluentFilterForge.Extensions;
+using FluentFilterForge.Interfaces;
+
+namespace FluentFilterForge.Extensions;
 
 /// <summary>
 /// TODO: add documentation
@@ -11,7 +14,7 @@ public static class QueryableExtensions
     /// <param name="source"></param>
     /// <param name="filter"></param>
     /// <returns></returns>
-    public static IQueryable<T> Apply<T>(this IQueryable<T> source, IFilter<T> filter)
+    public static IQueryable<T> Where<T>(this IQueryable<T> source, IFilter<T> filter)
     {
         return source.Where(filter.ToExpression());
     }
