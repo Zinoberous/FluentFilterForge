@@ -1,12 +1,24 @@
-﻿namespace FluentFilterForge.Interfaces.Builder;
+﻿namespace FluentFilterForge.Interfaces;
 
 /// <summary>
 /// TODO: add documentation
 /// </summary>
-public interface IPropertyGuidFilterBuilder<TEntity, out TGroupFilterBuilder> :
-    IPropertyFilterBuilder<TEntity, Guid, TGroupFilterBuilder>
+public interface IPropertyStringFilterBuilder<TEntity, out TGroupFilterBuilder> :
+    IPropertyFilterBuilder<TEntity, string, TGroupFilterBuilder>
     where TGroupFilterBuilder : IGroupFilterBuilder<TEntity>
 {
+    /// <summary>
+    /// TODO: add documentation
+    /// </summary>
+    /// <returns></returns>
+    TGroupFilterBuilder IsNullOrEmpty();
+
+    /// <summary>
+    /// TODO: add documentation
+    /// </summary>
+    /// <returns></returns>
+    TGroupFilterBuilder IsNullOrWhitespace();
+
     /// <summary>
     /// TODO: add documentation
     /// </summary>
@@ -27,13 +39,6 @@ public interface IPropertyGuidFilterBuilder<TEntity, out TGroupFilterBuilder> :
     /// <param name="value"></param>
     /// <returns></returns>
     TGroupFilterBuilder Contains(string value);
-
-    /// <summary>
-    /// TODO: add documentation
-    /// </summary>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    TGroupFilterBuilder Like(string value);
 
     /// <summary>
     /// TODO: add documentation

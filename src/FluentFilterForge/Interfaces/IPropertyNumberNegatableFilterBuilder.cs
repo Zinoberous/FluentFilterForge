@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 
-namespace FluentFilterForge.Interfaces.Builder;
+namespace FluentFilterForge.Interfaces;
 
 /// <inheritdoc cref="IPropertyNumberFilterBuilder{TEntity, TNumber, TGroupFilterBuilder}" />
 [SuppressMessage(Constants.SuppressMessageS2436Category, Constants.SuppressMessageS2436CheckId, Justification = Constants.SuppressMessageS2436Justification)]

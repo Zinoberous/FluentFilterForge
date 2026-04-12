@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace FluentFilterForge.Interfaces.Builder;
+namespace FluentFilterForge.Interfaces;
 
 /// <inheritdoc cref="IPropertyDateTimeFilterBuilder{TEntity, TDateTime, TGroupFilterBuilder}" />
 [SuppressMessage(Constants.SuppressMessageS2436Category, Constants.SuppressMessageS2436CheckId, Justification = Constants.SuppressMessageS2436Justification)]

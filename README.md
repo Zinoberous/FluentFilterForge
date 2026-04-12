@@ -20,7 +20,7 @@ FluentFilterForge aims to provide:
 
 ---
 
-## 🚀 Example (planned API)
+## 🚀 Example
 
 ```csharp
 var filter = Filter.For<Customer>()
@@ -28,5 +28,5 @@ var filter = Filter.For<Customer>()
     .And(x => x.Age).GreaterThanOrEqual(18);
 
 var customers = await context.Customers
-    .Apply(filter)
+    .Where(filter)
     .ToListAsync();

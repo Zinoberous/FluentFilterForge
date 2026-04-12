@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 
-namespace FluentFilterForge.Interfaces.Builder;
+namespace FluentFilterForge.Interfaces;
 
 /// <summary>
 /// TODO: add documentation

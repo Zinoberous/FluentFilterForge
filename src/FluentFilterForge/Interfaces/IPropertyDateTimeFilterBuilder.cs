@@ -1,56 +1,55 @@
-﻿namespace FluentFilterForge.Interfaces.Builder;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace FluentFilterForge.Interfaces;
 
 /// <summary>
 /// TODO: add documentation
 /// </summary>
-public interface IPropertyStringFilterBuilder<TEntity, out TGroupFilterBuilder> :
-    IPropertyFilterBuilder<TEntity, string, TGroupFilterBuilder>
+[SuppressMessage(Constants.SuppressMessageS2436Category, Constants.SuppressMessageS2436CheckId, Justification = Constants.SuppressMessageS2436Justification)]
+public interface IPropertyDateTimeFilterBuilder<TEntity, in TDateTime, out TGroupFilterBuilder> :
+    IPropertyFilterBuilder<TEntity, TDateTime, TGroupFilterBuilder>
     where TGroupFilterBuilder : IGroupFilterBuilder<TEntity>
 {
     /// <summary>
     /// TODO: add documentation
     /// </summary>
+    /// <param name="value"></param>
     /// <returns></returns>
-    TGroupFilterBuilder IsNullOrEmpty();
-
-    /// <summary>
-    /// TODO: add documentation
-    /// </summary>
-    /// <returns></returns>
-    TGroupFilterBuilder IsNullOrWhitespace();
+    TGroupFilterBuilder GreaterThan(TDateTime value);
 
     /// <summary>
     /// TODO: add documentation
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    TGroupFilterBuilder StartsWith(string value);
+    TGroupFilterBuilder GreaterThanOrEqual(TDateTime value);
 
     /// <summary>
     /// TODO: add documentation
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    TGroupFilterBuilder EndsWith(string value);
+    TGroupFilterBuilder LessThan(TDateTime value);
 
     /// <summary>
     /// TODO: add documentation
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
-    TGroupFilterBuilder Contains(string value);
+    TGroupFilterBuilder LessThanOrEqual(TDateTime value);
 
     /// <summary>
     /// TODO: add documentation
     /// </summary>
-    /// <param name="value"></param>
+    /// <param name="from"></param>
+    /// <param name="to"></param>
     /// <returns></returns>
-    TGroupFilterBuilder Like(string value);
+    TGroupFilterBuilder Between(TDateTime from, TDateTime to);
 
     /// <summary>
     /// TODO: add documentation
     /// </summary>
     /// <param name="values"></param>
     /// <returns></returns>
-    TGroupFilterBuilder In(params string[] values);
+    TGroupFilterBuilder In(params TDateTime[] values);
 }

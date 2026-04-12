@@ -4,7 +4,7 @@ using FluentFilterForge.Interfaces;
 
 namespace FluentFilterForge;
 
-internal record FilterCondition<TEntity, TProperty> : IFilterNode
+internal abstract record FilterCondition<TEntity, TProperty> : IFilterNode
 {
     internal required Expression<Func<TEntity, TProperty>> PropertySelector { get; init; }
     internal required ComparisonOperator ComparisonOperator { get; init; }

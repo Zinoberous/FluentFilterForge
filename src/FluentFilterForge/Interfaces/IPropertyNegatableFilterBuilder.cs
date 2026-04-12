@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace FluentFilterForge.Interfaces.Builder;
+namespace FluentFilterForge.Interfaces;
 
 /// <summary>
 /// TODO: add documentation

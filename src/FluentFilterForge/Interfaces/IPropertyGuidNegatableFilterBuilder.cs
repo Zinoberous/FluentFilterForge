@@ -1,4 +1,4 @@
-﻿namespace FluentFilterForge.Interfaces.Builder;
+﻿namespace FluentFilterForge.Interfaces;
 
 /// <inheritdoc cref="IPropertyGuidFilterBuilder{TEntity, TGroupFilterBuilder}" />
 public interface IPropertyGuidNegatableFilterBuilder<TEntity, out TGroupFilterBuilder> :

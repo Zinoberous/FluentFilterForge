@@ -1,7 +1,6 @@
 ﻿using System.Linq.Expressions;
 using FluentFilterForge.Builder;
 using FluentFilterForge.Interfaces;
-using FluentFilterForge.Interfaces.Builder;
 
 namespace FluentFilterForge;
 
@@ -18,7 +17,7 @@ public static class Filter
 }
 
 /// <inheritdoc cref="IFilter{T}" />
-public sealed class Filter<T> : IFilter<T>
+internal sealed class Filter<T> : IFilter<T>
 {
     internal FilterGroup Root { get; } = new();
 

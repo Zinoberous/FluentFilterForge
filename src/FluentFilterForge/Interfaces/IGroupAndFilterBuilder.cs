@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 using System.Numerics;
 
-namespace FluentFilterForge.Interfaces.Builder;
+namespace FluentFilterForge.Interfaces;
 
 /// <inheritdoc cref="IGroupFilterBuilder{TEntity}" />
 public interface IGroupAndFilterBuilder<TEntity> : IGroupFilterBuilder<TEntity>
