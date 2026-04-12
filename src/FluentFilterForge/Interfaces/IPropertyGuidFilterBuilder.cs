@@ -3,10 +3,22 @@
 /// <summary>
 /// TODO: add documentation
 /// </summary>
-public interface IPropertyGuidFilterBuilder<TEntity, out TGroupFilterBuilder> :
-    IPropertyFilterBuilder<TEntity, Guid, TGroupFilterBuilder>
-    where TGroupFilterBuilder : IGroupFilterBuilder<TEntity>
+public interface IPropertyGuidFilterBuilder<T, out TGroupFilterBuilder>
+    where TGroupFilterBuilder : IGroupFilterBuilder<T>
 {
+    /// <summary>
+    /// TODO: add documentation
+    /// </summary>
+    /// <returns></returns>
+    TGroupFilterBuilder IsNull();
+
+    /// <summary>
+    /// TODO: add documentation
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    TGroupFilterBuilder Equal(Guid? value);
+
     /// <summary>
     /// TODO: add documentation
     /// </summary>
@@ -33,5 +45,5 @@ public interface IPropertyGuidFilterBuilder<TEntity, out TGroupFilterBuilder> :
     /// </summary>
     /// <param name="values"></param>
     /// <returns></returns>
-    TGroupFilterBuilder In(params string[] values);
+    TGroupFilterBuilder In(params Guid?[] values);
 }

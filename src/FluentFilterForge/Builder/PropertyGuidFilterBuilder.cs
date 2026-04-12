@@ -2,15 +2,17 @@
 
 namespace FluentFilterForge.Builder;
 
-/// <inheritdoc cref="IPropertyGuidNegatableFilterBuilder{TEntity, TGroupFilterBuilder}" />
-internal class PropertyGuidFilterBuilder<TEntity, TGroupFilterBuilder> : IPropertyGuidNegatableFilterBuilder<TEntity, TGroupFilterBuilder>
-    where TGroupFilterBuilder : IGroupFilterBuilder<TEntity>
+/// <inheritdoc cref="IPropertyGuidNegatableFilterBuilder{T, TGroupFilterBuilder}" />
+internal class PropertyGuidFilterBuilder<T, TGroupFilterBuilder> : IPropertyGuidNegatableFilterBuilder<T, TGroupFilterBuilder>
+    where TGroupFilterBuilder : IGroupFilterBuilder<T>
 {
+    private bool _not;
+
     /// <inheritdoc/>
-    IPropertyGuidFilterBuilder<TEntity, TGroupFilterBuilder> IPropertyNegatableFilterBuilder<TEntity, Guid, TGroupFilterBuilder, IPropertyGuidFilterBuilder<TEntity, TGroupFilterBuilder>>.Not()
+    public IPropertyGuidFilterBuilder<T, TGroupFilterBuilder> Not()
     {
-        // TODO: implement Not
-        throw new NotImplementedException();
+        _not = !_not;
+        return this;
     }
 
     /// <inheritdoc/>
@@ -21,7 +23,7 @@ internal class PropertyGuidFilterBuilder<TEntity, TGroupFilterBuilder> : IProper
     }
 
     /// <inheritdoc/>
-    public TGroupFilterBuilder Equal(Guid value)
+    public TGroupFilterBuilder Equal(Guid? value)
     {
         // TODO: implement Equal
         throw new NotImplementedException();
@@ -49,7 +51,7 @@ internal class PropertyGuidFilterBuilder<TEntity, TGroupFilterBuilder> : IProper
     }
 
     /// <inheritdoc/>
-    public TGroupFilterBuilder In(params string[] values)
+    public TGroupFilterBuilder In(params Guid?[] values)
     {
         // TODO: implement In
         throw new NotImplementedException();

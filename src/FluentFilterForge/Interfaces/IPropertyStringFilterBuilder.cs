@@ -3,10 +3,15 @@
 /// <summary>
 /// TODO: add documentation
 /// </summary>
-public interface IPropertyStringFilterBuilder<TEntity, out TGroupFilterBuilder> :
-    IPropertyFilterBuilder<TEntity, string, TGroupFilterBuilder>
-    where TGroupFilterBuilder : IGroupFilterBuilder<TEntity>
+public interface IPropertyStringFilterBuilder<T, out TGroupFilterBuilder>
+    where TGroupFilterBuilder : IGroupFilterBuilder<T>
 {
+    /// <summary>
+    /// TODO: add documentation
+    /// </summary>
+    /// <returns></returns>
+    TGroupFilterBuilder IsNull();
+
     /// <summary>
     /// TODO: add documentation
     /// </summary>
@@ -18,6 +23,13 @@ public interface IPropertyStringFilterBuilder<TEntity, out TGroupFilterBuilder> 
     /// </summary>
     /// <returns></returns>
     TGroupFilterBuilder IsNullOrWhitespace();
+
+    /// <summary>
+    /// TODO: add documentation
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    TGroupFilterBuilder Equal(string? value);
 
     /// <summary>
     /// TODO: add documentation
@@ -45,5 +57,5 @@ public interface IPropertyStringFilterBuilder<TEntity, out TGroupFilterBuilder> 
     /// </summary>
     /// <param name="values"></param>
     /// <returns></returns>
-    TGroupFilterBuilder In(params string[] values);
+    TGroupFilterBuilder In(params string?[] values);
 }

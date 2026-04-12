@@ -6,10 +6,22 @@ namespace FluentFilterForge.Interfaces;
 /// TODO: add documentation
 /// </summary>
 [SuppressMessage(Constants.SuppressMessageS2436Category, Constants.SuppressMessageS2436CheckId, Justification = Constants.SuppressMessageS2436Justification)]
-public interface IPropertyDateTimeFilterBuilder<TEntity, in TDateTime, out TGroupFilterBuilder> :
-    IPropertyFilterBuilder<TEntity, TDateTime, TGroupFilterBuilder>
-    where TGroupFilterBuilder : IGroupFilterBuilder<TEntity>
+public interface IPropertyDateTimeFilterBuilder<T, in TDateTime, out TGroupFilterBuilder>
+    where TGroupFilterBuilder : IGroupFilterBuilder<T>
 {
+    /// <summary>
+    /// TODO: add documentation
+    /// </summary>
+    /// <returns></returns>
+    TGroupFilterBuilder IsNull();
+
+    /// <summary>
+    /// TODO: add documentation
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    TGroupFilterBuilder Equal(TDateTime? value);
+
     /// <summary>
     /// TODO: add documentation
     /// </summary>
@@ -51,5 +63,5 @@ public interface IPropertyDateTimeFilterBuilder<TEntity, in TDateTime, out TGrou
     /// </summary>
     /// <param name="values"></param>
     /// <returns></returns>
-    TGroupFilterBuilder In(params TDateTime[] values);
+    TGroupFilterBuilder In(params TDateTime?[] values);
 }

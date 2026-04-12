@@ -2,15 +2,17 @@
 
 namespace FluentFilterForge.Builder;
 
-/// <inheritdoc cref="IPropertyCharNegatableFilterBuilder{TEntity, TGroupFilterBuilder}" />
-internal class PropertyCharFilterBuilder<TEntity, TGroupFilterBuilder> : IPropertyCharNegatableFilterBuilder<TEntity, TGroupFilterBuilder>
-    where TGroupFilterBuilder : IGroupFilterBuilder<TEntity>
+/// <inheritdoc cref="IPropertyCharNegatableFilterBuilder{T, TGroupFilterBuilder}" />
+internal class PropertyCharFilterBuilder<T, TGroupFilterBuilder> : IPropertyCharNegatableFilterBuilder<T, TGroupFilterBuilder>
+    where TGroupFilterBuilder : IGroupFilterBuilder<T>
 {
+    private bool _not;
+
     /// <inheritdoc/>
-    public IPropertyCharFilterBuilder<TEntity, TGroupFilterBuilder> Not()
+    public IPropertyCharFilterBuilder<T, TGroupFilterBuilder> Not()
     {
-        // TODO: implement Not
-        throw new NotImplementedException();
+        _not = !_not;
+        return this;
     }
 
     /// <inheritdoc/>
@@ -21,14 +23,14 @@ internal class PropertyCharFilterBuilder<TEntity, TGroupFilterBuilder> : IProper
     }
 
     /// <inheritdoc/>
-    public TGroupFilterBuilder Equal(char value)
+    public TGroupFilterBuilder Equal(char? value)
     {
         // TODO: implement Equal
         throw new NotImplementedException();
     }
 
     /// <inheritdoc/>
-    public TGroupFilterBuilder In(params char[] values)
+    public TGroupFilterBuilder In(params char?[] values)
     {
         // TODO: implement In
         throw new NotImplementedException();

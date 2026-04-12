@@ -1,4 +1,6 @@
-﻿using System.Linq.Expressions;
+﻿#pragma warning disable CS0419 // Zweideutige Referenz im cref-Attribut
+
+using System.Linq.Expressions;
 using System.Numerics;
 
 namespace FluentFilterForge.Interfaces;
@@ -6,150 +8,150 @@ namespace FluentFilterForge.Interfaces;
 /// <summary>
 /// TODO: add documentation
 /// </summary>
-public interface IFilterBuilder<TEntity>
+public interface IFilterBuilder<T>
 {
     /// <summary>
     /// TODO: add documentation
     /// </summary>
     /// <param name="propertySelector"></param>
     /// <returns></returns>
-    IPropertyBoolNegatableFilterBuilder<TEntity, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, bool>> propertySelector);
+    IPropertyBoolNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, bool>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyBoolNegatableFilterBuilder<TEntity, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, bool?>> propertySelector);
+    IPropertyBoolNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, bool?>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, sbyte, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, sbyte>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, sbyte, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, sbyte>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, sbyte, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, sbyte?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, sbyte, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, sbyte?>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, byte, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, byte>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, byte, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, byte>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, byte, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, byte?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, byte, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, byte?>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, short, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, short>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, short, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, short>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, short, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, short?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, short, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, short?>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, ushort, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, ushort>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, ushort, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, ushort>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, ushort, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, ushort?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, ushort, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, ushort?>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, int, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, int>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, int, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, int>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, int, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, int?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, int, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, int?>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, uint, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, uint>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, uint, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, uint>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, uint, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, uint?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, uint, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, uint?>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, nint, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, nint>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, nint, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, nint>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, nint, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, nint?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, nint, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, nint?>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, nuint, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, nuint>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, nuint, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, nuint>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, nuint, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, nuint?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, nuint, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, nuint?>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, long, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, long>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, long, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, long>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, long, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, long?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, long, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, long?>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, ulong, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, ulong>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, ulong, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, ulong>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, ulong, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, ulong?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, ulong, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, ulong?>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, BigInteger, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, BigInteger>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, BigInteger, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, BigInteger>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, BigInteger, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, BigInteger?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, BigInteger, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, BigInteger?>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, float, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, float>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, float, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, float>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, float, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, float?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, float, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, float?>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, double, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, double>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, double, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, double>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, double, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, double?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, double, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, double?>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, decimal, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, decimal>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, decimal, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, decimal>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, decimal, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, decimal?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, decimal, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, decimal?>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyCharNegatableFilterBuilder<TEntity, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, char>> propertySelector);
+    IPropertyCharNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, char>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyCharNegatableFilterBuilder<TEntity, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, char?>> propertySelector);
+    IPropertyCharNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, char?>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyStringNegatableFilterBuilder<TEntity, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, string?>> propertySelector);
+    IPropertyStringNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, string?>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyGuidNegatableFilterBuilder<TEntity, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, Guid>> propertySelector);
+    IPropertyGuidNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, Guid>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyGuidNegatableFilterBuilder<TEntity, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, Guid?>> propertySelector);
+    IPropertyGuidNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, Guid?>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyDateTimeNegatableFilterBuilder<TEntity, DateOnly, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, DateOnly>> propertySelector);
+    IPropertyDateTimeNegatableFilterBuilder<T, DateOnly, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, DateOnly>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyDateTimeNegatableFilterBuilder<TEntity, DateOnly, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, DateOnly?>> propertySelector);
+    IPropertyDateTimeNegatableFilterBuilder<T, DateOnly, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, DateOnly?>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyDateTimeNegatableFilterBuilder<TEntity, TimeOnly, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, TimeOnly>> propertySelector);
+    IPropertyDateTimeNegatableFilterBuilder<T, TimeOnly, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, TimeOnly>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyDateTimeNegatableFilterBuilder<TEntity, TimeOnly, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, TimeOnly?>> propertySelector);
+    IPropertyDateTimeNegatableFilterBuilder<T, TimeOnly, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, TimeOnly?>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyDateTimeNegatableFilterBuilder<TEntity, DateTime, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, DateTime>> propertySelector);
+    IPropertyDateTimeNegatableFilterBuilder<T, DateTime, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, DateTime>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyDateTimeNegatableFilterBuilder<TEntity, DateTime, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, DateTime?>> propertySelector);
+    IPropertyDateTimeNegatableFilterBuilder<T, DateTime, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, DateTime?>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyDateTimeNegatableFilterBuilder<TEntity, DateTimeOffset, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, DateTimeOffset>> propertySelector);
+    IPropertyDateTimeNegatableFilterBuilder<T, DateTimeOffset, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, DateTimeOffset>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyDateTimeNegatableFilterBuilder<TEntity, DateTimeOffset, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, DateTimeOffset?>> propertySelector);
+    IPropertyDateTimeNegatableFilterBuilder<T, DateTimeOffset, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, DateTimeOffset?>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyDateTimeNegatableFilterBuilder<TEntity, TimeSpan, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, TimeSpan>> propertySelector);
+    IPropertyDateTimeNegatableFilterBuilder<T, TimeSpan, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, TimeSpan>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyDateTimeNegatableFilterBuilder<TEntity, TimeSpan, IGroupStartFilterBuilder<TEntity>> Where(Expression<Func<TEntity, TimeSpan?>> propertySelector);
+    IPropertyDateTimeNegatableFilterBuilder<T, TimeSpan, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, TimeSpan?>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyCustomNegatableFilterBuilder<TEntity, TProperty, IGroupStartFilterBuilder<TEntity>> Where<TProperty>(Expression<Func<TEntity, TProperty>> propertySelector);
+    IPropertyCustomNegatableFilterBuilder<T, TProperty, IGroupStartFilterBuilder<T>> Where<TProperty>(Expression<Func<T, TProperty>> propertySelector);
 
     /// <inheritdoc cref="Where" />
-    IPropertyEnumerableNegatableFilterBuilder<TEntity, TElement, IGroupStartFilterBuilder<TEntity>> Where<TElement>(Expression<Func<TEntity, IEnumerable<TElement>>> propertySelector);
+    IPropertyEnumerableNegatableFilterBuilder<T, TElement, IGroupStartFilterBuilder<T>> Where<TElement>(Expression<Func<T, IEnumerable<TElement>>> propertySelector);
 }

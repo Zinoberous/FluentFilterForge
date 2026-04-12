@@ -1,160 +1,162 @@
-﻿using System.Linq.Expressions;
+﻿#pragma warning disable CS0419 // Zweideutige Referenz im cref-Attribut
+
+using System.Linq.Expressions;
 using System.Numerics;
 
 namespace FluentFilterForge.Interfaces;
 
-/// <inheritdoc cref="IGroupFilterBuilder{TEntity}" />
-public interface IGroupAndFilterBuilder<TEntity> : IGroupFilterBuilder<TEntity>
+/// <inheritdoc cref="IGroupFilterBuilder{T}" />
+public interface IGroupAndFilterBuilder<T> : IGroupFilterBuilder<T>
 {
     /// <summary>
     /// TODO: add documentation
     /// </summary>
     /// <param name="propertySelector"></param>
     /// <returns></returns>
-    IPropertyBoolNegatableFilterBuilder<TEntity, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, bool>> propertySelector);
+    IPropertyBoolNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> And(Expression<Func<T, bool>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyBoolNegatableFilterBuilder<TEntity, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, bool?>> propertySelector);
+    IPropertyBoolNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> And(Expression<Func<T, bool?>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, sbyte, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, sbyte>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, sbyte, IGroupStartFilterBuilder<T>> And(Expression<Func<T, sbyte>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, sbyte, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, sbyte?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, sbyte, IGroupStartFilterBuilder<T>> And(Expression<Func<T, sbyte?>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, byte, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, byte>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, byte, IGroupStartFilterBuilder<T>> And(Expression<Func<T, byte>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, byte, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, byte?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, byte, IGroupStartFilterBuilder<T>> And(Expression<Func<T, byte?>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, short, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, short>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, short, IGroupStartFilterBuilder<T>> And(Expression<Func<T, short>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, short, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, short?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, short, IGroupStartFilterBuilder<T>> And(Expression<Func<T, short?>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, ushort, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, ushort>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, ushort, IGroupStartFilterBuilder<T>> And(Expression<Func<T, ushort>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, ushort, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, ushort?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, ushort, IGroupStartFilterBuilder<T>> And(Expression<Func<T, ushort?>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, int, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, int>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, int, IGroupStartFilterBuilder<T>> And(Expression<Func<T, int>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, int, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, int?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, int, IGroupStartFilterBuilder<T>> And(Expression<Func<T, int?>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, uint, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, uint>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, uint, IGroupStartFilterBuilder<T>> And(Expression<Func<T, uint>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, uint, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, uint?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, uint, IGroupStartFilterBuilder<T>> And(Expression<Func<T, uint?>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, nint, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, nint>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, nint, IGroupStartFilterBuilder<T>> And(Expression<Func<T, nint>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, nint, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, nint?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, nint, IGroupStartFilterBuilder<T>> And(Expression<Func<T, nint?>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, nuint, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, nuint>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, nuint, IGroupStartFilterBuilder<T>> And(Expression<Func<T, nuint>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, nuint, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, nuint?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, nuint, IGroupStartFilterBuilder<T>> And(Expression<Func<T, nuint?>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, long, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, long>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, long, IGroupStartFilterBuilder<T>> And(Expression<Func<T, long>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, long, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, long?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, long, IGroupStartFilterBuilder<T>> And(Expression<Func<T, long?>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, ulong, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, ulong>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, ulong, IGroupStartFilterBuilder<T>> And(Expression<Func<T, ulong>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, ulong, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, ulong?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, ulong, IGroupStartFilterBuilder<T>> And(Expression<Func<T, ulong?>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, BigInteger, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, BigInteger>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, BigInteger, IGroupStartFilterBuilder<T>> And(Expression<Func<T, BigInteger>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, BigInteger, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, BigInteger?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, BigInteger, IGroupStartFilterBuilder<T>> And(Expression<Func<T, BigInteger?>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, float, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, float>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, float, IGroupStartFilterBuilder<T>> And(Expression<Func<T, float>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, float, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, float?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, float, IGroupStartFilterBuilder<T>> And(Expression<Func<T, float?>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, double, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, double>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, double, IGroupStartFilterBuilder<T>> And(Expression<Func<T, double>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, double, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, double?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, double, IGroupStartFilterBuilder<T>> And(Expression<Func<T, double?>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, decimal, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, decimal>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, decimal, IGroupStartFilterBuilder<T>> And(Expression<Func<T, decimal>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, decimal, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, decimal?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, decimal, IGroupStartFilterBuilder<T>> And(Expression<Func<T, decimal?>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyCharNegatableFilterBuilder<TEntity, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, char>> propertySelector);
+    IPropertyCharNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> And(Expression<Func<T, char>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyCharNegatableFilterBuilder<TEntity, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, char?>> propertySelector);
+    IPropertyCharNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> And(Expression<Func<T, char?>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyStringNegatableFilterBuilder<TEntity, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, string?>> propertySelector);
+    IPropertyStringNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> And(Expression<Func<T, string?>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyGuidNegatableFilterBuilder<TEntity, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, Guid>> propertySelector);
+    IPropertyGuidNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> And(Expression<Func<T, Guid>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyGuidNegatableFilterBuilder<TEntity, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, Guid?>> propertySelector);
+    IPropertyGuidNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> And(Expression<Func<T, Guid?>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyDateTimeNegatableFilterBuilder<TEntity, DateOnly, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, DateOnly>> propertySelector);
+    IPropertyDateTimeNegatableFilterBuilder<T, DateOnly, IGroupStartFilterBuilder<T>> And(Expression<Func<T, DateOnly>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyDateTimeNegatableFilterBuilder<TEntity, DateOnly, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, DateOnly?>> propertySelector);
+    IPropertyDateTimeNegatableFilterBuilder<T, DateOnly, IGroupStartFilterBuilder<T>> And(Expression<Func<T, DateOnly?>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyDateTimeNegatableFilterBuilder<TEntity, TimeOnly, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, TimeOnly>> propertySelector);
+    IPropertyDateTimeNegatableFilterBuilder<T, TimeOnly, IGroupStartFilterBuilder<T>> And(Expression<Func<T, TimeOnly>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyDateTimeNegatableFilterBuilder<TEntity, TimeOnly, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, TimeOnly?>> propertySelector);
+    IPropertyDateTimeNegatableFilterBuilder<T, TimeOnly, IGroupStartFilterBuilder<T>> And(Expression<Func<T, TimeOnly?>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyDateTimeNegatableFilterBuilder<TEntity, DateTime, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, DateTime>> propertySelector);
+    IPropertyDateTimeNegatableFilterBuilder<T, DateTime, IGroupStartFilterBuilder<T>> And(Expression<Func<T, DateTime>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyDateTimeNegatableFilterBuilder<TEntity, DateTime, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, DateTime?>> propertySelector);
+    IPropertyDateTimeNegatableFilterBuilder<T, DateTime, IGroupStartFilterBuilder<T>> And(Expression<Func<T, DateTime?>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyDateTimeNegatableFilterBuilder<TEntity, DateTimeOffset, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, DateTimeOffset>> propertySelector);
+    IPropertyDateTimeNegatableFilterBuilder<T, DateTimeOffset, IGroupStartFilterBuilder<T>> And(Expression<Func<T, DateTimeOffset>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyDateTimeNegatableFilterBuilder<TEntity, DateTimeOffset, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, DateTimeOffset?>> propertySelector);
+    IPropertyDateTimeNegatableFilterBuilder<T, DateTimeOffset, IGroupStartFilterBuilder<T>> And(Expression<Func<T, DateTimeOffset?>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyDateTimeNegatableFilterBuilder<TEntity, TimeSpan, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, TimeSpan>> propertySelector);
+    IPropertyDateTimeNegatableFilterBuilder<T, TimeSpan, IGroupStartFilterBuilder<T>> And(Expression<Func<T, TimeSpan>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyDateTimeNegatableFilterBuilder<TEntity, TimeSpan, IGroupStartFilterBuilder<TEntity>> And(Expression<Func<TEntity, TimeSpan?>> propertySelector);
+    IPropertyDateTimeNegatableFilterBuilder<T, TimeSpan, IGroupStartFilterBuilder<T>> And(Expression<Func<T, TimeSpan?>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyCustomNegatableFilterBuilder<TEntity, TProperty, IGroupStartFilterBuilder<TEntity>> And<TProperty>(Expression<Func<TEntity, TProperty>> propertySelector);
+    IPropertyCustomNegatableFilterBuilder<T, TProperty, IGroupStartFilterBuilder<T>> And<TProperty>(Expression<Func<T, TProperty>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyEnumerableNegatableFilterBuilder<TEntity, TElement, IGroupStartFilterBuilder<TEntity>> And<TElement>(Expression<Func<TEntity, IEnumerable<TElement>>> propertySelector);
+    IPropertyEnumerableNegatableFilterBuilder<T, TElement, IGroupStartFilterBuilder<T>> And<TElement>(Expression<Func<T, IEnumerable<TElement>>> propertySelector);
 
     /// <summary>
     /// TODO: add documentation
     /// </summary>
     /// <param name="configure"></param>
     /// <returns></returns>
-    IGroupAndFilterBuilder<TEntity> And(Action<IFilterBuilder<TEntity>> configure);
+    IGroupAndFilterBuilder<T> And(Action<IFilterBuilder<T>> configure);
 }

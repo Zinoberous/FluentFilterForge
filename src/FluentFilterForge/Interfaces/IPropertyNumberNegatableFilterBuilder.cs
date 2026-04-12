@@ -3,10 +3,15 @@ using System.Numerics;
 
 namespace FluentFilterForge.Interfaces;
 
-/// <inheritdoc cref="IPropertyNumberFilterBuilder{TEntity, TNumber, TGroupFilterBuilder}" />
+/// <inheritdoc cref="IPropertyNumberFilterBuilder{T, TNumber, TGroupFilterBuilder}" />
 [SuppressMessage(Constants.SuppressMessageS2436Category, Constants.SuppressMessageS2436CheckId, Justification = Constants.SuppressMessageS2436Justification)]
-public interface IPropertyNumberNegatableFilterBuilder<TEntity, in TNumber, out TGroupFilterBuilder> :
-    IPropertyNumberFilterBuilder<TEntity, TNumber, TGroupFilterBuilder>,
-    IPropertyNegatableFilterBuilder<TEntity, TNumber, TGroupFilterBuilder, IPropertyNumberFilterBuilder<TEntity, TNumber, TGroupFilterBuilder>>
+public interface IPropertyNumberNegatableFilterBuilder<T, in TNumber, out TGroupFilterBuilder> : IPropertyNumberFilterBuilder<T, TNumber, TGroupFilterBuilder>
     where TNumber : INumber<TNumber>
-    where TGroupFilterBuilder : IGroupFilterBuilder<TEntity>;
+    where TGroupFilterBuilder : IGroupFilterBuilder<T>
+{
+    /// <summary>
+    /// TODO: add documentation
+    /// </summary>
+    /// <returns></returns>
+    IPropertyNumberFilterBuilder<T, TNumber, TGroupFilterBuilder> Not();
+}

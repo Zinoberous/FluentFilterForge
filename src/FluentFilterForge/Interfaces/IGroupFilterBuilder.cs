@@ -3,11 +3,11 @@
 /// <summary>
 /// TODO: add documentation
 /// </summary>
-public interface IGroupFilterBuilder<TEntity>
+public interface IGroupFilterBuilder<T>
 {
     /// <summary>
     /// TODO: add documentation
     /// </summary>
     /// <returns></returns>
-    IFilter<TEntity> Filter { get; }
+    IFilter<T> Filter { get; }
 }

@@ -3,10 +3,15 @@
 /// <summary>
 /// TODO: add documentation
 /// </summary>
-public interface IPropertyBoolFilterBuilder<TEntity, out TGroupFilterBuilder> :
-    IPropertyFilterBuilder<TEntity, bool, TGroupFilterBuilder>
-    where TGroupFilterBuilder : IGroupFilterBuilder<TEntity>
+public interface IPropertyBoolFilterBuilder<T, out TGroupFilterBuilder>
+    where TGroupFilterBuilder : IGroupFilterBuilder<T>
 {
+    /// <summary>
+    /// TODO: add documentation
+    /// </summary>
+    /// <returns></returns>
+    TGroupFilterBuilder IsNull();
+
     /// <summary>
     /// TODO: add documentation
     /// </summary>
@@ -18,4 +23,11 @@ public interface IPropertyBoolFilterBuilder<TEntity, out TGroupFilterBuilder> :
     /// </summary>
     /// <returns></returns>
     TGroupFilterBuilder IsFalse();
+
+    /// <summary>
+    /// TODO: add documentation
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    TGroupFilterBuilder Equal(bool? value);
 }

@@ -4,17 +4,19 @@ using FluentFilterForge.Interfaces;
 
 namespace FluentFilterForge.Builder;
 
-/// <inheritdoc cref="IPropertyNumberNegatableFilterBuilder{TEntity, TNumber, TGroupFilterBuilder}" />
+/// <inheritdoc cref="IPropertyNumberNegatableFilterBuilder{T, TNumber, TGroupFilterBuilder}" />
 [SuppressMessage(Constants.SuppressMessageS2436Category, Constants.SuppressMessageS2436CheckId, Justification = Constants.SuppressMessageS2436Justification)]
-internal class PropertyNumberFilterBuilder<TEntity, TNumber, TGroupFilterBuilder> : IPropertyNumberNegatableFilterBuilder<TEntity, TNumber, TGroupFilterBuilder>
+internal class PropertyNumberFilterBuilder<T, TNumber, TGroupFilterBuilder> : IPropertyNumberNegatableFilterBuilder<T, TNumber, TGroupFilterBuilder>
     where TNumber : INumber<TNumber>
-    where TGroupFilterBuilder : IGroupFilterBuilder<TEntity>
+    where TGroupFilterBuilder : IGroupFilterBuilder<T>
 {
+    private bool _not;
+
     /// <inheritdoc/>
-    public IPropertyNumberFilterBuilder<TEntity, TNumber, TGroupFilterBuilder> Not()
+    public IPropertyNumberFilterBuilder<T, TNumber, TGroupFilterBuilder> Not()
     {
-        // TODO: implement Not
-        throw new NotImplementedException();
+        _not = !_not;
+        return this;
     }
 
     /// <inheritdoc/>
@@ -25,7 +27,7 @@ internal class PropertyNumberFilterBuilder<TEntity, TNumber, TGroupFilterBuilder
     }
 
     /// <inheritdoc/>
-    public TGroupFilterBuilder Equal(TNumber value)
+    public TGroupFilterBuilder Equal(TNumber? value)
     {
         // TODO: implement Equal
         throw new NotImplementedException();
@@ -67,7 +69,7 @@ internal class PropertyNumberFilterBuilder<TEntity, TNumber, TGroupFilterBuilder
     }
 
     /// <inheritdoc/>
-    public TGroupFilterBuilder In(params TNumber[] values)
+    public TGroupFilterBuilder In(params TNumber?[] values)
     {
         // TODO: implement In
         throw new NotImplementedException();

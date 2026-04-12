@@ -2,28 +2,23 @@
 
 namespace FluentFilterForge.Builder;
 
-/// <inheritdoc cref="IPropertyStringNegatableFilterBuilder{TEntity, TGroupFilterBuilder}" />
-internal class PropertyStringFilterBuilder<TEntity, TGroupFilterBuilder> : IPropertyStringNegatableFilterBuilder<TEntity, TGroupFilterBuilder>
-    where TGroupFilterBuilder : IGroupFilterBuilder<TEntity>
+/// <inheritdoc cref="IPropertyStringNegatableFilterBuilder{T, TGroupFilterBuilder}" />
+internal class PropertyStringFilterBuilder<T, TGroupFilterBuilder> : IPropertyStringNegatableFilterBuilder<T, TGroupFilterBuilder>
+    where TGroupFilterBuilder : IGroupFilterBuilder<T>
 {
+    private bool _not;
+
     /// <inheritdoc/>
-    public IPropertyStringFilterBuilder<TEntity, TGroupFilterBuilder> Not()
+    public IPropertyStringFilterBuilder<T, TGroupFilterBuilder> Not()
     {
-        // TODO: implement Not
-        throw new NotImplementedException();
+        _not = !_not;
+        return this;
     }
 
     /// <inheritdoc/>
     public TGroupFilterBuilder IsNull()
     {
         // TODO: implement IsNull
-        throw new NotImplementedException();
-    }
-
-    /// <inheritdoc/>
-    public TGroupFilterBuilder Equal(string value)
-    {
-        // TODO: implement Equal
         throw new NotImplementedException();
     }
 
@@ -38,6 +33,13 @@ internal class PropertyStringFilterBuilder<TEntity, TGroupFilterBuilder> : IProp
     public TGroupFilterBuilder IsNullOrWhitespace()
     {
         // TODO: implement IsNullOrWhitespace
+        throw new NotImplementedException();
+    }
+
+    /// <inheritdoc/>
+    public TGroupFilterBuilder Equal(string? value)
+    {
+        // TODO: implement Equal
         throw new NotImplementedException();
     }
 
@@ -63,7 +65,7 @@ internal class PropertyStringFilterBuilder<TEntity, TGroupFilterBuilder> : IProp
     }
 
     /// <inheritdoc/>
-    public TGroupFilterBuilder In(params string[] values)
+    public TGroupFilterBuilder In(params string?[] values)
     {
         // TODO: implement In
         throw new NotImplementedException();

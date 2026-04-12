@@ -3,16 +3,18 @@ using FluentFilterForge.Interfaces;
 
 namespace FluentFilterForge.Builder;
 
-/// <inheritdoc cref="IPropertyDateTimeNegatableFilterBuilder{TEntity, TProperty, TGroupFilterBuilder}" />
+/// <inheritdoc cref="IPropertyDateTimeNegatableFilterBuilder{T, TProperty, TGroupFilterBuilder}" />
 [SuppressMessage(Constants.SuppressMessageS2436Category, Constants.SuppressMessageS2436CheckId, Justification = Constants.SuppressMessageS2436Justification)]
-internal class PropertyDateTimeFilterBuilder<TEntity, TProperty, TGroupFilterBuilder> : IPropertyDateTimeNegatableFilterBuilder<TEntity, TProperty, TGroupFilterBuilder>
-    where TGroupFilterBuilder : IGroupFilterBuilder<TEntity>
+internal class PropertyDateTimeFilterBuilder<T, TDateTime, TGroupFilterBuilder> : IPropertyDateTimeNegatableFilterBuilder<T, TDateTime, TGroupFilterBuilder>
+    where TGroupFilterBuilder : IGroupFilterBuilder<T>
 {
+    private bool _not;
+
     /// <inheritdoc/>
-    public IPropertyDateTimeFilterBuilder<TEntity, TProperty, TGroupFilterBuilder> Not()
+    public IPropertyDateTimeFilterBuilder<T, TDateTime, TGroupFilterBuilder> Not()
     {
-        // TODO: implement Not
-        throw new NotImplementedException();
+        _not = !_not;
+        return this;
     }
 
     /// <inheritdoc/>
@@ -23,49 +25,49 @@ internal class PropertyDateTimeFilterBuilder<TEntity, TProperty, TGroupFilterBui
     }
 
     /// <inheritdoc/>
-    public TGroupFilterBuilder Equal(TProperty value)
+    public TGroupFilterBuilder Equal(TDateTime? value)
     {
         // TODO: implement Equal
         throw new NotImplementedException();
     }
 
     /// <inheritdoc/>
-    public TGroupFilterBuilder GreaterThan(TProperty value)
+    public TGroupFilterBuilder GreaterThan(TDateTime value)
     {
         // TODO: implement GreaterThan
         throw new NotImplementedException();
     }
 
     /// <inheritdoc/>
-    public TGroupFilterBuilder GreaterThanOrEqual(TProperty value)
+    public TGroupFilterBuilder GreaterThanOrEqual(TDateTime value)
     {
         // TODO: implement GreaterThanOrEqual
         throw new NotImplementedException();
     }
 
     /// <inheritdoc/>
-    public TGroupFilterBuilder LessThan(TProperty value)
+    public TGroupFilterBuilder LessThan(TDateTime value)
     {
         // TODO: implement LessThan
         throw new NotImplementedException();
     }
 
     /// <inheritdoc/>
-    public TGroupFilterBuilder LessThanOrEqual(TProperty value)
+    public TGroupFilterBuilder LessThanOrEqual(TDateTime value)
     {
         // TODO: implement LessThanOrEqual
         throw new NotImplementedException();
     }
 
     /// <inheritdoc/>
-    public TGroupFilterBuilder Between(TProperty from, TProperty to)
+    public TGroupFilterBuilder Between(TDateTime from, TDateTime to)
     {
         // TODO: implement Between
         throw new NotImplementedException();
     }
 
     /// <inheritdoc/>
-    public TGroupFilterBuilder In(params TProperty[] values)
+    public TGroupFilterBuilder In(params TDateTime?[] values)
     {
         // TODO: implement In
         throw new NotImplementedException();

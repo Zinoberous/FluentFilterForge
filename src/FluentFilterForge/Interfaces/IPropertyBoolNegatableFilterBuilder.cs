@@ -1,7 +1,12 @@
 ﻿namespace FluentFilterForge.Interfaces;
 
-/// <inheritdoc cref="IPropertyBoolFilterBuilder{TEntity, TGroupFilterBuilder}" />
-public interface IPropertyBoolNegatableFilterBuilder<TEntity, out TGroupFilterBuilder> :
-    IPropertyBoolFilterBuilder<TEntity, TGroupFilterBuilder>,
-    IPropertyNegatableFilterBuilder<TEntity, bool, TGroupFilterBuilder, IPropertyBoolFilterBuilder<TEntity, TGroupFilterBuilder>>
-    where TGroupFilterBuilder : IGroupFilterBuilder<TEntity>;
+/// <inheritdoc cref="IPropertyBoolFilterBuilder{T, TGroupFilterBuilder}" />
+public interface IPropertyBoolNegatableFilterBuilder<T, out TGroupFilterBuilder> : IPropertyBoolFilterBuilder<T, TGroupFilterBuilder>
+    where TGroupFilterBuilder : IGroupFilterBuilder<T>
+{
+    /// <summary>
+    /// TODO: add documentation
+    /// </summary>
+    /// <returns></returns>
+    IPropertyBoolFilterBuilder<T, TGroupFilterBuilder> Not();
+}

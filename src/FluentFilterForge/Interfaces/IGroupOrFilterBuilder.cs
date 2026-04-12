@@ -1,160 +1,162 @@
-﻿using System.Linq.Expressions;
+﻿#pragma warning disable CS0419 // Zweideutige Referenz im cref-Attribut
+
+using System.Linq.Expressions;
 using System.Numerics;
 
 namespace FluentFilterForge.Interfaces;
 
 /// <inheritdoc cref="IGroupFilterBuilder{T}" />
-public interface IGroupOrFilterBuilder<TEntity> : IGroupFilterBuilder<TEntity>
+public interface IGroupOrFilterBuilder<T> : IGroupFilterBuilder<T>
 {
     /// <summary>
     /// TODO: add documentation
     /// </summary>
     /// <param name="propertySelector"></param>
     /// <returns></returns>
-    IPropertyBoolNegatableFilterBuilder<TEntity, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, bool>> propertySelector);
+    IPropertyBoolNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, bool>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyBoolNegatableFilterBuilder<TEntity, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, bool?>> propertySelector);
+    IPropertyBoolNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, bool?>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, sbyte, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, sbyte>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, sbyte, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, sbyte>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, sbyte, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, sbyte?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, sbyte, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, sbyte?>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, byte, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, byte>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, byte, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, byte>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, byte, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, byte?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, byte, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, byte?>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, short, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, short>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, short, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, short>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, short, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, short?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, short, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, short?>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, ushort, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, ushort>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, ushort, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, ushort>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, ushort, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, ushort?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, ushort, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, ushort?>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, int, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, int>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, int, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, int>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, int, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, int?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, int, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, int?>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, uint, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, uint>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, uint, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, uint>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, uint, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, uint?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, uint, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, uint?>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, nint, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, nint>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, nint, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, nint>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, nint, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, nint?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, nint, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, nint?>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, nuint, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, nuint>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, nuint, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, nuint>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, nuint, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, nuint?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, nuint, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, nuint?>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, long, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, long>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, long, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, long>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, long, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, long?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, long, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, long?>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, ulong, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, ulong>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, ulong, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, ulong>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, ulong, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, ulong?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, ulong, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, ulong?>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, BigInteger, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, BigInteger>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, BigInteger, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, BigInteger>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, BigInteger, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, BigInteger?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, BigInteger, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, BigInteger?>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, float, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, float>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, float, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, float>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, float, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, float?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, float, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, float?>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, double, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, double>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, double, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, double>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, double, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, double?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, double, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, double?>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, decimal, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, decimal>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, decimal, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, decimal>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyNumberNegatableFilterBuilder<TEntity, decimal, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, decimal?>> propertySelector);
+    IPropertyNumberNegatableFilterBuilder<T, decimal, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, decimal?>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyCharNegatableFilterBuilder<TEntity, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, char>> propertySelector);
+    IPropertyCharNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, char>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyCharNegatableFilterBuilder<TEntity, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, char?>> propertySelector);
+    IPropertyCharNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, char?>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyStringNegatableFilterBuilder<TEntity, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, string?>> propertySelector);
+    IPropertyStringNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, string?>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyGuidNegatableFilterBuilder<TEntity, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, Guid>> propertySelector);
+    IPropertyGuidNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, Guid>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyGuidNegatableFilterBuilder<TEntity, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, Guid?>> propertySelector);
+    IPropertyGuidNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, Guid?>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyDateTimeNegatableFilterBuilder<TEntity, DateOnly, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, DateOnly>> propertySelector);
+    IPropertyDateTimeNegatableFilterBuilder<T, DateOnly, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, DateOnly>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyDateTimeNegatableFilterBuilder<TEntity, DateOnly, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, DateOnly?>> propertySelector);
+    IPropertyDateTimeNegatableFilterBuilder<T, DateOnly, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, DateOnly?>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyDateTimeNegatableFilterBuilder<TEntity, TimeOnly, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, TimeOnly>> propertySelector);
+    IPropertyDateTimeNegatableFilterBuilder<T, TimeOnly, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, TimeOnly>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyDateTimeNegatableFilterBuilder<TEntity, TimeOnly, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, TimeOnly?>> propertySelector);
+    IPropertyDateTimeNegatableFilterBuilder<T, TimeOnly, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, TimeOnly?>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyDateTimeNegatableFilterBuilder<TEntity, DateTime, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, DateTime>> propertySelector);
+    IPropertyDateTimeNegatableFilterBuilder<T, DateTime, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, DateTime>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyDateTimeNegatableFilterBuilder<TEntity, DateTime, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, DateTime?>> propertySelector);
+    IPropertyDateTimeNegatableFilterBuilder<T, DateTime, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, DateTime?>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyDateTimeNegatableFilterBuilder<TEntity, DateTimeOffset, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, DateTimeOffset>> propertySelector);
+    IPropertyDateTimeNegatableFilterBuilder<T, DateTimeOffset, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, DateTimeOffset>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyDateTimeNegatableFilterBuilder<TEntity, DateTimeOffset, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, DateTimeOffset?>> propertySelector);
+    IPropertyDateTimeNegatableFilterBuilder<T, DateTimeOffset, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, DateTimeOffset?>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyDateTimeNegatableFilterBuilder<TEntity, TimeSpan, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, TimeSpan>> propertySelector);
+    IPropertyDateTimeNegatableFilterBuilder<T, TimeSpan, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, TimeSpan>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyDateTimeNegatableFilterBuilder<TEntity, TimeSpan, IGroupStartFilterBuilder<TEntity>> Or(Expression<Func<TEntity, TimeSpan?>> propertySelector);
+    IPropertyDateTimeNegatableFilterBuilder<T, TimeSpan, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, TimeSpan?>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyCustomNegatableFilterBuilder<TEntity, TProperty, IGroupStartFilterBuilder<TEntity>> Or<TProperty>(Expression<Func<TEntity, TProperty>> propertySelector);
+    IPropertyCustomNegatableFilterBuilder<T, TProperty, IGroupStartFilterBuilder<T>> Or<TProperty>(Expression<Func<T, TProperty>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyEnumerableNegatableFilterBuilder<TEntity, TElement, IGroupStartFilterBuilder<TEntity>> Or<TElement>(Expression<Func<TEntity, IEnumerable<TElement>>> propertySelector);
+    IPropertyEnumerableNegatableFilterBuilder<T, TElement, IGroupStartFilterBuilder<T>> Or<TElement>(Expression<Func<T, IEnumerable<TElement>>> propertySelector);
 
     /// <summary>
     /// TODO: add documentation
     /// </summary>
     /// <param name="configure"></param>
     /// <returns></returns>
-    IGroupOrFilterBuilder<TEntity> Or(Action<IFilterBuilder<TEntity>> configure);
+    IGroupOrFilterBuilder<T> Or(Action<IFilterBuilder<T>> configure);
 }

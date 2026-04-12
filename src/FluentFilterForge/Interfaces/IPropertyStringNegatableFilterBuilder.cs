@@ -1,7 +1,14 @@
-﻿namespace FluentFilterForge.Interfaces;
+﻿using System.Reflection.Emit;
 
-/// <inheritdoc cref="IPropertyStringFilterBuilder{TEntity, TGroupFilterBuilder}" />
-public interface IPropertyStringNegatableFilterBuilder<TEntity, out TGroupFilterBuilder> :
-    IPropertyStringFilterBuilder<TEntity, TGroupFilterBuilder>,
-    IPropertyNegatableFilterBuilder<TEntity, string, TGroupFilterBuilder, IPropertyStringFilterBuilder<TEntity, TGroupFilterBuilder>>
-    where TGroupFilterBuilder : IGroupFilterBuilder<TEntity>;
+namespace FluentFilterForge.Interfaces;
+
+/// <inheritdoc cref="IPropertyStringFilterBuilder{T, TGroupFilterBuilder}" />
+public interface IPropertyStringNegatableFilterBuilder<T, out TGroupFilterBuilder> : IPropertyStringFilterBuilder<T, TGroupFilterBuilder>
+    where TGroupFilterBuilder : IGroupFilterBuilder<T>
+{
+    /// <summary>
+    /// TODO: add documentation
+    /// </summary>
+    /// <returns></returns>
+    IPropertyStringFilterBuilder<T, TGroupFilterBuilder> Not();
+}

@@ -7,11 +7,23 @@ namespace FluentFilterForge.Interfaces;
 /// TODO: add documentation
 /// </summary>
 [SuppressMessage(Constants.SuppressMessageS2436Category, Constants.SuppressMessageS2436CheckId, Justification = Constants.SuppressMessageS2436Justification)]
-public interface IPropertyNumberFilterBuilder<TEntity, in TNumber, out TGroupFilterBuilder> :
-    IPropertyFilterBuilder<TEntity, TNumber, TGroupFilterBuilder>
+public interface IPropertyNumberFilterBuilder<T, in TNumber, out TGroupFilterBuilder>
     where TNumber : INumber<TNumber>
-    where TGroupFilterBuilder : IGroupFilterBuilder<TEntity>
+    where TGroupFilterBuilder : IGroupFilterBuilder<T>
 {
+    /// <summary>
+    /// TODO: add documentation
+    /// </summary>
+    /// <returns></returns>
+    TGroupFilterBuilder IsNull();
+
+    /// <summary>
+    /// TODO: add documentation
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    TGroupFilterBuilder Equal(TNumber? value);
+
     /// <summary>
     /// TODO: add documentation
     /// </summary>
@@ -53,5 +65,5 @@ public interface IPropertyNumberFilterBuilder<TEntity, in TNumber, out TGroupFil
     /// </summary>
     /// <param name="values"></param>
     /// <returns></returns>
-    TGroupFilterBuilder In(params TNumber[] values);
+    TGroupFilterBuilder In(params TNumber?[] values);
 }

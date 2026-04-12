@@ -2,9 +2,14 @@
 
 namespace FluentFilterForge.Interfaces;
 
-/// <inheritdoc cref="IPropertyEnumerableFilterBuilder{TEntity, TElement, TGroupFilterBuilder}" />
+/// <inheritdoc cref="IPropertyEnumerableFilterBuilder{T, TEnumerable, TGroupFilterBuilder}" />
 [SuppressMessage(Constants.SuppressMessageS2436Category, Constants.SuppressMessageS2436CheckId, Justification = Constants.SuppressMessageS2436Justification)]
-public interface IPropertyEnumerableNegatableFilterBuilder<TEntity, TElement, out TGroupFilterBuilder> :
-    IPropertyEnumerableFilterBuilder<TEntity, TElement, TGroupFilterBuilder>,
-    IPropertyNegatableFilterBuilder<TEntity, TElement, TGroupFilterBuilder, IPropertyEnumerableFilterBuilder<TEntity, TElement, TGroupFilterBuilder>>
-    where TGroupFilterBuilder : IGroupFilterBuilder<TEntity>;
+public interface IPropertyEnumerableNegatableFilterBuilder<T, TEnumerable, out TGroupFilterBuilder> : IPropertyEnumerableFilterBuilder<T, TEnumerable, TGroupFilterBuilder>
+    where TGroupFilterBuilder : IGroupFilterBuilder<T>
+{
+    /// <summary>
+    /// TODO: add documentation
+    /// </summary>
+    /// <returns></returns>
+    IPropertyEnumerableFilterBuilder<T, TEnumerable, TGroupFilterBuilder> Not();
+}

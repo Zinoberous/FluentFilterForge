@@ -3,16 +3,18 @@ using FluentFilterForge.Interfaces;
 
 namespace FluentFilterForge.Builder;
 
-/// <inheritdoc cref="IPropertyCustomNegatableFilterBuilder{TEntity, TProperty, TGroupFilterBuilder}" />
+/// <inheritdoc cref="IPropertyCustomNegatableFilterBuilder{T, TProperty, TGroupFilterBuilder}" />
 [SuppressMessage(Constants.SuppressMessageS2436Category, Constants.SuppressMessageS2436CheckId, Justification = Constants.SuppressMessageS2436Justification)]
-internal class PropertyCustomFilterBuilder<TEntity, TProperty, TGroupFilterBuilder> : IPropertyCustomNegatableFilterBuilder<TEntity, TProperty, TGroupFilterBuilder>
-    where TGroupFilterBuilder : IGroupFilterBuilder<TEntity>
+internal class PropertyCustomFilterBuilder<T, TProperty, TGroupFilterBuilder> : IPropertyCustomNegatableFilterBuilder<T, TProperty, TGroupFilterBuilder>
+    where TGroupFilterBuilder : IGroupFilterBuilder<T>
 {
+    private bool _not;
+
     /// <inheritdoc/>
-    public IPropertyCustomFilterBuilder<TEntity, TProperty, TGroupFilterBuilder> Not()
+    public IPropertyCustomFilterBuilder<T, TProperty, TGroupFilterBuilder> Not()
     {
-        // TODO: implement Not
-        throw new NotImplementedException();
+        _not = !_not;
+        return this;
     }
 
     /// <inheritdoc/>
@@ -23,7 +25,7 @@ internal class PropertyCustomFilterBuilder<TEntity, TProperty, TGroupFilterBuild
     }
 
     /// <inheritdoc/>
-    public TGroupFilterBuilder Equal(TProperty value)
+    public TGroupFilterBuilder Equal(TProperty? value)
     {
         // TODO: implement Equal
         throw new NotImplementedException();

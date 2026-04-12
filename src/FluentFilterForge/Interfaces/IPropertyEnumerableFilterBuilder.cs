@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using System.Linq.Expressions;
 
 namespace FluentFilterForge.Interfaces;
 
@@ -7,9 +6,8 @@ namespace FluentFilterForge.Interfaces;
 /// TODO: add documentation
 /// </summary>
 [SuppressMessage(Constants.SuppressMessageS2436Category, Constants.SuppressMessageS2436CheckId, Justification = Constants.SuppressMessageS2436Justification)]
-public interface IPropertyEnumerableFilterBuilder<TEntity, TElement, out TGroupFilterBuilder> :
-    IPropertyFilterBuilder<TEntity, TElement, TGroupFilterBuilder>
-    where TGroupFilterBuilder : IGroupFilterBuilder<TEntity>
+public interface IPropertyEnumerableFilterBuilder<T, TEnumerable, out TGroupFilterBuilder>
+    where TGroupFilterBuilder : IGroupFilterBuilder<T>
 {
     /// <summary>
     /// TODO: add documentation
@@ -21,11 +19,11 @@ public interface IPropertyEnumerableFilterBuilder<TEntity, TElement, out TGroupF
     /// TODO: add documentation
     /// </summary>
     /// <returns></returns>
-    TGroupFilterBuilder Any(Action<IFilterBuilder<TElement>> configure);
+    TGroupFilterBuilder Any(Action<IFilterBuilder<TEnumerable>> configure);
 
     /// <summary>
     /// TODO: add documentation
     /// </summary>
     /// <returns></returns>
-    TGroupFilterBuilder All(Action<IFilterBuilder<TElement>> configure);
+    TGroupFilterBuilder All(Action<IFilterBuilder<TEnumerable>> configure);
 }
