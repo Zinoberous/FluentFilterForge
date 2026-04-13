@@ -6,7 +6,7 @@ namespace FluentFilterForge.Builder;
 
 /// <inheritdoc cref="IPropertyNumberNegatableFilterBuilder{T, TNumber, TGroupFilterBuilder}" />
 [SuppressMessage(Constants.SuppressMessageS2436Category, Constants.SuppressMessageS2436CheckId, Justification = Constants.SuppressMessageS2436Justification)]
-internal class PropertyNumberFilterBuilder<T, TNumber, TGroupFilterBuilder> : IPropertyNumberNegatableFilterBuilder<T, TNumber, TGroupFilterBuilder>
+internal sealed class PropertyNumberFilterBuilder<T, TNumber, TGroupFilterBuilder> : IPropertyNumberNegatableFilterBuilder<T, TNumber, TGroupFilterBuilder>
     where TNumber : INumber<TNumber>
     where TGroupFilterBuilder : IGroupFilterBuilder<T>
 {

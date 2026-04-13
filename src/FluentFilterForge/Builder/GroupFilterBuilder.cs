@@ -6,9 +6,11 @@ using FluentFilterForge.Interfaces;
 namespace FluentFilterForge.Builder;
 
 /// <inheritdoc cref="IGroupStartFilterBuilder{T}" />
-internal sealed class GroupFilterBuilder<T> : IGroupStartFilterBuilder<T>
+internal sealed class GroupFilterBuilder<T> : IGroupStartFilterBuilder<T>, IGroupFilterBuilderInternal<T>
 {
     private readonly FilterGroup _filterGroup;
+
+    internal GroupFilterBuilder() : this(new()) { }
 
     internal GroupFilterBuilder(FilterGroup filterGroup)
     {
@@ -19,14 +21,14 @@ internal sealed class GroupFilterBuilder<T> : IGroupStartFilterBuilder<T>
     public IPropertyBoolNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> And(Expression<Func<T, bool>> propertySelector)
     {
         SetLogicalOperator(LogicalOperator.And);
-        return new PropertyBoolFilterBuilder<T, GroupFilterBuilder<T>>(_filterGroup, propertySelector);
+        return new PropertyBoolFilterBuilder<T, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyBoolNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> And(Expression<Func<T, bool?>> propertySelector)
     {
         SetLogicalOperator(LogicalOperator.And);
-        return new PropertyBoolFilterBuilder<T, GroupFilterBuilder<T>>(_filterGroup, propertySelector);
+        return new PropertyBoolFilterBuilder<T, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
@@ -355,14 +357,14 @@ internal sealed class GroupFilterBuilder<T> : IGroupStartFilterBuilder<T>
     public IPropertyBoolNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, bool>> propertySelector)
     {
         SetLogicalOperator(LogicalOperator.Or);
-        return new PropertyBoolFilterBuilder<T, GroupFilterBuilder<T>>(_filterGroup, propertySelector);
+        return new PropertyBoolFilterBuilder<T, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyBoolNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, bool?>> propertySelector)
     {
         SetLogicalOperator(LogicalOperator.Or);
-        return new PropertyBoolFilterBuilder<T, GroupFilterBuilder<T>>(_filterGroup, propertySelector);
+        return new PropertyBoolFilterBuilder<T, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
@@ -693,6 +695,12 @@ internal sealed class GroupFilterBuilder<T> : IGroupStartFilterBuilder<T>
         return new Filter<T>() { Root = _filterGroup };
     }
 
+    /// <inheritdoc/>
+    public void AddNode(IFilterNode filterNode)
+    {
+        _filterGroup.Nodes.Add(filterNode);
+    }
+
     private void SetLogicalOperator(LogicalOperator logicalOperator)
     {
         if (_filterGroup.LogicalOperator is null)
@@ -703,16 +711,17 @@ internal sealed class GroupFilterBuilder<T> : IGroupStartFilterBuilder<T>
 
         if (_filterGroup.LogicalOperator != logicalOperator)
         {
-            throw new InvalidOperationException($"Logical operator is already set to '{_filterGroup.LogicalOperator}' for this group.");
+            throw new InvalidOperationException($"Logical operator is already set to '{_filterGroup.LogicalOperator}' for this group. Cannot Set to '{logicalOperator}'.");
         }
     }
 
     private GroupFilterBuilder<T> AddNestedGroup(Action<IFilterBuilder<T>> configure)
     {
         FilterGroup nestedGroup = new();
-        var nestedBuilder = new FilterBuilder<T>(nestedGroup);
+        GroupFilterBuilder<T> nestedGroupBuilder = new(nestedGroup);
+        FilterBuilder<T> nestedFilterBuilder = new(nestedGroupBuilder);
 
-        configure(nestedBuilder);
+        configure(nestedFilterBuilder);
 
         _filterGroup.Nodes.Add(nestedGroup);
 

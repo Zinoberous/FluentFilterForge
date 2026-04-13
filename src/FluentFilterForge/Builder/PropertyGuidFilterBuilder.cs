@@ -3,7 +3,7 @@
 namespace FluentFilterForge.Builder;
 
 /// <inheritdoc cref="IPropertyGuidNegatableFilterBuilder{T, TGroupFilterBuilder}" />
-internal class PropertyGuidFilterBuilder<T, TGroupFilterBuilder> : IPropertyGuidNegatableFilterBuilder<T, TGroupFilterBuilder>
+internal sealed class PropertyGuidFilterBuilder<T, TGroupFilterBuilder> : IPropertyGuidNegatableFilterBuilder<T, TGroupFilterBuilder>
     where TGroupFilterBuilder : IGroupFilterBuilder<T>
 {
     private bool _not;

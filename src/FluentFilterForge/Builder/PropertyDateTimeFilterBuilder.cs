@@ -5,7 +5,7 @@ namespace FluentFilterForge.Builder;
 
 /// <inheritdoc cref="IPropertyDateTimeNegatableFilterBuilder{T, TProperty, TGroupFilterBuilder}" />
 [SuppressMessage(Constants.SuppressMessageS2436Category, Constants.SuppressMessageS2436CheckId, Justification = Constants.SuppressMessageS2436Justification)]
-internal class PropertyDateTimeFilterBuilder<T, TDateTime, TGroupFilterBuilder> : IPropertyDateTimeNegatableFilterBuilder<T, TDateTime, TGroupFilterBuilder>
+internal sealed class PropertyDateTimeFilterBuilder<T, TDateTime, TGroupFilterBuilder> : IPropertyDateTimeNegatableFilterBuilder<T, TDateTime, TGroupFilterBuilder>
     where TGroupFilterBuilder : IGroupFilterBuilder<T>
 {
     private bool _not;

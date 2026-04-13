@@ -5,21 +5,21 @@ using FluentFilterForge.Interfaces;
 namespace FluentFilterForge.Builder;
 
 /// <inheritdoc cref="IPropertyBoolNegatableFilterBuilder{T, TGroupFilterBuilder}" />
-internal class PropertyBoolFilterBuilder<T, TGroupFilterBuilder> : IPropertyBoolNegatableFilterBuilder<T, TGroupFilterBuilder>
-    where TGroupFilterBuilder : IGroupFilterBuilder<T>
+internal sealed class PropertyBoolFilterBuilder<T, TGroupFilterBuilder> : IPropertyBoolNegatableFilterBuilder<T, TGroupFilterBuilder>
+    where TGroupFilterBuilder : IGroupFilterBuilderInternal<T>
 {
     private bool _not;
 
-    private readonly FilterGroup _filterGroup;
+    private readonly TGroupFilterBuilder _groupFilterBuilder;
     private readonly Expression<Func<T, bool?>> _propertySelector;
 
-    internal PropertyBoolFilterBuilder(FilterGroup filterGroup, Expression<Func<T, bool>> propertySelector)
-        : this(filterGroup, Expression.Lambda<Func<T, bool?>>(Expression.Convert(propertySelector.Body, typeof(bool?)), propertySelector.Parameters))
+    internal PropertyBoolFilterBuilder(TGroupFilterBuilder groupFilterBuilder, Expression<Func<T, bool>> propertySelector)
+        : this(groupFilterBuilder, Expression.Lambda<Func<T, bool?>>(Expression.Convert(propertySelector.Body, typeof(bool?)), propertySelector.Parameters))
     { }
 
-    internal PropertyBoolFilterBuilder(FilterGroup filterGroup, Expression<Func<T, bool?>> propertySelector)
+    internal PropertyBoolFilterBuilder(TGroupFilterBuilder groupFilterBuilder, Expression<Func<T, bool?>> propertySelector)
     {
-        _filterGroup = filterGroup;
+        _groupFilterBuilder = groupFilterBuilder;
         _propertySelector = propertySelector;
     }
 
@@ -45,14 +45,15 @@ internal class PropertyBoolFilterBuilder<T, TGroupFilterBuilder> : IPropertyBool
     /// <inheritdoc/>
     public TGroupFilterBuilder Equal(bool? value)
     {
-        _filterGroup.Nodes.Add(new FilterConditionValue<T, bool?>
+        FilterConditionValue<T, bool?> node = new()
         {
             PropertySelector = _propertySelector,
             ComparisonOperator = ComparisonOperator.Equal,
             Not = _not,
             Value = value
-        });
+        };
 
-        return (TGroupFilterBuilder)(object)new GroupFilterBuilder<T>(_filterGroup);
+        _groupFilterBuilder.AddNode(node);
+        return _groupFilterBuilder;
     }
 }
