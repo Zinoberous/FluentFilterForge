@@ -9,5 +9,5 @@ public interface IGroupFilterBuilder<T>
     /// TODO: add documentation
     /// </summary>
     /// <returns></returns>
-    IFilter<T> Filter { get; }
+    IFilter<T> Build();
 }

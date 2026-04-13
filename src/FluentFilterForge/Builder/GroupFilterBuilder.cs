@@ -8,33 +8,25 @@ namespace FluentFilterForge.Builder;
 /// <inheritdoc cref="IGroupStartFilterBuilder{T}" />
 internal sealed class GroupFilterBuilder<T> : IGroupStartFilterBuilder<T>
 {
-    /// <inheritdoc/>
-    public IFilter<T> Filter => _filter;
+    private readonly FilterGroup _filterGroup;
 
-    private readonly Filter<T> _filter;
-
-    internal GroupFilterBuilder(Filter<T> filter)
+    internal GroupFilterBuilder(FilterGroup filterGroup)
     {
-        _filter = filter;
+        _filterGroup = filterGroup;
     }
 
     /// <inheritdoc/>
     public IPropertyBoolNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> And(Expression<Func<T, bool>> propertySelector)
     {
-        var nullablePropertySelector = Expression.Lambda<Func<T, bool?>>(
-            Expression.Convert(propertySelector.Body, typeof(bool?)),
-            propertySelector.Parameters
-        );
-
-        return And(nullablePropertySelector);
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyBoolFilterBuilder<T, GroupFilterBuilder<T>>(_filterGroup, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyBoolNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> And(Expression<Func<T, bool?>> propertySelector)
     {
-        CorrectLogicalOperator(LogicalOperator.And);
-
-        return new PropertyBoolFilterBuilder<T, GroupFilterBuilder<T>>(_filter, propertySelector);
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyBoolFilterBuilder<T, GroupFilterBuilder<T>>(_filterGroup, propertySelector);
     }
 
     /// <inheritdoc/>
@@ -355,27 +347,22 @@ internal sealed class GroupFilterBuilder<T> : IGroupStartFilterBuilder<T>
     /// <inheritdoc/>
     public IGroupAndFilterBuilder<T> And(Action<IFilterBuilder<T>> configure)
     {
-        // TODO: implement And for nested groups
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return AddNestedGroup(configure);
     }
 
     /// <inheritdoc/>
     public IPropertyBoolNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, bool>> propertySelector)
     {
-        var nullablePropertySelector = Expression.Lambda<Func<T, bool?>>(
-            Expression.Convert(propertySelector.Body, typeof(bool?)),
-            propertySelector.Parameters
-        );
-
-        return Or(nullablePropertySelector);
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyBoolFilterBuilder<T, GroupFilterBuilder<T>>(_filterGroup, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyBoolNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, bool?>> propertySelector)
     {
-        CorrectLogicalOperator(LogicalOperator.Or);
-
-        return new PropertyBoolFilterBuilder<T, GroupFilterBuilder<T>>(_filter, propertySelector);
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyBoolFilterBuilder<T, GroupFilterBuilder<T>>(_filterGroup, propertySelector);
     }
 
     /// <inheritdoc/>
@@ -696,15 +683,39 @@ internal sealed class GroupFilterBuilder<T> : IGroupStartFilterBuilder<T>
     /// <inheritdoc/>
     public IGroupOrFilterBuilder<T> Or(Action<IFilterBuilder<T>> configure)
     {
-        // TODO: implement Or for nested groups
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return AddNestedGroup(configure);
     }
 
-    private void CorrectLogicalOperator(LogicalOperator logicalOperator)
+    /// <inheritdoc/>
+    public IFilter<T> Build()
     {
-        if (_filter.Root.LogicalOperator != logicalOperator)
+        return new Filter<T>() { Root = _filterGroup };
+    }
+
+    private void SetLogicalOperator(LogicalOperator logicalOperator)
+    {
+        if (_filterGroup.LogicalOperator is null)
         {
-            _filter.Root = _filter.Root with { LogicalOperator = logicalOperator };
+            _filterGroup.LogicalOperator = logicalOperator;
+            return;
         }
+
+        if (_filterGroup.LogicalOperator != logicalOperator)
+        {
+            throw new InvalidOperationException($"Logical operator is already set to '{_filterGroup.LogicalOperator}' for this group.");
+        }
+    }
+
+    private GroupFilterBuilder<T> AddNestedGroup(Action<IFilterBuilder<T>> configure)
+    {
+        FilterGroup nestedGroup = new();
+        var nestedBuilder = new FilterBuilder<T>(nestedGroup);
+
+        configure(nestedBuilder);
+
+        _filterGroup.Nodes.Add(nestedGroup);
+
+        return this;
     }
 }

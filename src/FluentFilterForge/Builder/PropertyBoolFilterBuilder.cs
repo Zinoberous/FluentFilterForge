@@ -10,16 +10,16 @@ internal class PropertyBoolFilterBuilder<T, TGroupFilterBuilder> : IPropertyBool
 {
     private bool _not;
 
-    private readonly Filter<T> _filter;
+    private readonly FilterGroup _filterGroup;
     private readonly Expression<Func<T, bool?>> _propertySelector;
 
-    internal PropertyBoolFilterBuilder(Filter<T> filter, Expression<Func<T, bool>> propertySelector)
-        : this(filter, Expression.Lambda<Func<T, bool?>>(Expression.Convert(propertySelector.Body, typeof(bool?)), propertySelector.Parameters))
+    internal PropertyBoolFilterBuilder(FilterGroup filterGroup, Expression<Func<T, bool>> propertySelector)
+        : this(filterGroup, Expression.Lambda<Func<T, bool?>>(Expression.Convert(propertySelector.Body, typeof(bool?)), propertySelector.Parameters))
     { }
 
-    internal PropertyBoolFilterBuilder(Filter<T> filter, Expression<Func<T, bool?>> propertySelector)
+    internal PropertyBoolFilterBuilder(FilterGroup filterGroup, Expression<Func<T, bool?>> propertySelector)
     {
-        _filter = filter;
+        _filterGroup = filterGroup;
         _propertySelector = propertySelector;
     }
 
@@ -45,7 +45,7 @@ internal class PropertyBoolFilterBuilder<T, TGroupFilterBuilder> : IPropertyBool
     /// <inheritdoc/>
     public TGroupFilterBuilder Equal(bool? value)
     {
-        _filter.Root.Nodes.Add(new FilterConditionValue<T, bool?>
+        _filterGroup.Nodes.Add(new FilterConditionValue<T, bool?>
         {
             PropertySelector = _propertySelector,
             ComparisonOperator = ComparisonOperator.Equal,
@@ -53,6 +53,6 @@ internal class PropertyBoolFilterBuilder<T, TGroupFilterBuilder> : IPropertyBool
             Value = value
         });
 
-        return (TGroupFilterBuilder)(object)new GroupFilterBuilder<T>(_filter);
+        return (TGroupFilterBuilder)(object)new GroupFilterBuilder<T>(_filterGroup);
     }
 }

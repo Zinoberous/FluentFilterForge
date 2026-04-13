@@ -7,16 +7,25 @@ namespace FluentFilterForge.Builder;
 /// <inheritdoc cref="IFilterBuilder{T}" />
 internal sealed class FilterBuilder<T> : IFilterBuilder<T>
 {
+    private readonly FilterGroup _filterGroup;
+
+    internal FilterBuilder() : this(new()) { }
+
+    internal FilterBuilder(FilterGroup filterGroup)
+    {
+        _filterGroup = filterGroup;
+    }
+
     /// <inheritdoc/>
     public IPropertyBoolNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, bool>> propertySelector)
     {
-        return new PropertyBoolFilterBuilder<T, GroupFilterBuilder<T>>(new(), propertySelector);
+        return new PropertyBoolFilterBuilder<T, GroupFilterBuilder<T>>(_filterGroup, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyBoolNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, bool?>> propertySelector)
     {
-        return new PropertyBoolFilterBuilder<T, GroupFilterBuilder<T>>(new(), propertySelector);
+        return new PropertyBoolFilterBuilder<T, GroupFilterBuilder<T>>(_filterGroup, propertySelector);
     }
 
     /// <inheritdoc/>

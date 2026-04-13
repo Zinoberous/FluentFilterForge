@@ -17,7 +17,7 @@ public class BoolFilterTests
         var filter = Filter.For<bool?>()
             .Where(x => x)
             .IsTrue()
-            .Filter;
+            .Build();
 
         IEnumerable<bool?> expected = [true, true];
 
@@ -40,7 +40,7 @@ public class BoolFilterTests
         var filter = Filter.For<bool?>()
             .Where(x => x)
             .IsFalse()
-            .Filter;
+            .Build();
 
         IEnumerable<bool?> expected = [false, false];
 
@@ -63,7 +63,7 @@ public class BoolFilterTests
         var filter = Filter.For<bool?>()
             .Where(x => x)
             .IsNull()
-            .Filter;
+            .Build();
 
         IEnumerable<bool?> expected = [null, null];
 
@@ -86,7 +86,7 @@ public class BoolFilterTests
         var filter = Filter.For<bool?>()
             .Where(x => x)
             .Equal(true)
-            .Filter;
+            .Build();
 
         IEnumerable<bool?> expected = [true, true];
 
@@ -109,7 +109,7 @@ public class BoolFilterTests
         var filter = Filter.For<bool?>()
             .Where(x => x)
             .Equal(false)
-            .Filter;
+            .Build();
 
         IEnumerable<bool?> expected = [false, false];
 
@@ -132,7 +132,7 @@ public class BoolFilterTests
         var filter = Filter.For<bool?>()
             .Where(x => x)
             .Equal(null)
-            .Filter;
+            .Build();
 
         IEnumerable<bool?> expected = [null, null];
 
@@ -156,7 +156,7 @@ public class BoolFilterTests
             .Where(x => x)
             .Not()
             .Equal(true)
-            .Filter;
+            .Build();
 
         IEnumerable<bool?> expected = [false, null];
 
@@ -184,7 +184,7 @@ public class BoolFilterTests
         var filter = Filter.For<Customer>()
             .Where(x => x.IsActive).IsTrue()
             .And(x => x.IsVerified).IsTrue()
-            .Filter;
+            .Build();
 
         IEnumerable<Customer> expected = [new(true, true)];
 
@@ -213,7 +213,7 @@ public class BoolFilterTests
         var filter = Filter.For<Customer>()
             .Where(x => x.IsActive).IsTrue()
             .Or(x => x.IsVerified).IsTrue()
-            .Filter;
+            .Build();
 
         IEnumerable<Customer> expected = [
             new(true, true),

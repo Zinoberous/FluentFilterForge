@@ -5,6 +5,6 @@ namespace FluentFilterForge;
 
 internal sealed record FilterGroup : IFilterNode
 {
-    internal LogicalOperator LogicalOperator { get; init; } = LogicalOperator.And;
+    internal LogicalOperator? LogicalOperator { get; set; }
     internal ICollection<IFilterNode> Nodes { get; } = [];
 }

@@ -19,7 +19,7 @@ public static class Filter
 /// <inheritdoc cref="IFilter{T}" />
 internal sealed class Filter<T> : IFilter<T>
 {
-    internal FilterGroup Root { get; set; } = new();
+    internal FilterGroup Root { get; init; } = new();
 
     /// <inheritdoc/>
     public Expression<Func<T, bool>> ToExpression()
