@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using FluentFilterForge.Extensions;
 
-namespace FluentFilterForge.UnitTests;
+namespace FluentFilterForge.Enumerable.Tests;
 
 public class BoolFilterTests
 {

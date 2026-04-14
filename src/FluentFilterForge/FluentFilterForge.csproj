@@ -5,7 +5,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="FluentFilterForge.UnitTests" />
+    <InternalsVisibleTo Include="FluentFilterForge.Enumerable.Tests" />
+    <InternalsVisibleTo Include="FluentFilterForge.Queryable.Tests" />
   </ItemGroup>
 
 </Project>

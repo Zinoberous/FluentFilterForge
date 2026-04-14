@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="src/FluentFilterForge/FluentFilterForge.csproj" />
-  <Project Path="tests/FluentFilterForge.UnitTests/FluentFilterForge.UnitTests.csproj" Id="2ad50bec-1f86-4141-b5d0-e77e72ad1efa" />
+  <Project Path="tests/FluentFilterForge.Enumerable.Tests/FluentFilterForge.Enumerable.Tests.csproj" Id="209f88cc-6c60-4076-be93-abc54dc43e71" />
+  <Project Path="tests/FluentFilterForge.Queryable.Tests/FluentFilterForge.Queryable.Tests.csproj" Id="8e45c548-77a8-4642-ad3c-6899cef052f3" />
 </Solution>
