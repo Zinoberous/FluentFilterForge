@@ -34,197 +34,197 @@ internal sealed class GroupFilterBuilder<T> : IGroupStartFilterBuilder<T>, IGrou
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, sbyte, IGroupStartFilterBuilder<T>> And(Expression<Func<T, sbyte>> propertySelector)
     {
-        // TODO: implement And for sbyte
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyNumberFilterBuilder<T, sbyte, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, sbyte, IGroupStartFilterBuilder<T>> And(Expression<Func<T, sbyte?>> propertySelector)
     {
-        // TODO: implement And for sbyte?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyNumberFilterBuilder<T, sbyte, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, byte, IGroupStartFilterBuilder<T>> And(Expression<Func<T, byte>> propertySelector)
     {
-        // TODO: implement And for byte
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyNumberFilterBuilder<T, byte, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, byte, IGroupStartFilterBuilder<T>> And(Expression<Func<T, byte?>> propertySelector)
     {
-        // TODO: implement And for byte?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyNumberFilterBuilder<T, byte, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, short, IGroupStartFilterBuilder<T>> And(Expression<Func<T, short>> propertySelector)
     {
-        // TODO: implement And for short
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyNumberFilterBuilder<T, short, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, short, IGroupStartFilterBuilder<T>> And(Expression<Func<T, short?>> propertySelector)
     {
-        // TODO: implement And for short?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyNumberFilterBuilder<T, short, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, ushort, IGroupStartFilterBuilder<T>> And(Expression<Func<T, ushort>> propertySelector)
     {
-        // TODO: implement And for ushort
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyNumberFilterBuilder<T, ushort, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, ushort, IGroupStartFilterBuilder<T>> And(Expression<Func<T, ushort?>> propertySelector)
     {
-        // TODO: implement And for ushort?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyNumberFilterBuilder<T, ushort, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, int, IGroupStartFilterBuilder<T>> And(Expression<Func<T, int>> propertySelector)
     {
-        // TODO: implement And for int
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyNumberFilterBuilder<T, int, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, int, IGroupStartFilterBuilder<T>> And(Expression<Func<T, int?>> propertySelector)
     {
-        // TODO: implement And for int?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyNumberFilterBuilder<T, int, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, uint, IGroupStartFilterBuilder<T>> And(Expression<Func<T, uint>> propertySelector)
     {
-        // TODO: implement And for uint
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyNumberFilterBuilder<T, uint, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, uint, IGroupStartFilterBuilder<T>> And(Expression<Func<T, uint?>> propertySelector)
     {
-        // TODO: implement And for uint?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyNumberFilterBuilder<T, uint, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, nint, IGroupStartFilterBuilder<T>> And(Expression<Func<T, nint>> propertySelector)
     {
-        // TODO: implement And for nint
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyNumberFilterBuilder<T, nint, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, nint, IGroupStartFilterBuilder<T>> And(Expression<Func<T, nint?>> propertySelector)
     {
-        // TODO: implement And for nint?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyNumberFilterBuilder<T, nint, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, nuint, IGroupStartFilterBuilder<T>> And(Expression<Func<T, nuint>> propertySelector)
     {
-        // TODO: implement And for nuint
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyNumberFilterBuilder<T, nuint, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, nuint, IGroupStartFilterBuilder<T>> And(Expression<Func<T, nuint?>> propertySelector)
     {
-        // TODO: implement And for nuint?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyNumberFilterBuilder<T, nuint, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, long, IGroupStartFilterBuilder<T>> And(Expression<Func<T, long>> propertySelector)
     {
-        // TODO: implement And for long
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyNumberFilterBuilder<T, long, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, long, IGroupStartFilterBuilder<T>> And(Expression<Func<T, long?>> propertySelector)
     {
-        // TODO: implement And for long?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyNumberFilterBuilder<T, long, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, ulong, IGroupStartFilterBuilder<T>> And(Expression<Func<T, ulong>> propertySelector)
     {
-        // TODO: implement And for ulong
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyNumberFilterBuilder<T, ulong, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, ulong, IGroupStartFilterBuilder<T>> And(Expression<Func<T, ulong?>> propertySelector)
     {
-        // TODO: implement And for ulong?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyNumberFilterBuilder<T, ulong, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, BigInteger, IGroupStartFilterBuilder<T>> And(Expression<Func<T, BigInteger>> propertySelector)
     {
-        // TODO: implement And for BigInteger
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyNumberFilterBuilder<T, BigInteger, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, BigInteger, IGroupStartFilterBuilder<T>> And(Expression<Func<T, BigInteger?>> propertySelector)
     {
-        // TODO: implement And for BigInteger?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyNumberFilterBuilder<T, BigInteger, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, float, IGroupStartFilterBuilder<T>> And(Expression<Func<T, float>> propertySelector)
     {
-        // TODO: implement And for float
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyNumberFilterBuilder<T, float, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, float, IGroupStartFilterBuilder<T>> And(Expression<Func<T, float?>> propertySelector)
     {
-        // TODO: implement And for float?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyNumberFilterBuilder<T, float, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, double, IGroupStartFilterBuilder<T>> And(Expression<Func<T, double>> propertySelector)
     {
-        // TODO: implement And for double
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyNumberFilterBuilder<T, double, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, double, IGroupStartFilterBuilder<T>> And(Expression<Func<T, double?>> propertySelector)
     {
-        // TODO: implement And for double?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyNumberFilterBuilder<T, double, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, decimal, IGroupStartFilterBuilder<T>> And(Expression<Func<T, decimal>> propertySelector)
     {
-        // TODO: implement And for decimal
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyNumberFilterBuilder<T, decimal, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, decimal, IGroupStartFilterBuilder<T>> And(Expression<Func<T, decimal?>> propertySelector)
     {
-        // TODO: implement And for decimal?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyNumberFilterBuilder<T, decimal, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
@@ -370,197 +370,197 @@ internal sealed class GroupFilterBuilder<T> : IGroupStartFilterBuilder<T>, IGrou
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, sbyte, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, sbyte>> propertySelector)
     {
-        // TODO: implement Or for sbyte
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyNumberFilterBuilder<T, sbyte, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, sbyte, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, sbyte?>> propertySelector)
     {
-        // TODO: implement Or for sbyte?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyNumberFilterBuilder<T, sbyte, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, byte, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, byte>> propertySelector)
     {
-        // TODO: implement Or for byte
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyNumberFilterBuilder<T, byte, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, byte, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, byte?>> propertySelector)
     {
-        // TODO: implement Or for byte?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyNumberFilterBuilder<T, byte, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, short, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, short>> propertySelector)
     {
-        // TODO: implement Or for short
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyNumberFilterBuilder<T, short, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, short, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, short?>> propertySelector)
     {
-        // TODO: implement Or for short?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyNumberFilterBuilder<T, short, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, ushort, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, ushort>> propertySelector)
     {
-        // TODO: implement Or for ushort
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyNumberFilterBuilder<T, ushort, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, ushort, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, ushort?>> propertySelector)
     {
-        // TODO: implement Or for ushort?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyNumberFilterBuilder<T, ushort, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, int, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, int>> propertySelector)
     {
-        // TODO: implement Or for int
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyNumberFilterBuilder<T, int, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, int, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, int?>> propertySelector)
     {
-        // TODO: implement Or for int?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyNumberFilterBuilder<T, int, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, uint, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, uint>> propertySelector)
     {
-        // TODO: implement Or for uint
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyNumberFilterBuilder<T, uint, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, uint, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, uint?>> propertySelector)
     {
-        // TODO: implement Or for uint?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyNumberFilterBuilder<T, uint, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, nint, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, nint>> propertySelector)
     {
-        // TODO: implement Or for nint
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyNumberFilterBuilder<T, nint, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, nint, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, nint?>> propertySelector)
     {
-        // TODO: implement Or for nint?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyNumberFilterBuilder<T, nint, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, nuint, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, nuint>> propertySelector)
     {
-        // TODO: implement Or for nuint
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyNumberFilterBuilder<T, nuint, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, nuint, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, nuint?>> propertySelector)
     {
-        // TODO: implement Or for nuint?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyNumberFilterBuilder<T, nuint, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, long, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, long>> propertySelector)
     {
-        // TODO: implement Or for long
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyNumberFilterBuilder<T, long, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, long, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, long?>> propertySelector)
     {
-        // TODO: implement Or for long?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyNumberFilterBuilder<T, long, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, ulong, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, ulong>> propertySelector)
     {
-        // TODO: implement Or for ulong
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyNumberFilterBuilder<T, ulong, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, ulong, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, ulong?>> propertySelector)
     {
-        // TODO: implement Or for ulong?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyNumberFilterBuilder<T, ulong, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, BigInteger, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, BigInteger>> propertySelector)
     {
-        // TODO: implement Or for BigInteger
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyNumberFilterBuilder<T, BigInteger, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, BigInteger, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, BigInteger?>> propertySelector)
     {
-        // TODO: implement Or for BigInteger?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyNumberFilterBuilder<T, BigInteger, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, float, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, float>> propertySelector)
     {
-        // TODO: implement Or for float
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyNumberFilterBuilder<T, float, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, float, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, float?>> propertySelector)
     {
-        // TODO: implement Or for float?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyNumberFilterBuilder<T, float, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, double, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, double>> propertySelector)
     {
-        // TODO: implement Or for double
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyNumberFilterBuilder<T, double, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, double, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, double?>> propertySelector)
     {
-        // TODO: implement Or for double?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyNumberFilterBuilder<T, double, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, decimal, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, decimal>> propertySelector)
     {
-        // TODO: implement Or for decimal
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyNumberFilterBuilder<T, decimal, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, decimal, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, decimal?>> propertySelector)
     {
-        // TODO: implement Or for decimal?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyNumberFilterBuilder<T, decimal, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>

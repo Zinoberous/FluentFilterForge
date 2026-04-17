@@ -62,36 +62,71 @@ internal sealed class Filter<T> : IFilter<T>
         return node switch
         {
             FilterGroup group => BuildGroupExpression(group, parameter),
-            FilterConditionValue<T, bool?> condition => BuildBoolConditionExpression(condition, parameter),
+            IFilterConditionBetween condition => BuildBetweenConditionExpression(condition, parameter),
+            IFilterConditionIn condition => BuildInConditionExpression(condition, parameter),
+            IFilterConditionValue condition => BuildValueConditionExpression(condition, parameter),
             _ => throw new NotSupportedException($"Filter node '{node.GetType().Name}' is not supported yet.")
         };
     }
 
-    private static Expression BuildBoolConditionExpression(FilterConditionValue<T, bool?> condition, ParameterExpression parameter)
+    private static Expression BuildValueConditionExpression(IFilterConditionValue condition, ParameterExpression parameter)
     {
-        var propertyExpression = new ReplaceParameterVisitor(condition.PropertySelector.Parameters[0], parameter)
-            .Visit(condition.PropertySelector.Body)!;
+        var propertyExpr = ReplaceParameter(condition.PropertySelector, parameter);
+        var propertyType = condition.PropertySelector.ReturnType;
+        var valueExpr = Expression.Constant(condition.Value, propertyType);
 
-        var valueExpression = Expression.Constant(condition.Value, typeof(bool?));
-
-        var comparison = condition.ComparisonOperator switch
+        Expression comparison = condition.ComparisonOperator switch
         {
-            ComparisonOperator.Equal => Expression.Equal(propertyExpression, valueExpression),
-            _ => throw new NotSupportedException($"Comparison operator '{condition.ComparisonOperator}' is not supported for bool filters.")
+            ComparisonOperator.Equal => Expression.Equal(propertyExpr, valueExpr),
+            ComparisonOperator.GreaterThan => Expression.GreaterThan(propertyExpr, valueExpr),
+            ComparisonOperator.GreaterThanOrEqual => Expression.GreaterThanOrEqual(propertyExpr, valueExpr),
+            ComparisonOperator.LessThan => Expression.LessThan(propertyExpr, valueExpr),
+            ComparisonOperator.LessThanOrEqual => Expression.LessThanOrEqual(propertyExpr, valueExpr),
+            _ => throw new NotSupportedException($"Comparison operator '{condition.ComparisonOperator}' is not supported.")
         };
 
-        return condition.Not
-            ? Expression.Not(comparison)
-            : comparison;
+        return condition.Not ? Expression.Not(comparison) : comparison;
     }
+
+    private static Expression BuildBetweenConditionExpression(IFilterConditionBetween condition, ParameterExpression parameter)
+    {
+        var propertyExpr = ReplaceParameter(condition.PropertySelector, parameter);
+        var propertyType = condition.PropertySelector.ReturnType;
+
+        var fromExpr = Expression.Constant(condition.From, propertyType);
+        var toExpr = Expression.Constant(condition.To, propertyType);
+
+        var lower = Expression.GreaterThanOrEqual(propertyExpr, fromExpr);
+        var upper = Expression.LessThanOrEqual(propertyExpr, toExpr);
+        var comparison = Expression.AndAlso(lower, upper);
+
+        return condition.Not ? Expression.Not(comparison) : comparison;
+    }
+
+    private static Expression BuildInConditionExpression(IFilterConditionIn condition, ParameterExpression parameter)
+    {
+        var propertyExpr = ReplaceParameter(condition.PropertySelector, parameter);
+        var propertyType = condition.PropertySelector.ReturnType;
+
+        var listType = typeof(List<>).MakeGenericType(propertyType);
+        var typedList = Activator.CreateInstance(listType)!;
+        var addMethod = listType.GetMethod("Add")!;
+        foreach (var value in condition.Values)
+            addMethod.Invoke(typedList, [value]);
+
+        var listExpr = Expression.Constant(typedList);
+        var containsMethod = listType.GetMethod("Contains")!;
+        var comparison = Expression.Call(listExpr, containsMethod, propertyExpr);
+
+        return condition.Not ? Expression.Not(comparison) : comparison;
+    }
+
+    private static Expression ReplaceParameter(LambdaExpression lambda, ParameterExpression parameter)
+        => new ReplaceParameterVisitor(lambda.Parameters[0], parameter).Visit(lambda.Body)!;
 
     private sealed class ReplaceParameterVisitor(ParameterExpression source, ParameterExpression target) : ExpressionVisitor
     {
         protected override Expression VisitParameter(ParameterExpression node)
-        {
-            return node == source
-                ? target
-                : base.VisitParameter(node);
-        }
+            => node == source ? target : base.VisitParameter(node);
     }
 }

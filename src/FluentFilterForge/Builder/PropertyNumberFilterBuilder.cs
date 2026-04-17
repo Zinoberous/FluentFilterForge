@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 using System.Numerics;
+using FluentFilterForge.Enums;
 using FluentFilterForge.Interfaces;
 
 namespace FluentFilterForge.Builder;
@@ -7,10 +9,23 @@ namespace FluentFilterForge.Builder;
 /// <inheritdoc cref="IPropertyNumberNegatableFilterBuilder{T, TNumber, TGroupFilterBuilder}" />
 [SuppressMessage(Constants.SuppressMessageS2436Category, Constants.SuppressMessageS2436CheckId, Justification = Constants.SuppressMessageS2436Justification)]
 internal sealed class PropertyNumberFilterBuilder<T, TNumber, TGroupFilterBuilder> : IPropertyNumberNegatableFilterBuilder<T, TNumber, TGroupFilterBuilder>
-    where TNumber : INumber<TNumber>
-    where TGroupFilterBuilder : IGroupFilterBuilder<T>
+    where TNumber : struct, INumber<TNumber>
+    where TGroupFilterBuilder : IGroupFilterBuilderInternal<T>
 {
     private bool _not;
+
+    private readonly TGroupFilterBuilder _groupFilterBuilder;
+    private readonly Expression<Func<T, TNumber?>> _propertySelector;
+
+    internal PropertyNumberFilterBuilder(TGroupFilterBuilder groupFilterBuilder, Expression<Func<T, TNumber>> propertySelector)
+        : this(groupFilterBuilder, Expression.Lambda<Func<T, TNumber?>>(Expression.Convert(propertySelector.Body, typeof(TNumber?)), propertySelector.Parameters))
+    { }
+
+    internal PropertyNumberFilterBuilder(TGroupFilterBuilder groupFilterBuilder, Expression<Func<T, TNumber?>> propertySelector)
+    {
+        _groupFilterBuilder = groupFilterBuilder;
+        _propertySelector = propertySelector;
+    }
 
     /// <inheritdoc/>
     public IPropertyNumberFilterBuilder<T, TNumber, TGroupFilterBuilder> Not()
@@ -22,56 +37,121 @@ internal sealed class PropertyNumberFilterBuilder<T, TNumber, TGroupFilterBuilde
     /// <inheritdoc/>
     public TGroupFilterBuilder IsNull()
     {
-        // TODO: implement IsNull
-        throw new NotImplementedException();
+        FilterConditionValue<T, TNumber?> node = new()
+        {
+            PropertySelector = _propertySelector,
+            ComparisonOperator = ComparisonOperator.Equal,
+            Not = _not,
+            Value = default
+        };
+
+        _groupFilterBuilder.AddNode(node);
+        return _groupFilterBuilder;
     }
 
     /// <inheritdoc/>
     public TGroupFilterBuilder Equal(TNumber? value)
     {
-        // TODO: implement Equal
-        throw new NotImplementedException();
+        FilterConditionValue<T, TNumber?> node = new()
+        {
+            PropertySelector = _propertySelector,
+            ComparisonOperator = ComparisonOperator.Equal,
+            Not = _not,
+            Value = value
+        };
+
+        _groupFilterBuilder.AddNode(node);
+        return _groupFilterBuilder;
     }
 
     /// <inheritdoc/>
     public TGroupFilterBuilder GreaterThan(TNumber value)
     {
-        // TODO: implement GreaterThan
-        throw new NotImplementedException();
+        FilterConditionValue<T, TNumber?> node = new()
+        {
+            PropertySelector = _propertySelector,
+            ComparisonOperator = ComparisonOperator.GreaterThan,
+            Not = _not,
+            Value = value
+        };
+
+        _groupFilterBuilder.AddNode(node);
+        return _groupFilterBuilder;
     }
 
     /// <inheritdoc/>
     public TGroupFilterBuilder GreaterThanOrEqual(TNumber value)
     {
-        // TODO: implement GreaterThanOrEqual
-        throw new NotImplementedException();
+        FilterConditionValue<T, TNumber?> node = new()
+        {
+            PropertySelector = _propertySelector,
+            ComparisonOperator = ComparisonOperator.GreaterThanOrEqual,
+            Not = _not,
+            Value = value
+        };
+
+        _groupFilterBuilder.AddNode(node);
+        return _groupFilterBuilder;
     }
 
     /// <inheritdoc/>
     public TGroupFilterBuilder LessThan(TNumber value)
     {
-        // TODO: implement LessThan
-        throw new NotImplementedException();
+        FilterConditionValue<T, TNumber?> node = new()
+        {
+            PropertySelector = _propertySelector,
+            ComparisonOperator = ComparisonOperator.LessThan,
+            Not = _not,
+            Value = value
+        };
+
+        _groupFilterBuilder.AddNode(node);
+        return _groupFilterBuilder;
     }
 
     /// <inheritdoc/>
     public TGroupFilterBuilder LessThanOrEqual(TNumber value)
     {
-        // TODO: implement LessThanOrEqual
-        throw new NotImplementedException();
+        FilterConditionValue<T, TNumber?> node = new()
+        {
+            PropertySelector = _propertySelector,
+            ComparisonOperator = ComparisonOperator.LessThanOrEqual,
+            Not = _not,
+            Value = value
+        };
+
+        _groupFilterBuilder.AddNode(node);
+        return _groupFilterBuilder;
     }
 
     /// <inheritdoc/>
     public TGroupFilterBuilder Between(TNumber from, TNumber to)
     {
-        // TODO: implement Between
-        throw new NotImplementedException();
+        FilterConditionBetween<T, TNumber?> node = new()
+        {
+            PropertySelector = _propertySelector,
+            ComparisonOperator = ComparisonOperator.Between,
+            Not = _not,
+            From = from,
+            To = to
+        };
+
+        _groupFilterBuilder.AddNode(node);
+        return _groupFilterBuilder;
     }
 
     /// <inheritdoc/>
     public TGroupFilterBuilder In(params TNumber?[] values)
     {
-        // TODO: implement In
-        throw new NotImplementedException();
+        FilterConditionIn<T, TNumber?> node = new()
+        {
+            PropertySelector = _propertySelector,
+            ComparisonOperator = ComparisonOperator.In,
+            Not = _not,
+            Values = values
+        };
+
+        _groupFilterBuilder.AddNode(node);
+        return _groupFilterBuilder;
     }
 }

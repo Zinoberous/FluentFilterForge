@@ -7,8 +7,8 @@ namespace FluentFilterForge.Interfaces;
 /// TODO: add documentation
 /// </summary>
 [SuppressMessage(Constants.SuppressMessageS2436Category, Constants.SuppressMessageS2436CheckId, Justification = Constants.SuppressMessageS2436Justification)]
-public interface IPropertyNumberFilterBuilder<T, in TNumber, out TGroupFilterBuilder>
-    where TNumber : INumber<TNumber>
+public interface IPropertyNumberFilterBuilder<T, TNumber, out TGroupFilterBuilder>
+    where TNumber : struct, INumber<TNumber>
     where TGroupFilterBuilder : IGroupFilterBuilder<T>
 {
     /// <summary>

@@ -18,210 +18,123 @@ internal sealed class FilterBuilder<T> : IFilterBuilder<T>
 
     /// <inheritdoc/>
     public IPropertyBoolNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, bool>> propertySelector)
-    {
-        return new PropertyBoolFilterBuilder<T, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
-    }
+        => new PropertyBoolFilterBuilder<T, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyBoolNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, bool?>> propertySelector)
-    {
-        return new PropertyBoolFilterBuilder<T, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
-    }
+        => new PropertyBoolFilterBuilder<T, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, sbyte, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, sbyte>> propertySelector)
-    {
-        // TODO: implement Where for sbyte
-        throw new NotImplementedException();
-    }
+        => new PropertyNumberFilterBuilder<T, sbyte, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, sbyte, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, sbyte?>> propertySelector)
-    {
-        // TODO: implement Where for sbyte?
-        throw new NotImplementedException();
-    }
+        => new PropertyNumberFilterBuilder<T, sbyte, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, byte, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, byte>> propertySelector)
-    {
-        // TODO: implement Where for byte
-        throw new NotImplementedException();
-    }
+        => new PropertyNumberFilterBuilder<T, byte, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, byte, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, byte?>> propertySelector)
-    {
-        // TODO: implement Where for byte?
-        throw new NotImplementedException();
-    }
+        => new PropertyNumberFilterBuilder<T, byte, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, short, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, short>> propertySelector)
-    {
-        // TODO: implement Where for short
-        throw new NotImplementedException();
-    }
+        => new PropertyNumberFilterBuilder<T, short, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, short, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, short?>> propertySelector)
-    {
-        // TODO: implement Where for short?
-        throw new NotImplementedException();
-    }
+        => new PropertyNumberFilterBuilder<T, short, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, ushort, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, ushort>> propertySelector)
-    {
-        // TODO: implement Where for ushort
-        throw new NotImplementedException();
-    }
+        => new PropertyNumberFilterBuilder<T, ushort, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, ushort, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, ushort?>> propertySelector)
-    {
-        // TODO: implement Where for ushort?
-        throw new NotImplementedException();
-    }
+        => new PropertyNumberFilterBuilder<T, ushort, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, int, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, int>> propertySelector)
-    {
-        // TODO: implement Where for int
-        throw new NotImplementedException();
-    }
+        => new PropertyNumberFilterBuilder<T, int, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, int, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, int?>> propertySelector)
-    {
-        // TODO: implement Where for int?
-        throw new NotImplementedException();
-    }
+        => new PropertyNumberFilterBuilder<T, int, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, uint, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, uint>> propertySelector)
-    {
-        // TODO: implement Where for uint
-        throw new NotImplementedException();
-    }
+        => new PropertyNumberFilterBuilder<T, uint, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, uint, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, uint?>> propertySelector)
-    {
-        // TODO: implement Where for uint?
-        throw new NotImplementedException();
-    }
+        => new PropertyNumberFilterBuilder<T, uint, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, nint, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, nint>> propertySelector)
-    {
-        // TODO: implement Where for nint
-        throw new NotImplementedException();
-    }
+        => new PropertyNumberFilterBuilder<T, nint, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, nint, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, nint?>> propertySelector)
-    {
-        // TODO: implement Where for nint?
-        throw new NotImplementedException();
-    }
+        => new PropertyNumberFilterBuilder<T, nint, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, nuint, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, nuint>> propertySelector)
-    {
-        throw new NotImplementedException();
-    }
+        => new PropertyNumberFilterBuilder<T, nuint, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, nuint, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, nuint?>> propertySelector)
-    {
-        // TODO: implement Where for nuint?
-        throw new NotImplementedException();
-    }
+        => new PropertyNumberFilterBuilder<T, nuint, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, long, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, long>> propertySelector)
-    {
-        // TODO: implement Where for long
-        throw new NotImplementedException();
-    }
+        => new PropertyNumberFilterBuilder<T, long, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, long, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, long?>> propertySelector)
-    {
-        // TODO: implement Where for long?
-        throw new NotImplementedException();
-    }
+        => new PropertyNumberFilterBuilder<T, long, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, ulong, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, ulong>> propertySelector)
-    {
-        // TODO: implement Where for ulong
-        throw new NotImplementedException();
-    }
+        => new PropertyNumberFilterBuilder<T, ulong, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, ulong, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, ulong?>> propertySelector)
-    {
-        // TODO: implement Where for ulong?
-        throw new NotImplementedException();
-    }
+        => new PropertyNumberFilterBuilder<T, ulong, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, BigInteger, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, BigInteger>> propertySelector)
-    {
-        // TODO: implement Where for BigInteger
-        throw new NotImplementedException();
-    }
+        => new PropertyNumberFilterBuilder<T, BigInteger, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, BigInteger, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, BigInteger?>> propertySelector)
-    {
-        // TODO: implement Where for BigInteger?
-        throw new NotImplementedException();
-    }
+        => new PropertyNumberFilterBuilder<T, BigInteger, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, float, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, float>> propertySelector)
-    {
-        // TODO: implement Where for float
-        throw new NotImplementedException();
-    }
+        => new PropertyNumberFilterBuilder<T, float, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, float, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, float?>> propertySelector)
-    {
-        // TODO: implement Where for float?
-        throw new NotImplementedException();
-    }
+        => new PropertyNumberFilterBuilder<T, float, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, double, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, double>> propertySelector)
-    {
-        // TODO: implement Where for double
-        throw new NotImplementedException();
-    }
+        => new PropertyNumberFilterBuilder<T, double, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, double, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, double?>> propertySelector)
-    {
-        // TODO: implement Where for double?
-        throw new NotImplementedException();
-    }
+        => new PropertyNumberFilterBuilder<T, double, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, decimal, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, decimal>> propertySelector)
-    {
-        // TODO: implement Where for decimal
-        throw new NotImplementedException();
-    }
+        => new PropertyNumberFilterBuilder<T, decimal, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyNumberNegatableFilterBuilder<T, decimal, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, decimal?>> propertySelector)
-    {
-        // TODO: implement Where for decimal?
-        throw new NotImplementedException();
-    }
+        => new PropertyNumberFilterBuilder<T, decimal, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyCharNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, char>> propertySelector)
