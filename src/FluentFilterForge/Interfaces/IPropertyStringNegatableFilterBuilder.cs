@@ -1,6 +1,4 @@
-﻿using System.Reflection.Emit;
-
-namespace FluentFilterForge.Interfaces;
+﻿namespace FluentFilterForge.Interfaces;
 
 /// <inheritdoc cref="IPropertyStringFilterBuilder{T, TGroupFilterBuilder}" />
 public interface IPropertyStringNegatableFilterBuilder<T, out TGroupFilterBuilder> : IPropertyStringFilterBuilder<T, TGroupFilterBuilder>

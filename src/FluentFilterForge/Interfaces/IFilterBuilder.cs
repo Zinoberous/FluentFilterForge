@@ -1,6 +1,4 @@
-﻿#pragma warning disable CS0419 // Zweideutige Referenz im cref-Attribut
-
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using System.Numerics;
 
 namespace FluentFilterForge.Interfaces;

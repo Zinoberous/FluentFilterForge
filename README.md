@@ -23,7 +23,7 @@ dotnet add package FluentFilterForge
 ## Quick start
 
 ```csharp
-using FluentFilterForge.Extensions;
+using FluentFilterForge;
 
 var filter = Filter.For<Product>()
     .Where(p => p.Price).GreaterThanOrEqual(10m)
@@ -129,12 +129,12 @@ var filter = Filter.For<Order>()
 
 ## Grouped sub-conditions
 
-Pass a delegate to `And(…)` or `Or(…)` to create a nested group:
+Pass a delegate to `AndGroup(…)` or `OrGroup(…)` to create a nested group:
 
 ```csharp
 var filter = Filter.For<Product>()
     .Where(p => p.IsActive).IsTrue()
-    .And(nested => nested
+    .AndGroup(nested => nested
         .Where(p => p.Category).Equal("Electronics")
         .Or(p => p.Category).Equal("Computers"))
     .Build();

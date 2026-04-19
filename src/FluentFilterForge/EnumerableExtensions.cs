@@ -1,7 +1,6 @@
-﻿using FluentFilterForge.Extensions;
-using FluentFilterForge.Interfaces;
+﻿using FluentFilterForge.Interfaces;
 
-namespace FluentFilterForge.Extensions;
+namespace FluentFilterForge;
 
 /// <summary>
 /// Extension methods for applying <see cref="IFilter{T}"/> to <see cref="IEnumerable{T}"/> sequences.

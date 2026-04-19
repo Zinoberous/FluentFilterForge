@@ -67,73 +67,26 @@ internal sealed class Filter<T> : IFilter<T>
         return node switch
         {
             FilterGroup group => BuildGroupExpression(group, parameter),
+            IFilterConditionValue condition => BuildValueConditionExpression(condition, parameter),
             IFilterConditionBetween condition => BuildBetweenConditionExpression(condition, parameter),
             IFilterConditionIn condition => BuildInConditionExpression(condition, parameter),
-            IFilterConditionEnumerable condition => BuildCollectionSubFilterExpression(condition, parameter),
-            IFilterConditionValue condition => BuildValueConditionExpression(condition, parameter),
-            IFilterCondition condition => BuildConditionExpression(condition, parameter),
+            IFilterConditionEnumerable condition => BuildEnumerableConditionExpression(condition, parameter),
+            IFilterCondition condition => BuildNoValueConditionExpression(condition, parameter),
             _ => throw new NotSupportedException($"Filter node '{node.GetType().Name}' is not supported yet.")
         };
     }
 
-    private static Expression BuildCollectionSubFilterExpression(IFilterConditionEnumerable condition, ParameterExpression parameter)
-    {
-        var collectionExpr = ReplaceParameter(condition.PropertySelector, parameter);
-        var collectionType = condition.PropertySelector.ReturnType;
-        var elementType = collectionType.GetGenericArguments()[0];
-
-        var enumerableType = typeof(System.Linq.Enumerable);
-        var methodName = condition.ComparisonOperator == ComparisonOperator.Any ? nameof(Enumerable.Any) : nameof(Enumerable.All);
-        var method = enumerableType
-            .GetMethods()
-            .First(m => m.Name == methodName && m.GetParameters().Length == 2)
-            .MakeGenericMethod(elementType);
-
-        var compiledSubFilter = Expression.Constant(condition.Filter.ToExpression().Compile());
-
-        Expression call;
-
-        if (!collectionType.IsValueType)
-        {
-            // collection != null && Enumerable.Any/All(collection, subFilter)
-            var notNull = Expression.NotEqual(collectionExpr, Expression.Constant(null, collectionType));
-            var methodCall = Expression.Call(method, collectionExpr, compiledSubFilter);
-            call = Expression.AndAlso(notNull, methodCall);
-        }
-        else
-        {
-            call = Expression.Call(method, collectionExpr, compiledSubFilter);
-        }
-
-        return condition.Not ? Expression.Not(call) : call;
-    }
-
-    private static Expression BuildConditionExpression(IFilterCondition condition, ParameterExpression parameter)
+    private static Expression BuildNoValueConditionExpression(IFilterCondition condition, ParameterExpression parameter)
     {
         var propertyExpr = ReplaceParameter(condition.PropertySelector, parameter);
         var propertyType = condition.PropertySelector.ReturnType;
 
-        Expression comparison = condition.ComparisonOperator switch
+        var comparison = condition.ComparisonOperator switch
         {
             ComparisonOperator.IsNull => Expression.Equal(propertyExpr, Expression.Constant(null, propertyType)),
             ComparisonOperator.IsNullOrEmpty => BuildIsNullOrEmptyExpression(propertyExpr, propertyType),
             ComparisonOperator.IsNullOrWhitespace => BuildIsNullOrWhitespaceExpression(propertyExpr),
             _ => throw new NotSupportedException($"Comparison operator '{condition.ComparisonOperator}' is not supported for value-less conditions.")
-        };
-
-        return condition.Not ? Expression.Not(comparison) : comparison;
-    }
-
-    private static Expression BuildValueConditionExpression(IFilterConditionValue condition, ParameterExpression parameter)
-    {
-        var propertyExpr = ReplaceParameter(condition.PropertySelector, parameter);
-        var propertyType = condition.PropertySelector.ReturnType;
-
-        Expression comparison = condition.ComparisonOperator switch
-        {
-            ComparisonOperator.StartsWith or ComparisonOperator.EndsWith or ComparisonOperator.Contains
-                => BuildStringMatchExpression(condition.ComparisonOperator, propertyExpr, condition.Value),
-            _ => BuildScalarComparisonExpression(condition.ComparisonOperator, propertyExpr, condition.Value, propertyType)
         };
 
         return condition.Not ? Expression.Not(comparison) : comparison;
@@ -155,33 +108,35 @@ internal sealed class Filter<T> : IFilter<T>
 
         var isNull = Expression.Equal(propertyExpr, Expression.Constant(null, propertyType));
         var isEmpty = Expression.Not(Expression.Call(anyMethod, propertyExpr));
+
         return Expression.OrElse(isNull, isEmpty);
     }
 
-    private static Expression BuildIsNullOrWhitespaceExpression(Expression propertyExpr)
+    private static MethodCallExpression BuildIsNullOrWhitespaceExpression(Expression propertyExpr)
     {
         var method = typeof(string).GetMethod(nameof(string.IsNullOrWhiteSpace), [typeof(string)])!;
         return Expression.Call(method, propertyExpr);
     }
 
-    private static Expression BuildStringMatchExpression(ComparisonOperator op, Expression propertyExpr, object? value)
+    private static Expression BuildValueConditionExpression(IFilterConditionValue condition, ParameterExpression parameter)
     {
-        var methodName = op switch
+        var propertyExpr = ReplaceParameter(condition.PropertySelector, parameter);
+        var propertyType = condition.PropertySelector.ReturnType;
+
+        var comparison = condition.ComparisonOperator switch
         {
-            ComparisonOperator.StartsWith => nameof(string.StartsWith),
-            ComparisonOperator.EndsWith => nameof(string.EndsWith),
-            _ => nameof(string.Contains)
+            ComparisonOperator.StartsWith or ComparisonOperator.EndsWith or ComparisonOperator.Contains
+                => BuildStringMatchExpression(condition.ComparisonOperator, propertyExpr, condition.Value),
+            _ => BuildScalarComparisonExpression(condition.ComparisonOperator, propertyExpr, condition.Value, propertyType)
         };
-        var method = typeof(string).GetMethod(methodName, [typeof(string)])!;
-        var valueExpr = Expression.Constant(value, typeof(string));
-        var nullCheck = Expression.NotEqual(propertyExpr, Expression.Constant(null, typeof(string)));
-        var call = Expression.Call(propertyExpr, method, valueExpr);
-        return Expression.AndAlso(nullCheck, call);
+
+        return condition.Not ? Expression.Not(comparison) : comparison;
     }
 
-    private static Expression BuildScalarComparisonExpression(ComparisonOperator op, Expression propertyExpr, object? value, Type propertyType)
+    private static BinaryExpression BuildScalarComparisonExpression(ComparisonOperator op, Expression propertyExpr, object? value, Type propertyType)
     {
         var constExpr = Expression.Constant(value, propertyType);
+
         return op switch
         {
             ComparisonOperator.Equal => Expression.Equal(propertyExpr, constExpr),
@@ -191,6 +146,24 @@ internal sealed class Filter<T> : IFilter<T>
             ComparisonOperator.LessThanOrEqual => Expression.LessThanOrEqual(propertyExpr, constExpr),
             _ => throw new NotSupportedException($"Comparison operator '{op}' is not supported.")
         };
+    }
+
+    private static BinaryExpression BuildStringMatchExpression(ComparisonOperator op, Expression propertyExpr, object? value)
+    {
+        var methodName = op switch
+        {
+            ComparisonOperator.StartsWith => nameof(string.StartsWith),
+            ComparisonOperator.EndsWith => nameof(string.EndsWith),
+            _ => nameof(string.Contains)
+        };
+        var method = typeof(string).GetMethod(methodName, [typeof(string)])!;
+
+        var nullCheck = Expression.NotEqual(propertyExpr, Expression.Constant(null, typeof(string)));
+
+        var valueExpr = Expression.Constant(value, typeof(string));
+        var call = Expression.Call(propertyExpr, method, valueExpr);
+
+        return Expression.AndAlso(nullCheck, call);
     }
 
     private static Expression BuildBetweenConditionExpression(IFilterConditionBetween condition, ParameterExpression parameter)
@@ -216,14 +189,50 @@ internal sealed class Filter<T> : IFilter<T>
         var listType = typeof(List<>).MakeGenericType(propertyType);
         var typedList = Activator.CreateInstance(listType)!;
         var addMethod = listType.GetMethod("Add")!;
+
         foreach (var value in condition.Values)
+        {
             addMethod.Invoke(typedList, [value]);
+        }
 
         var listExpr = Expression.Constant(typedList);
         var containsMethod = listType.GetMethod("Contains")!;
         var comparison = Expression.Call(listExpr, containsMethod, propertyExpr);
 
         return condition.Not ? Expression.Not(comparison) : comparison;
+    }
+
+    private static Expression BuildEnumerableConditionExpression(IFilterConditionEnumerable condition, ParameterExpression parameter)
+    {
+        var collectionExpr = ReplaceParameter(condition.PropertySelector, parameter);
+        var collectionType = condition.PropertySelector.ReturnType;
+        var elementType = collectionType.GetGenericArguments()[0];
+
+        var enumerableType = typeof(System.Linq.Enumerable);
+        var methodName = condition.ComparisonOperator == ComparisonOperator.Any ? nameof(Enumerable.Any) : nameof(Enumerable.All);
+        var method = enumerableType
+            .GetMethods()
+            .First(m => m.Name == methodName && m.GetParameters().Length == 2)
+            .MakeGenericMethod(elementType);
+
+        var compiledSubFilter = Expression.Constant(condition.Filter.ToExpression().Compile());
+
+        Expression call;
+
+        if (!collectionType.IsValueType)
+        {
+            // collection != null && Enumerable.Any/All(collection, subFilter)
+            var notNull = Expression.NotEqual(collectionExpr, Expression.Constant(null, collectionType));
+            var methodCall = Expression.Call(method, collectionExpr, compiledSubFilter);
+
+            call = Expression.AndAlso(notNull, methodCall);
+        }
+        else
+        {
+            call = Expression.Call(method, collectionExpr, compiledSubFilter);
+        }
+
+        return condition.Not ? Expression.Not(call) : call;
     }
 
     private static Expression ReplaceParameter(LambdaExpression lambda, ParameterExpression parameter)

@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using FluentFilterForge.Extensions;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
@@ -260,7 +259,7 @@ public class BoolFilterTests
         var isRegistrationPendingWithoutInsurance = Filter.For<CustomerEntity>()
             .Where(x => x.IsVerified).IsNull()
             .And(x => x.IsDeleted).IsFalse()
-            .And(customers => customers
+            .AndGroup(customers => customers
                 .Where(x => x.IsInsured).IsNull()
                 .Or(x => x.IsInsured).IsFalse())
             .Build();
@@ -295,7 +294,7 @@ public class BoolFilterTests
 
         var isNeverActivated = Filter.For<CustomerEntity>()
             .Where(x => x.IsVerified).IsFalse()
-            .Or(customers => customers
+            .OrGroup(customers => customers
                 .Where(x => x.IsVerified).IsNull()
                 .And(x => x.IsDeleted).IsTrue())
             .Build();

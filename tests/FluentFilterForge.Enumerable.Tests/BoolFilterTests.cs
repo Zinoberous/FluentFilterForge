@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using FluentFilterForge.Extensions;
+using FluentFilterForge;
 
 namespace FluentFilterForge.Enumerable.Tests;
 
@@ -192,7 +192,7 @@ public class BoolFilterTests
         var isRegistrationPendingWithoutInsurance = Filter.For<Customer>()
             .Where(x => x.IsVerified).IsNull()
             .And(x => x.IsDeleted).IsFalse()
-            .And(customers => customers
+            .AndGroup(customers => customers
                 .Where(x => x.IsInsured).IsNull()
                 .Or(x => x.IsInsured).IsFalse())
             .Build();
@@ -218,7 +218,7 @@ public class BoolFilterTests
 
         var isNeverActivated = Filter.For<Customer>()
             .Where(x => x.IsVerified).IsFalse()
-            .Or(customers => customers
+            .OrGroup(customers => customers
                 .Where(x => x.IsVerified).IsNull()
                 .And(x => x.IsDeleted).IsTrue())
             .Build();

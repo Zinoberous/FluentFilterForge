@@ -1,5 +1,5 @@
 ﻿using FluentAssertions;
-using FluentFilterForge.Extensions;
+using FluentFilterForge;
 
 namespace FluentFilterForge.Enumerable.Tests;
 
@@ -274,7 +274,7 @@ public class NumberFilterTests
 
         var recommended = Filter.For<Product>()
             .Where(x => x.Rating).GreaterThanOrEqual(3)
-            .And(products => products
+            .AndGroup(products => products
                 .Where(x => x.Stock).GreaterThan(0)
                 .Or(x => x.Rating).Equal(5))
             .Build();
@@ -298,7 +298,7 @@ public class NumberFilterTests
 
         var skipListed = Filter.For<Product>()
             .Where(x => x.Rating).IsNull()
-            .Or(products => products
+            .OrGroup(products => products
                 .Where(x => x.Stock).Equal(0)
                 .And(x => x.Rating).GreaterThanOrEqual(3))
             .Build();
