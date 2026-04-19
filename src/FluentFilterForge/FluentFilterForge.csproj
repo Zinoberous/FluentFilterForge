@@ -2,6 +2,16 @@
 
   <PropertyGroup>
     <Version>1.0.0</Version>
+    <IsPackage>true</IsPackage>
+    <PackageId>FluentFilterForge</PackageId>
+    <Title>FluentFilterForge</Title>
+    <Description>
+      A strongly-typed, fluent filter builder for .NET.
+      Build composable, null-safe filter predicates using a readable API
+      and apply them to any IEnumerable&lt;T&gt; or IQueryable&lt;T&gt; source
+      (including Entity Framework Core).
+    </Description>
+    <PackageTags>filter;fluent;linq;queryable;enumerable;predicate;expression;efcore</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

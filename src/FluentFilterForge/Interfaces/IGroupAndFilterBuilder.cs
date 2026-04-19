@@ -5,14 +5,17 @@ using System.Numerics;
 
 namespace FluentFilterForge.Interfaces;
 
-/// <inheritdoc cref="IGroupFilterBuilder{T}" />
+/// <summary>
+/// Extends <see cref="IGroupFilterBuilder{T}"/> with <c>And</c> chaining capabilities.
+/// </summary>
+/// <typeparam name="T">The type of object being filtered.</typeparam>
 public interface IGroupAndFilterBuilder<T> : IGroupFilterBuilder<T>
 {
     /// <summary>
-    /// TODO: add documentation
+    /// Adds an additional <c>AND</c> condition on the specified boolean property.
     /// </summary>
-    /// <param name="propertySelector"></param>
-    /// <returns></returns>
+    /// <param name="propertySelector">Expression selecting the property to filter on.</param>
+    /// <returns>A builder to configure the condition for the selected property.</returns>
     IPropertyBoolNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> And(Expression<Func<T, bool>> propertySelector);
 
     /// <inheritdoc cref="And" />
@@ -154,9 +157,10 @@ public interface IGroupAndFilterBuilder<T> : IGroupFilterBuilder<T>
     IPropertyEnumerableNegatableFilterBuilder<T, TElement, IGroupStartFilterBuilder<T>> And<TElement>(Expression<Func<T, IEnumerable<TElement>>> propertySelector);
 
     /// <summary>
-    /// TODO: add documentation
+    /// Adds a nested <c>AND</c> group. All conditions inside the delegate are evaluated
+    /// together and their result is combined with the outer filter using <c>AND</c>.
     /// </summary>
-    /// <param name="configure"></param>
-    /// <returns></returns>
+    /// <param name="configure">A delegate to configure the conditions of the nested group.</param>
+    /// <returns>The current builder to allow further chaining.</returns>
     IGroupAndFilterBuilder<T> And(Action<IFilterBuilder<T>> configure);
 }

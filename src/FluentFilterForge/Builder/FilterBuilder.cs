@@ -138,120 +138,69 @@ internal sealed class FilterBuilder<T> : IFilterBuilder<T>
 
     /// <inheritdoc/>
     public IPropertyCharNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, char>> propertySelector)
-    {
-        // TODO: implement Where for char
-        throw new NotImplementedException();
-    }
+        => new PropertyCharFilterBuilder<T, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyCharNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, char?>> propertySelector)
-    {
-        // TODO: implement Where for char?
-        throw new NotImplementedException();
-    }
+        => new PropertyCharFilterBuilder<T, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyStringNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, string?>> propertySelector)
-    {
-        // TODO: implement Where for string
-        throw new NotImplementedException();
-    }
+        => new PropertyStringFilterBuilder<T, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyGuidNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, Guid>> propertySelector)
-    {
-        // TODO: implement Where for Guid
-        throw new NotImplementedException();
-    }
+        => new PropertyGuidFilterBuilder<T, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyGuidNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, Guid?>> propertySelector)
-    {
-        // TODO: implement Where for Guid?
-        throw new NotImplementedException();
-    }
+        => new PropertyGuidFilterBuilder<T, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyDateTimeNegatableFilterBuilder<T, DateOnly, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, DateOnly>> propertySelector)
-    {
-        // TODO: implement Where for DateOnly
-        throw new NotImplementedException();
-    }
+        => new PropertyDateTimeFilterBuilder<T, DateOnly, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyDateTimeNegatableFilterBuilder<T, DateOnly, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, DateOnly?>> propertySelector)
-    {
-        // TODO: implement Where for DateOnly?
-        throw new NotImplementedException();
-    }
+        => new PropertyDateTimeFilterBuilder<T, DateOnly, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyDateTimeNegatableFilterBuilder<T, TimeOnly, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, TimeOnly>> propertySelector)
-    {
-        // TODO: implement Where for TimeOnly
-        throw new NotImplementedException();
-    }
+        => new PropertyDateTimeFilterBuilder<T, TimeOnly, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyDateTimeNegatableFilterBuilder<T, TimeOnly, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, TimeOnly?>> propertySelector)
-    {
-        // TODO: implement Where for TimeOnly?
-        throw new NotImplementedException();
-    }
+        => new PropertyDateTimeFilterBuilder<T, TimeOnly, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyDateTimeNegatableFilterBuilder<T, DateTime, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, DateTime>> propertySelector)
-    {
-        // TODO: implement Where for DateTime
-        throw new NotImplementedException();
-    }
+        => new PropertyDateTimeFilterBuilder<T, DateTime, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyDateTimeNegatableFilterBuilder<T, DateTime, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, DateTime?>> propertySelector)
-    {
-        // TODO: implement Where for DateTime?
-        throw new NotImplementedException();
-    }
+        => new PropertyDateTimeFilterBuilder<T, DateTime, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyDateTimeNegatableFilterBuilder<T, DateTimeOffset, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, DateTimeOffset>> propertySelector)
-    {
-        // TODO: implement Where for DateTimeOffset
-        throw new NotImplementedException();
-    }
+        => new PropertyDateTimeFilterBuilder<T, DateTimeOffset, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyDateTimeNegatableFilterBuilder<T, DateTimeOffset, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, DateTimeOffset?>> propertySelector)
-    {
-        // TODO: implement Where for DateTimeOffset?
-        throw new NotImplementedException();
-    }
+        => new PropertyDateTimeFilterBuilder<T, DateTimeOffset, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyDateTimeNegatableFilterBuilder<T, TimeSpan, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, TimeSpan>> propertySelector)
-    {
-        // TODO: implement Where for TimeSpan
-        throw new NotImplementedException();
-    }
+        => new PropertyDateTimeFilterBuilder<T, TimeSpan, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyDateTimeNegatableFilterBuilder<T, TimeSpan, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, TimeSpan?>> propertySelector)
-    {
-        // TODO: implement Where for TimeSpan?
-        throw new NotImplementedException();
-    }
+        => new PropertyDateTimeFilterBuilder<T, TimeSpan, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyCustomNegatableFilterBuilder<T, TProperty, IGroupStartFilterBuilder<T>> Where<TProperty>(Expression<Func<T, TProperty>> propertySelector)
-    {
-        // TODO: implement Where for custom types
-        throw new NotImplementedException();
-    }
+        => new PropertyCustomFilterBuilder<T, TProperty, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
     public IPropertyEnumerableNegatableFilterBuilder<T, TElement, IGroupStartFilterBuilder<T>> Where<TElement>(Expression<Func<T, IEnumerable<TElement>>> propertySelector)
-    {
-        // TODO: implement Where for enumerable types
-        throw new NotImplementedException();
-    }
+        => new PropertyEnumerableFilterBuilder<T, TElement, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 }

@@ -2,6 +2,9 @@
 
 internal enum ComparisonOperator
 {
+    IsNull,
+    IsNullOrEmpty,
+    IsNullOrWhitespace,
     Equal,
     GreaterThan,
     GreaterThanOrEqual,
@@ -12,4 +15,6 @@ internal enum ComparisonOperator
     Contains,
     Between,
     In,
+    Any,
+    All,
 }

@@ -230,120 +230,120 @@ internal sealed class GroupFilterBuilder<T> : IGroupStartFilterBuilder<T>, IGrou
     /// <inheritdoc/>
     public IPropertyCharNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> And(Expression<Func<T, char>> propertySelector)
     {
-        // TODO: implement And for char
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyCharFilterBuilder<T, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyCharNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> And(Expression<Func<T, char?>> propertySelector)
     {
-        // TODO: implement And for char?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyCharFilterBuilder<T, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyStringNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> And(Expression<Func<T, string?>> propertySelector)
     {
-        // TODO: implement And for string
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyStringFilterBuilder<T, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyGuidNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> And(Expression<Func<T, Guid>> propertySelector)
     {
-        // TODO: implement And for Guid
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyGuidFilterBuilder<T, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyGuidNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> And(Expression<Func<T, Guid?>> propertySelector)
     {
-        // TODO: implement And for Guid?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyGuidFilterBuilder<T, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyDateTimeNegatableFilterBuilder<T, DateOnly, IGroupStartFilterBuilder<T>> And(Expression<Func<T, DateOnly>> propertySelector)
     {
-        // TODO: implement And for DateOnly
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyDateTimeFilterBuilder<T, DateOnly, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyDateTimeNegatableFilterBuilder<T, DateOnly, IGroupStartFilterBuilder<T>> And(Expression<Func<T, DateOnly?>> propertySelector)
     {
-        // TODO: implement And for DateOnly?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyDateTimeFilterBuilder<T, DateOnly, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyDateTimeNegatableFilterBuilder<T, TimeOnly, IGroupStartFilterBuilder<T>> And(Expression<Func<T, TimeOnly>> propertySelector)
     {
-        // TODO: implement And for TimeOnly
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyDateTimeFilterBuilder<T, TimeOnly, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyDateTimeNegatableFilterBuilder<T, TimeOnly, IGroupStartFilterBuilder<T>> And(Expression<Func<T, TimeOnly?>> propertySelector)
     {
-        // TODO: implement And for TimeOnly?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyDateTimeFilterBuilder<T, TimeOnly, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyDateTimeNegatableFilterBuilder<T, DateTime, IGroupStartFilterBuilder<T>> And(Expression<Func<T, DateTime>> propertySelector)
     {
-        // TODO: implement And for DateTime
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyDateTimeFilterBuilder<T, DateTime, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyDateTimeNegatableFilterBuilder<T, DateTime, IGroupStartFilterBuilder<T>> And(Expression<Func<T, DateTime?>> propertySelector)
     {
-        // TODO: implement And for DateTime?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyDateTimeFilterBuilder<T, DateTime, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyDateTimeNegatableFilterBuilder<T, DateTimeOffset, IGroupStartFilterBuilder<T>> And(Expression<Func<T, DateTimeOffset>> propertySelector)
     {
-        // TODO: implement And for DateTimeOffset
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyDateTimeFilterBuilder<T, DateTimeOffset, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyDateTimeNegatableFilterBuilder<T, DateTimeOffset, IGroupStartFilterBuilder<T>> And(Expression<Func<T, DateTimeOffset?>> propertySelector)
     {
-        // TODO: implement And for DateTimeOffset?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyDateTimeFilterBuilder<T, DateTimeOffset, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyDateTimeNegatableFilterBuilder<T, TimeSpan, IGroupStartFilterBuilder<T>> And(Expression<Func<T, TimeSpan>> propertySelector)
     {
-        // TODO: implement And for TimeSpan
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyDateTimeFilterBuilder<T, TimeSpan, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyDateTimeNegatableFilterBuilder<T, TimeSpan, IGroupStartFilterBuilder<T>> And(Expression<Func<T, TimeSpan?>> propertySelector)
     {
-        // TODO: implement And for TimeSpan?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyDateTimeFilterBuilder<T, TimeSpan, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyCustomNegatableFilterBuilder<T, TProperty, IGroupStartFilterBuilder<T>> And<TProperty>(Expression<Func<T, TProperty>> propertySelector)
     {
-        // TODO: implement And for custom types
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyCustomFilterBuilder<T, TProperty, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyEnumerableNegatableFilterBuilder<T, TElement, IGroupStartFilterBuilder<T>> And<TElement>(Expression<Func<T, IEnumerable<TElement>>> propertySelector)
     {
-        // TODO: implement And for enumerable types
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.And);
+        return new PropertyEnumerableFilterBuilder<T, TElement, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
@@ -566,120 +566,120 @@ internal sealed class GroupFilterBuilder<T> : IGroupStartFilterBuilder<T>, IGrou
     /// <inheritdoc/>
     public IPropertyCharNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, char>> propertySelector)
     {
-        // TODO: implement Or for char
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyCharFilterBuilder<T, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyCharNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, char?>> propertySelector)
     {
-        // TODO: implement Or for char?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyCharFilterBuilder<T, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyStringNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, string?>> propertySelector)
     {
-        // TODO: implement Or for string
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyStringFilterBuilder<T, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyGuidNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, Guid>> propertySelector)
     {
-        // TODO: implement Or for Guid
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyGuidFilterBuilder<T, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyGuidNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, Guid?>> propertySelector)
     {
-        // TODO: implement Or for Guid?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyGuidFilterBuilder<T, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyDateTimeNegatableFilterBuilder<T, DateOnly, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, DateOnly>> propertySelector)
     {
-        // TODO: implement Or for DateOnly
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyDateTimeFilterBuilder<T, DateOnly, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyDateTimeNegatableFilterBuilder<T, DateOnly, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, DateOnly?>> propertySelector)
     {
-        // TODO: implement Or for DateOnly?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyDateTimeFilterBuilder<T, DateOnly, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyDateTimeNegatableFilterBuilder<T, TimeOnly, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, TimeOnly>> propertySelector)
     {
-        // TODO: implement Or for TimeOnly
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyDateTimeFilterBuilder<T, TimeOnly, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyDateTimeNegatableFilterBuilder<T, TimeOnly, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, TimeOnly?>> propertySelector)
     {
-        // TODO: implement Or for TimeOnly?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyDateTimeFilterBuilder<T, TimeOnly, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyDateTimeNegatableFilterBuilder<T, DateTime, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, DateTime>> propertySelector)
     {
-        // TODO: implement Or for DateTime
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyDateTimeFilterBuilder<T, DateTime, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyDateTimeNegatableFilterBuilder<T, DateTime, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, DateTime?>> propertySelector)
     {
-        // TODO: implement Or for DateTime?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyDateTimeFilterBuilder<T, DateTime, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyDateTimeNegatableFilterBuilder<T, DateTimeOffset, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, DateTimeOffset>> propertySelector)
     {
-        // TODO: implement Or for DateTimeOffset
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyDateTimeFilterBuilder<T, DateTimeOffset, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyDateTimeNegatableFilterBuilder<T, DateTimeOffset, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, DateTimeOffset?>> propertySelector)
     {
-        // TODO: implement Or for DateTimeOffset?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyDateTimeFilterBuilder<T, DateTimeOffset, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyDateTimeNegatableFilterBuilder<T, TimeSpan, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, TimeSpan>> propertySelector)
     {
-        // TODO: implement Or for TimeSpan
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyDateTimeFilterBuilder<T, TimeSpan, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyDateTimeNegatableFilterBuilder<T, TimeSpan, IGroupStartFilterBuilder<T>> Or(Expression<Func<T, TimeSpan?>> propertySelector)
     {
-        // TODO: implement Or for TimeSpan?
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyDateTimeFilterBuilder<T, TimeSpan, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyCustomNegatableFilterBuilder<T, TProperty, IGroupStartFilterBuilder<T>> Or<TProperty>(Expression<Func<T, TProperty>> propertySelector)
     {
-        // TODO: implement Or for custom types
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyCustomFilterBuilder<T, TProperty, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>
     public IPropertyEnumerableNegatableFilterBuilder<T, TElement, IGroupStartFilterBuilder<T>> Or<TElement>(Expression<Func<T, IEnumerable<TElement>>> propertySelector)
     {
-        // TODO: implement Or for enumerable types
-        throw new NotImplementedException();
+        SetLogicalOperator(LogicalOperator.Or);
+        return new PropertyEnumerableFilterBuilder<T, TElement, GroupFilterBuilder<T>>(this, propertySelector);
     }
 
     /// <inheritdoc/>

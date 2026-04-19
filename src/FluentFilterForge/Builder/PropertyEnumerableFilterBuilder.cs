@@ -1,17 +1,28 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
+using FluentFilterForge.Enums;
 using FluentFilterForge.Interfaces;
 
 namespace FluentFilterForge.Builder;
 
-/// <inheritdoc cref="IPropertyEnumerableNegatableFilterBuilder{T, TEnumerable, TGroupFilterBuilder}" />
+/// <inheritdoc cref="IPropertyEnumerableNegatableFilterBuilder{T, TElement, TGroupFilterBuilder}" />
 [SuppressMessage(Constants.SuppressMessageS2436Category, Constants.SuppressMessageS2436CheckId, Justification = Constants.SuppressMessageS2436Justification)]
-internal sealed class PropertyEnumerableFilterBuilder<T, TEnumerable, TGroupFilterBuilder> : IPropertyEnumerableNegatableFilterBuilder<T, TEnumerable, TGroupFilterBuilder>
-    where TGroupFilterBuilder : IGroupFilterBuilder<T>
+internal sealed class PropertyEnumerableFilterBuilder<T, TElement, TGroupFilterBuilder> : IPropertyEnumerableNegatableFilterBuilder<T, TElement, TGroupFilterBuilder>
+    where TGroupFilterBuilder : IGroupFilterBuilderInternal<T>
 {
     private bool _not;
 
+    private readonly TGroupFilterBuilder _groupFilterBuilder;
+    private readonly Expression<Func<T, IEnumerable<TElement>?>> _propertySelector;
+
+    internal PropertyEnumerableFilterBuilder(TGroupFilterBuilder groupFilterBuilder, Expression<Func<T, IEnumerable<TElement>>> propertySelector)
+    {
+        _groupFilterBuilder = groupFilterBuilder;
+        _propertySelector = Expression.Lambda<Func<T, IEnumerable<TElement>?>>(propertySelector.Body, propertySelector.Parameters);
+    }
+
     /// <inheritdoc/>
-    public IPropertyEnumerableFilterBuilder<T, TEnumerable, TGroupFilterBuilder> Not()
+    public IPropertyEnumerableFilterBuilder<T, TElement, TGroupFilterBuilder> Not()
     {
         _not = !_not;
         return this;
@@ -20,35 +31,84 @@ internal sealed class PropertyEnumerableFilterBuilder<T, TEnumerable, TGroupFilt
     /// <inheritdoc/>
     public TGroupFilterBuilder IsNull()
     {
-        // TODO: implement IsNull
-        throw new NotImplementedException();
+        FilterCondition<T, IEnumerable<TElement>?> node = new()
+        {
+            PropertySelector = _propertySelector,
+            ComparisonOperator = ComparisonOperator.IsNull,
+            Not = _not
+        };
+
+        _groupFilterBuilder.AddNode(node);
+        return _groupFilterBuilder;
     }
 
     /// <inheritdoc/>
     public TGroupFilterBuilder IsNullOrEmpty()
     {
-        // TODO: implement IsNullOrEmpty
-        throw new NotImplementedException();
+        FilterCondition<T, IEnumerable<TElement>?> node = new()
+        {
+            PropertySelector = _propertySelector,
+            ComparisonOperator = ComparisonOperator.IsNullOrEmpty,
+            Not = _not
+        };
+
+        _groupFilterBuilder.AddNode(node);
+        return _groupFilterBuilder;
     }
 
     /// <inheritdoc/>
-    public TGroupFilterBuilder Equal(TEnumerable? value)
+    public TGroupFilterBuilder Equal(IEnumerable<TElement>? value)
     {
-        // TODO: implement Equal
-        throw new NotImplementedException();
+        FilterConditionValue<T, IEnumerable<TElement>?> node = new()
+        {
+            PropertySelector = _propertySelector,
+            ComparisonOperator = ComparisonOperator.Equal,
+            Not = _not,
+            Value = value
+        };
+
+        _groupFilterBuilder.AddNode(node);
+        return _groupFilterBuilder;
     }
 
     /// <inheritdoc/>
-    public TGroupFilterBuilder Any(Action<IFilterBuilder<TEnumerable>> configure)
+    public TGroupFilterBuilder Any(Action<IFilterBuilder<TElement>> configure)
     {
-        // TODO: implement Any
-        throw new NotImplementedException();
+        var subFilter = BuildFilter(configure);
+
+        FilterConditionEnumerable<T, TElement> node = new()
+        {
+            PropertySelector = _propertySelector,
+            ComparisonOperator = ComparisonOperator.Any,
+            Not = _not,
+            Filter = subFilter
+        };
+
+        _groupFilterBuilder.AddNode(node);
+        return _groupFilterBuilder;
     }
 
     /// <inheritdoc/>
-    public TGroupFilterBuilder All(Action<IFilterBuilder<TEnumerable>> configure)
+    public TGroupFilterBuilder All(Action<IFilterBuilder<TElement>> configure)
     {
-        // TODO: implement All
-        throw new NotImplementedException();
+        var filter = BuildFilter(configure);
+
+        FilterConditionEnumerable<T, TElement> node = new()
+        {
+            PropertySelector = _propertySelector,
+            ComparisonOperator = ComparisonOperator.All,
+            Not = _not,
+            Filter = filter
+        };
+
+        _groupFilterBuilder.AddNode(node);
+        return _groupFilterBuilder;
+    }
+
+    private static IFilter<TElement> BuildFilter(Action<IFilterBuilder<TElement>> configure)
+    {
+        GroupFilterBuilder<TElement> groupBuilder = new();
+        configure(new FilterBuilder<TElement>(groupBuilder));
+        return groupBuilder.Build();
     }
 }

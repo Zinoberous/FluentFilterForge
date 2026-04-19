@@ -37,12 +37,11 @@ internal sealed class PropertyNumberFilterBuilder<T, TNumber, TGroupFilterBuilde
     /// <inheritdoc/>
     public TGroupFilterBuilder IsNull()
     {
-        FilterConditionValue<T, TNumber?> node = new()
+        FilterCondition<T, TNumber?> node = new()
         {
             PropertySelector = _propertySelector,
-            ComparisonOperator = ComparisonOperator.Equal,
-            Not = _not,
-            Value = default
+            ComparisonOperator = ComparisonOperator.IsNull,
+            Not = _not
         };
 
         _groupFilterBuilder.AddNode(node);

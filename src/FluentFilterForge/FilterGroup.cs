@@ -1,5 +1,4 @@
 ﻿using FluentFilterForge.Enums;
-using FluentFilterForge.Interfaces;
 
 namespace FluentFilterForge;
 

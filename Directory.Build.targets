@@ -32,7 +32,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
 
-    <PackageReference Include="FluentAssertions" Version="[7.2.0]" />
+    <PackageReference Include="FluentAssertions" Version="[7.2.1]" />
     <PackageReference Include="FluentAssertions.Analyzers" Version="*">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

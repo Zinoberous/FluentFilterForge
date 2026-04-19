@@ -1,6 +1,9 @@
-﻿using FluentFilterForge.Interfaces;
+﻿namespace FluentFilterForge;
 
-namespace FluentFilterForge;
+internal interface IFilterConditionValue : IFilterCondition
+{
+    object? Value { get; }
+}
 
 internal sealed record FilterConditionValue<T, TProperty> : FilterCondition<T, TProperty>, IFilterConditionValue
 {

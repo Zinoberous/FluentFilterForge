@@ -5,13 +5,16 @@ using FluentFilterForge.Interfaces;
 
 namespace FluentFilterForge;
 
-/// <inheritdoc cref="IFilter{T}" />
+/// <summary>
+/// Entry point for building filters using the fluent API.
+/// </summary>
 public static class Filter
 {
     /// <summary>
-    /// TODO: add documentation
+    /// Creates a new filter builder for objects of type <typeparamref name="T"/>.
     /// </summary>
-    /// <returns></returns>
+    /// <typeparam name="T">The type of object to filter.</typeparam>
+    /// <returns>A <see cref="IFilterBuilder{T}"/> to configure conditions on.</returns>
     public static IFilterBuilder<T> For<T>()
         => new FilterBuilder<T>();
 }
@@ -29,6 +32,8 @@ internal sealed class Filter<T> : IFilter<T>
 
         return Expression.Lambda<Func<T, bool>>(body, parameter);
     }
+
+    LambdaExpression IFilter.ToExpression() => ToExpression();
 
     private static Expression BuildGroupExpression(FilterGroup group, ParameterExpression parameter)
     {
@@ -64,28 +69,128 @@ internal sealed class Filter<T> : IFilter<T>
             FilterGroup group => BuildGroupExpression(group, parameter),
             IFilterConditionBetween condition => BuildBetweenConditionExpression(condition, parameter),
             IFilterConditionIn condition => BuildInConditionExpression(condition, parameter),
+            IFilterConditionEnumerable condition => BuildCollectionSubFilterExpression(condition, parameter),
             IFilterConditionValue condition => BuildValueConditionExpression(condition, parameter),
+            IFilterCondition condition => BuildConditionExpression(condition, parameter),
             _ => throw new NotSupportedException($"Filter node '{node.GetType().Name}' is not supported yet.")
         };
+    }
+
+    private static Expression BuildCollectionSubFilterExpression(IFilterConditionEnumerable condition, ParameterExpression parameter)
+    {
+        var collectionExpr = ReplaceParameter(condition.PropertySelector, parameter);
+        var collectionType = condition.PropertySelector.ReturnType;
+        var elementType = collectionType.GetGenericArguments()[0];
+
+        var enumerableType = typeof(System.Linq.Enumerable);
+        var methodName = condition.ComparisonOperator == ComparisonOperator.Any ? nameof(Enumerable.Any) : nameof(Enumerable.All);
+        var method = enumerableType
+            .GetMethods()
+            .First(m => m.Name == methodName && m.GetParameters().Length == 2)
+            .MakeGenericMethod(elementType);
+
+        var compiledSubFilter = Expression.Constant(condition.Filter.ToExpression().Compile());
+
+        Expression call;
+
+        if (!collectionType.IsValueType)
+        {
+            // collection != null && Enumerable.Any/All(collection, subFilter)
+            var notNull = Expression.NotEqual(collectionExpr, Expression.Constant(null, collectionType));
+            var methodCall = Expression.Call(method, collectionExpr, compiledSubFilter);
+            call = Expression.AndAlso(notNull, methodCall);
+        }
+        else
+        {
+            call = Expression.Call(method, collectionExpr, compiledSubFilter);
+        }
+
+        return condition.Not ? Expression.Not(call) : call;
+    }
+
+    private static Expression BuildConditionExpression(IFilterCondition condition, ParameterExpression parameter)
+    {
+        var propertyExpr = ReplaceParameter(condition.PropertySelector, parameter);
+        var propertyType = condition.PropertySelector.ReturnType;
+
+        Expression comparison = condition.ComparisonOperator switch
+        {
+            ComparisonOperator.IsNull => Expression.Equal(propertyExpr, Expression.Constant(null, propertyType)),
+            ComparisonOperator.IsNullOrEmpty => BuildIsNullOrEmptyExpression(propertyExpr, propertyType),
+            ComparisonOperator.IsNullOrWhitespace => BuildIsNullOrWhitespaceExpression(propertyExpr),
+            _ => throw new NotSupportedException($"Comparison operator '{condition.ComparisonOperator}' is not supported for value-less conditions.")
+        };
+
+        return condition.Not ? Expression.Not(comparison) : comparison;
     }
 
     private static Expression BuildValueConditionExpression(IFilterConditionValue condition, ParameterExpression parameter)
     {
         var propertyExpr = ReplaceParameter(condition.PropertySelector, parameter);
         var propertyType = condition.PropertySelector.ReturnType;
-        var valueExpr = Expression.Constant(condition.Value, propertyType);
 
         Expression comparison = condition.ComparisonOperator switch
         {
-            ComparisonOperator.Equal => Expression.Equal(propertyExpr, valueExpr),
-            ComparisonOperator.GreaterThan => Expression.GreaterThan(propertyExpr, valueExpr),
-            ComparisonOperator.GreaterThanOrEqual => Expression.GreaterThanOrEqual(propertyExpr, valueExpr),
-            ComparisonOperator.LessThan => Expression.LessThan(propertyExpr, valueExpr),
-            ComparisonOperator.LessThanOrEqual => Expression.LessThanOrEqual(propertyExpr, valueExpr),
-            _ => throw new NotSupportedException($"Comparison operator '{condition.ComparisonOperator}' is not supported.")
+            ComparisonOperator.StartsWith or ComparisonOperator.EndsWith or ComparisonOperator.Contains
+                => BuildStringMatchExpression(condition.ComparisonOperator, propertyExpr, condition.Value),
+            _ => BuildScalarComparisonExpression(condition.ComparisonOperator, propertyExpr, condition.Value, propertyType)
         };
 
         return condition.Not ? Expression.Not(comparison) : comparison;
+    }
+
+    private static Expression BuildIsNullOrEmptyExpression(Expression propertyExpr, Type propertyType)
+    {
+        if (propertyType == typeof(string))
+        {
+            var method = typeof(string).GetMethod(nameof(string.IsNullOrEmpty), [typeof(string)])!;
+            return Expression.Call(method, propertyExpr);
+        }
+
+        var elementType = propertyType.IsGenericType ? propertyType.GetGenericArguments()[0] : typeof(object);
+        var anyMethod = typeof(Enumerable)
+            .GetMethods()
+            .First(m => m.Name == nameof(Enumerable.Any) && m.GetParameters().Length == 1)
+            .MakeGenericMethod(elementType);
+
+        var isNull = Expression.Equal(propertyExpr, Expression.Constant(null, propertyType));
+        var isEmpty = Expression.Not(Expression.Call(anyMethod, propertyExpr));
+        return Expression.OrElse(isNull, isEmpty);
+    }
+
+    private static Expression BuildIsNullOrWhitespaceExpression(Expression propertyExpr)
+    {
+        var method = typeof(string).GetMethod(nameof(string.IsNullOrWhiteSpace), [typeof(string)])!;
+        return Expression.Call(method, propertyExpr);
+    }
+
+    private static Expression BuildStringMatchExpression(ComparisonOperator op, Expression propertyExpr, object? value)
+    {
+        var methodName = op switch
+        {
+            ComparisonOperator.StartsWith => nameof(string.StartsWith),
+            ComparisonOperator.EndsWith => nameof(string.EndsWith),
+            _ => nameof(string.Contains)
+        };
+        var method = typeof(string).GetMethod(methodName, [typeof(string)])!;
+        var valueExpr = Expression.Constant(value, typeof(string));
+        var nullCheck = Expression.NotEqual(propertyExpr, Expression.Constant(null, typeof(string)));
+        var call = Expression.Call(propertyExpr, method, valueExpr);
+        return Expression.AndAlso(nullCheck, call);
+    }
+
+    private static Expression BuildScalarComparisonExpression(ComparisonOperator op, Expression propertyExpr, object? value, Type propertyType)
+    {
+        var constExpr = Expression.Constant(value, propertyType);
+        return op switch
+        {
+            ComparisonOperator.Equal => Expression.Equal(propertyExpr, constExpr),
+            ComparisonOperator.GreaterThan => Expression.GreaterThan(propertyExpr, constExpr),
+            ComparisonOperator.GreaterThanOrEqual => Expression.GreaterThanOrEqual(propertyExpr, constExpr),
+            ComparisonOperator.LessThan => Expression.LessThan(propertyExpr, constExpr),
+            ComparisonOperator.LessThanOrEqual => Expression.LessThanOrEqual(propertyExpr, constExpr),
+            _ => throw new NotSupportedException($"Comparison operator '{op}' is not supported.")
+        };
     }
 
     private static Expression BuildBetweenConditionExpression(IFilterConditionBetween condition, ParameterExpression parameter)

@@ -6,15 +6,17 @@ using System.Numerics;
 namespace FluentFilterForge.Interfaces;
 
 /// <summary>
-/// TODO: add documentation
+/// Fluent builder for creating type-safe filters on objects of type <typeparamref name="T"/>.
+/// Start a filter chain with <see cref="Filter.For{T}"/> and call <c>Where(…)</c> to select a property.
 /// </summary>
+/// <typeparam name="T">The type of object being filtered.</typeparam>
 public interface IFilterBuilder<T>
 {
     /// <summary>
-    /// TODO: add documentation
+    /// Starts a filter condition on the specified property.
     /// </summary>
-    /// <param name="propertySelector"></param>
-    /// <returns></returns>
+    /// <param name="propertySelector">Expression selecting the property to filter on.</param>
+    /// <returns>A builder to configure the condition for the selected property.</returns>
     IPropertyBoolNegatableFilterBuilder<T, IGroupStartFilterBuilder<T>> Where(Expression<Func<T, bool>> propertySelector);
 
     /// <inheritdoc cref="Where" />

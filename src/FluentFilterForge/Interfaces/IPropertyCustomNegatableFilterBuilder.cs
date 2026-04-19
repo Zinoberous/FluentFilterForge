@@ -8,8 +8,9 @@ public interface IPropertyCustomNegatableFilterBuilder<T, TProperty, out TGroupF
     where TGroupFilterBuilder : IGroupFilterBuilder<T>
 {
     /// <summary>
-    /// TODO: add documentation
+    /// Negates the next condition. Can be chained once to invert a single condition.
+    /// Calling <c>Not()</c> twice cancels out (double negation).
     /// </summary>
-    /// <returns></returns>
+    /// <returns>The builder with negation applied to the next condition.</returns>
     IPropertyCustomFilterBuilder<T, TProperty, TGroupFilterBuilder> Not();
 }

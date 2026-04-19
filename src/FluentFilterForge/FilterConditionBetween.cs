@@ -1,6 +1,10 @@
-﻿using FluentFilterForge.Interfaces;
+﻿namespace FluentFilterForge;
 
-namespace FluentFilterForge;
+internal interface IFilterConditionBetween : IFilterCondition
+{
+    object? From { get; }
+    object? To { get; }
+}
 
 internal sealed record FilterConditionBetween<T, TProperty> : FilterCondition<T, TProperty>, IFilterConditionBetween
 {

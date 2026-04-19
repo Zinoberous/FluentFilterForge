@@ -32,7 +32,17 @@ internal sealed class PropertyBoolFilterBuilder<T, TGroupFilterBuilder> : IPrope
 
     /// <inheritdoc/>
     public TGroupFilterBuilder IsNull()
-        => Equal(null);
+    {
+        FilterCondition<T, bool?> node = new()
+        {
+            PropertySelector = _propertySelector,
+            ComparisonOperator = ComparisonOperator.IsNull,
+            Not = _not
+        };
+
+        _groupFilterBuilder.AddNode(node);
+        return _groupFilterBuilder;
+    }
 
     /// <inheritdoc/>
     public TGroupFilterBuilder IsTrue()
