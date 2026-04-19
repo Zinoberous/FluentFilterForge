@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fluent filter builder API via `Filter.For<T>()`
 - `Where(…).And(…).Or(…)` chaining
 - `Not()` negation support (double negation cancels out)
-- Nested group conditions via `And(Action<IFilterBuilder<T>>)` / `Or(Action<IFilterBuilder<T>>)`
+- Nested group conditions via `AndGroup(Action<IFilterBuilder<T>>)` / `OrGroup(Action<IFilterBuilder<T>>)`
 - `IEnumerable<T>` extension method `Where(IFilter<T>)`
 - `IQueryable<T>` extension method `Where(IFilter<T>)` for server-side evaluation (e.g. Entity Framework Core)
 - Strongly-typed property builders for:

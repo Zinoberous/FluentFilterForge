@@ -10,7 +10,7 @@ A strongly-typed, fluent filter builder for .NET. Build composable, null-safe fi
 - **Fluent API** – chain `Where(…).And(…).Or(…)` conditions naturally
 - **Type-safe** – dedicated builders for `bool`, numbers, `string`, `char`, `Guid`, date/time types, enums, and collections
 - **Negation** – call `.Not()` before any condition to invert it
-- **Nested groups** – pass a delegate to `And(…)` / `Or(…)` to create grouped sub-conditions
+- **Nested groups** – pass a delegate to `AndGroup(…)` / `OrGroup(…)` to create grouped sub-conditions
 - **Collection filters** – `Any(…)` and `All(…)` with a full sub-filter on element level
 - **IQueryable support** – expressions are handed directly to the query provider (e.g. Entity Framework Core) for server-side evaluation
 
