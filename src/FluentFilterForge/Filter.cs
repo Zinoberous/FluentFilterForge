@@ -208,28 +208,27 @@ internal sealed class Filter<T> : IFilter<T>
         var collectionType = condition.PropertySelector.ReturnType;
         var elementType = collectionType.GetGenericArguments()[0];
 
-        var enumerableType = typeof(System.Linq.Enumerable);
+        // Pass the sub-filter as an inline lambda expression so EF Core can translate it to SQL.
+        // Using Expression.Constant(compiled delegate) would prevent SQL translation.
+        var subFilterExpression = condition.Filter.ToExpression();
+
         var methodName = condition.ComparisonOperator == ComparisonOperator.Any ? nameof(Enumerable.Any) : nameof(Enumerable.All);
-        var method = enumerableType
+        var method = typeof(Enumerable)
             .GetMethods()
             .First(m => m.Name == methodName && m.GetParameters().Length == 2)
             .MakeGenericMethod(elementType);
-
-        var compiledSubFilter = Expression.Constant(condition.Filter.ToExpression().Compile());
 
         Expression call;
 
         if (!collectionType.IsValueType)
         {
-            // collection != null && Enumerable.Any/All(collection, subFilter)
             var notNull = Expression.NotEqual(collectionExpr, Expression.Constant(null, collectionType));
-            var methodCall = Expression.Call(method, collectionExpr, compiledSubFilter);
-
+            var methodCall = Expression.Call(method, collectionExpr, subFilterExpression);
             call = Expression.AndAlso(notNull, methodCall);
         }
         else
         {
-            call = Expression.Call(method, collectionExpr, compiledSubFilter);
+            call = Expression.Call(method, collectionExpr, subFilterExpression);
         }
 
         return condition.Not ? Expression.Not(call) : call;
