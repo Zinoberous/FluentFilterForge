@@ -1,4 +1,4 @@
-﻿using System.Linq.Expressions;
+using System.Linq.Expressions;
 using System.Numerics;
 
 namespace FluentFilterForge.Interfaces;
@@ -16,142 +16,142 @@ public interface IGroupOrFilterBuilder<T> : IGroupFilterBuilder<T>
     /// <returns>A builder to configure the condition for the selected property.</returns>
     IPropertyBoolNegatableFilterBuilder<T, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, bool>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyBoolNegatableFilterBuilder<T, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, bool?>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyNumberNegatableFilterBuilder<T, sbyte, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, sbyte>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyNumberNegatableFilterBuilder<T, sbyte, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, sbyte?>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyNumberNegatableFilterBuilder<T, byte, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, byte>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyNumberNegatableFilterBuilder<T, byte, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, byte?>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyNumberNegatableFilterBuilder<T, short, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, short>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyNumberNegatableFilterBuilder<T, short, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, short?>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyNumberNegatableFilterBuilder<T, ushort, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, ushort>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyNumberNegatableFilterBuilder<T, ushort, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, ushort?>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyNumberNegatableFilterBuilder<T, int, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, int>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyNumberNegatableFilterBuilder<T, int, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, int?>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyNumberNegatableFilterBuilder<T, uint, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, uint>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyNumberNegatableFilterBuilder<T, uint, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, uint?>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyNumberNegatableFilterBuilder<T, nint, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, nint>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyNumberNegatableFilterBuilder<T, nint, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, nint?>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyNumberNegatableFilterBuilder<T, nuint, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, nuint>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyNumberNegatableFilterBuilder<T, nuint, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, nuint?>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyNumberNegatableFilterBuilder<T, long, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, long>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyNumberNegatableFilterBuilder<T, long, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, long?>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyNumberNegatableFilterBuilder<T, ulong, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, ulong>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyNumberNegatableFilterBuilder<T, ulong, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, ulong?>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyNumberNegatableFilterBuilder<T, BigInteger, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, BigInteger>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyNumberNegatableFilterBuilder<T, BigInteger, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, BigInteger?>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyNumberNegatableFilterBuilder<T, float, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, float>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyNumberNegatableFilterBuilder<T, float, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, float?>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyNumberNegatableFilterBuilder<T, double, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, double>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyNumberNegatableFilterBuilder<T, double, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, double?>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyNumberNegatableFilterBuilder<T, decimal, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, decimal>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyNumberNegatableFilterBuilder<T, decimal, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, decimal?>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyCharNegatableFilterBuilder<T, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, char>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyCharNegatableFilterBuilder<T, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, char?>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyStringNegatableFilterBuilder<T, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, string?>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyGuidNegatableFilterBuilder<T, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, Guid>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyGuidNegatableFilterBuilder<T, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, Guid?>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyDateTimeNegatableFilterBuilder<T, DateOnly, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, DateOnly>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyDateTimeNegatableFilterBuilder<T, DateOnly, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, DateOnly?>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyDateTimeNegatableFilterBuilder<T, TimeOnly, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, TimeOnly>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyDateTimeNegatableFilterBuilder<T, TimeOnly, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, TimeOnly?>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyDateTimeNegatableFilterBuilder<T, DateTime, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, DateTime>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyDateTimeNegatableFilterBuilder<T, DateTime, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, DateTime?>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyDateTimeNegatableFilterBuilder<T, DateTimeOffset, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, DateTimeOffset>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyDateTimeNegatableFilterBuilder<T, DateTimeOffset, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, DateTimeOffset?>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyDateTimeNegatableFilterBuilder<T, TimeSpan, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, TimeSpan>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyDateTimeNegatableFilterBuilder<T, TimeSpan, IGroupOrFilterBuilder<T>> Or(Expression<Func<T, TimeSpan?>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyCustomNegatableFilterBuilder<T, TProperty, IGroupOrFilterBuilder<T>> Or<TProperty>(Expression<Func<T, TProperty>> propertySelector);
 
-    /// <inheritdoc cref="Or" />
+    /// <inheritdoc cref="Or(Expression{Func{T, bool}})" />
     IPropertyEnumerableNegatableFilterBuilder<T, TElement, IGroupOrFilterBuilder<T>> Or<TElement>(Expression<Func<T, IEnumerable<TElement>?>> propertySelector);
 
     /// <summary>
