@@ -30,7 +30,7 @@
 
   <!-- Include README.md in the NuGet package -->
   <ItemGroup Condition="'$(IsPackage)' == 'true'">
-    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
 </Project>
