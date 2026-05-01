@@ -152,7 +152,7 @@ public interface IGroupAndFilterBuilder<T> : IGroupFilterBuilder<T>
     IPropertyCustomNegatableFilterBuilder<T, TProperty, IGroupAndFilterBuilder<T>> And<TProperty>(Expression<Func<T, TProperty>> propertySelector);
 
     /// <inheritdoc cref="And" />
-    IPropertyEnumerableNegatableFilterBuilder<T, TElement, IGroupAndFilterBuilder<T>> And<TElement>(Expression<Func<T, IEnumerable<TElement>>> propertySelector);
+    IPropertyEnumerableNegatableFilterBuilder<T, TElement, IGroupAndFilterBuilder<T>> And<TElement>(Expression<Func<T, IEnumerable<TElement>?>> propertySelector);
 
     /// <summary>
     /// Adds a nested <c>AND</c> group. All conditions inside the delegate are evaluated

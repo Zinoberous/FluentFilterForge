@@ -340,7 +340,7 @@ internal sealed class GroupFilterBuilder<T> : IGroupStartFilterBuilder<T>, IGrou
     }
 
     /// <inheritdoc/>
-    public IPropertyEnumerableNegatableFilterBuilder<T, TElement, IGroupAndFilterBuilder<T>> And<TElement>(Expression<Func<T, IEnumerable<TElement>>> propertySelector)
+    public IPropertyEnumerableNegatableFilterBuilder<T, TElement, IGroupAndFilterBuilder<T>> And<TElement>(Expression<Func<T, IEnumerable<TElement>?>> propertySelector)
     {
         SetLogicalOperator(LogicalOperator.And);
         return new PropertyEnumerableFilterBuilder<T, TElement, GroupFilterBuilder<T>>(this, propertySelector);
@@ -676,7 +676,7 @@ internal sealed class GroupFilterBuilder<T> : IGroupStartFilterBuilder<T>, IGrou
     }
 
     /// <inheritdoc/>
-    public IPropertyEnumerableNegatableFilterBuilder<T, TElement, IGroupOrFilterBuilder<T>> Or<TElement>(Expression<Func<T, IEnumerable<TElement>>> propertySelector)
+    public IPropertyEnumerableNegatableFilterBuilder<T, TElement, IGroupOrFilterBuilder<T>> Or<TElement>(Expression<Func<T, IEnumerable<TElement>?>> propertySelector)
     {
         SetLogicalOperator(LogicalOperator.Or);
         return new PropertyEnumerableFilterBuilder<T, TElement, GroupFilterBuilder<T>>(this, propertySelector);

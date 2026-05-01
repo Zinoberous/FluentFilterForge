@@ -8,18 +8,18 @@ public class NumberFilterTests
     private sealed record Product(int? Rating, int Stock);
 
     private static readonly IEnumerable<Product> _products = [
-        new(null, 0),       // unrated, out of stock
-        new(null, 10),      // unrated, in stock
-        new(1, 0),          // poor, out of stock
-        new(1, 5),          // poor, in stock
-        new(2, 0),          // below average, out of stock
-        new(2, 15),         // below average, in stock
-        new(3, 0),          // average, out of stock
-        new(3, 10),         // average, in stock
-        new(4, 0),          // good, out of stock
-        new(4, 20),         // good, in stock
-        new(5, 0),          // excellent, out of stock
-        new(5, 25),         // excellent, in stock
+        new(null, 0),
+        new(null, 10),
+        new(1, 0),
+        new(1, 5),
+        new(2, 0),
+        new(2, 15),
+        new(3, 0),
+        new(3, 10),
+        new(4, 0),
+        new(4, 20),
+        new(5, 0),
+        new(5, 25),
     ];
 
     [Fact]
@@ -234,7 +234,9 @@ public class NumberFilterTests
             .And(x => x.Stock).GreaterThan(0)
             .Build();
 
-        var expected = _products.Where(p => p.Rating >= 4 && p.Stock > 0);
+        var expected = _products.Where(p =>
+            p.Rating >= 4
+            && p.Stock > 0);
 
         // Act
 
@@ -255,7 +257,9 @@ public class NumberFilterTests
             .Or(x => x.Stock).Equal(0)
             .Build();
 
-        var expected = _products.Where(p => p.Rating == null || p.Stock == 0);
+        var expected = _products.Where(p =>
+            p.Rating == null
+            || p.Stock == 0);
 
         // Act
 
@@ -279,7 +283,10 @@ public class NumberFilterTests
                 .Or(x => x.Rating).Equal(5))
             .Build();
 
-        var expected = _products.Where(p => p.Rating >= 3 && (p.Stock > 0 || p.Rating == 5));
+        var expected = _products.Where(p =>
+            p.Rating >= 3
+            && (p.Stock > 0
+                || p.Rating == 5));
 
         // Act
 
@@ -303,7 +310,10 @@ public class NumberFilterTests
                 .And(x => x.Rating).GreaterThanOrEqual(3))
             .Build();
 
-        var expected = _products.Where(p => p.Rating == null || (p.Stock == 0 && p.Rating >= 3));
+        var expected = _products.Where(p =>
+            p.Rating == null
+            || (p.Stock == 0
+                && p.Rating >= 3));
 
         // Act
 

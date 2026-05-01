@@ -201,6 +201,6 @@ internal sealed class FilterBuilder<T> : IFilterBuilder<T>
         => new PropertyCustomFilterBuilder<T, TProperty, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 
     /// <inheritdoc/>
-    public IPropertyEnumerableNegatableFilterBuilder<T, TElement, IGroupStartFilterBuilder<T>> Where<TElement>(Expression<Func<T, IEnumerable<TElement>>> propertySelector)
+    public IPropertyEnumerableNegatableFilterBuilder<T, TElement, IGroupStartFilterBuilder<T>> Where<TElement>(Expression<Func<T, IEnumerable<TElement>?>> propertySelector)
         => new PropertyEnumerableFilterBuilder<T, TElement, GroupFilterBuilder<T>>(_groupFilterBuilder, propertySelector);
 }

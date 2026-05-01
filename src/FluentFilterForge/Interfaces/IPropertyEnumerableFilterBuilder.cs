@@ -12,15 +12,8 @@ namespace FluentFilterForge.Interfaces;
 public interface IPropertyEnumerableFilterBuilder<T, TElement, out TGroupFilterBuilder>
     where TGroupFilterBuilder : IGroupFilterBuilder<T>
 {
-    /// <summary>Matches items where the collection property is <see langword="null"/>.</summary>
-    TGroupFilterBuilder IsNull();
-
     /// <summary>Matches items where the collection property is <see langword="null"/> or contains no elements.</summary>
     TGroupFilterBuilder IsNullOrEmpty();
-
-    /// <summary>Matches items where the collection property equals <paramref name="value"/> by reference.</summary>
-    /// <param name="value">The collection to compare against.</param>
-    TGroupFilterBuilder Equal(IEnumerable<TElement>? value);
 
     /// <summary>
     /// Matches items where at least one element in the collection satisfies the sub-filter

@@ -24,41 +24,29 @@ public class NumberFilterTests
     }
 
     private static readonly Product[] _products = [
-        new(null, 0),       // unrated, out of stock
-        new(null, 10),      // unrated, in stock
-        new(1, 0),          // poor, out of stock
-        new(1, 5),          // poor, in stock
-        new(2, 0),          // below average, out of stock
-        new(2, 15),         // below average, in stock
-        new(3, 0),          // average, out of stock
-        new(3, 10),         // average, in stock
-        new(4, 0),          // good, out of stock
-        new(4, 20),         // good, in stock
-        new(5, 0),          // excellent, out of stock
-        new(5, 25),         // excellent, in stock
+        new(null, 0),
+        new(null, 10),
+        new(1, 0),
+        new(1, 5),
+        new(2, 0),
+        new(2, 15),
+        new(3, 0),
+        new(3, 10),
+        new(4, 0),
+        new(4, 20),
+        new(5, 0),
+        new(5, 25),
     ];
-
-    private static void SeedProducts(TestDbContext context)
-    {
-        context.Products.AddRange(_products.Select((p, i) => new ProductEntity
-        {
-            Id = i + 1,
-            Rating = p.Rating,
-            Stock = p.Stock
-        }));
-
-        context.SaveChanges();
-    }
 
     [Fact]
     public async Task IsNull_WhenApplied_ShouldReturnOnlyNullValues()
     {
         // Arrange
 
-        await using var connection = CreateOpenConnection();
+        await using var connection = await CreateOpenConnectionAsync();
         await using var context = CreateContext(connection);
 
-        SeedProducts(context);
+        await SeedProductsAsync(context);
 
         var isUnrated = Filter.For<ProductEntity>()
             .Where(x => x.Rating).IsNull()
@@ -85,10 +73,10 @@ public class NumberFilterTests
     {
         // Arrange
 
-        await using var connection = CreateOpenConnection();
+        await using var connection = await CreateOpenConnectionAsync();
         await using var context = CreateContext(connection);
 
-        SeedProducts(context);
+        await SeedProductsAsync(context);
 
         var equalValue = Filter.For<ProductEntity>()
             .Where(x => x.Rating).Equal(value)
@@ -113,10 +101,10 @@ public class NumberFilterTests
     {
         // Arrange
 
-        await using var connection = CreateOpenConnection();
+        await using var connection = await CreateOpenConnectionAsync();
         await using var context = CreateContext(connection);
 
-        SeedProducts(context);
+        await SeedProductsAsync(context);
 
         var isNotThree = Filter.For<ProductEntity>()
             .Where(x => x.Rating).Not().Equal(3)
@@ -141,10 +129,10 @@ public class NumberFilterTests
     {
         // Arrange
 
-        await using var connection = CreateOpenConnection();
+        await using var connection = await CreateOpenConnectionAsync();
         await using var context = CreateContext(connection);
 
-        SeedProducts(context);
+        await SeedProductsAsync(context);
 
         var highlyRated = Filter.For<ProductEntity>()
             .Where(x => x.Rating).GreaterThan(3)
@@ -169,10 +157,10 @@ public class NumberFilterTests
     {
         // Arrange
 
-        await using var connection = CreateOpenConnection();
+        await using var connection = await CreateOpenConnectionAsync();
         await using var context = CreateContext(connection);
 
-        SeedProducts(context);
+        await SeedProductsAsync(context);
 
         var goodOrBetter = Filter.For<ProductEntity>()
             .Where(x => x.Rating).GreaterThanOrEqual(4)
@@ -197,10 +185,10 @@ public class NumberFilterTests
     {
         // Arrange
 
-        await using var connection = CreateOpenConnection();
+        await using var connection = await CreateOpenConnectionAsync();
         await using var context = CreateContext(connection);
 
-        SeedProducts(context);
+        await SeedProductsAsync(context);
 
         var poorlyRated = Filter.For<ProductEntity>()
             .Where(x => x.Rating).LessThan(3)
@@ -225,10 +213,10 @@ public class NumberFilterTests
     {
         // Arrange
 
-        await using var connection = CreateOpenConnection();
+        await using var connection = await CreateOpenConnectionAsync();
         await using var context = CreateContext(connection);
 
-        SeedProducts(context);
+        await SeedProductsAsync(context);
 
         var belowAverage = Filter.For<ProductEntity>()
             .Where(x => x.Rating).LessThanOrEqual(2)
@@ -253,10 +241,10 @@ public class NumberFilterTests
     {
         // Arrange
 
-        await using var connection = CreateOpenConnection();
+        await using var connection = await CreateOpenConnectionAsync();
         await using var context = CreateContext(connection);
 
-        SeedProducts(context);
+        await SeedProductsAsync(context);
 
         var midRange = Filter.For<ProductEntity>()
             .Where(x => x.Rating).Between(2, 4)
@@ -281,10 +269,10 @@ public class NumberFilterTests
     {
         // Arrange
 
-        await using var connection = CreateOpenConnection();
+        await using var connection = await CreateOpenConnectionAsync();
         await using var context = CreateContext(connection);
 
-        SeedProducts(context);
+        await SeedProductsAsync(context);
 
         int?[] set = [1, 3, 5];
 
@@ -311,17 +299,19 @@ public class NumberFilterTests
     {
         // Arrange
 
-        await using var connection = CreateOpenConnection();
+        await using var connection = await CreateOpenConnectionAsync();
         await using var context = CreateContext(connection);
 
-        SeedProducts(context);
+        await SeedProductsAsync(context);
 
         var highRatedInStock = Filter.For<ProductEntity>()
             .Where(x => x.Rating).GreaterThanOrEqual(4)
             .And(x => x.Stock).GreaterThan(0)
             .Build();
 
-        var expected = _products.Where(p => p.Rating >= 4 && p.Stock > 0);
+        var expected = _products.Where(p =>
+            p.Rating >= 4
+            && p.Stock > 0);
 
         // Act
 
@@ -340,17 +330,19 @@ public class NumberFilterTests
     {
         // Arrange
 
-        await using var connection = CreateOpenConnection();
+        await using var connection = await CreateOpenConnectionAsync();
         await using var context = CreateContext(connection);
 
-        SeedProducts(context);
+        await SeedProductsAsync(context);
 
         var unavailable = Filter.For<ProductEntity>()
             .Where(x => x.Rating).IsNull()
             .Or(x => x.Stock).Equal(0)
             .Build();
 
-        var expected = _products.Where(p => p.Rating == null || p.Stock == 0);
+        var expected = _products.Where(p =>
+            p.Rating == null
+            || p.Stock == 0);
 
         // Act
 
@@ -370,10 +362,10 @@ public class NumberFilterTests
         // Arrange
         // Filter: Rating >= 3 AND (Stock > 0 OR Rating == 5)
 
-        await using var connection = CreateOpenConnection();
+        await using var connection = await CreateOpenConnectionAsync();
         await using var context = CreateContext(connection);
 
-        SeedProducts(context);
+        await SeedProductsAsync(context);
 
         var recommended = Filter.For<ProductEntity>()
             .Where(x => x.Rating).GreaterThanOrEqual(3)
@@ -382,7 +374,10 @@ public class NumberFilterTests
                 .Or(x => x.Rating).Equal(5))
             .Build();
 
-        var expected = _products.Where(p => p.Rating >= 3 && (p.Stock > 0 || p.Rating == 5));
+        var expected = _products.Where(p =>
+            p.Rating >= 3
+            && (p.Stock > 0
+                || p.Rating == 5));
 
         // Act
 
@@ -402,10 +397,10 @@ public class NumberFilterTests
         // Arrange
         // Filter: Rating == null OR (Stock == 0 AND Rating >= 3)
 
-        await using var connection = CreateOpenConnection();
+        await using var connection = await CreateOpenConnectionAsync();
         await using var context = CreateContext(connection);
 
-        SeedProducts(context);
+        await SeedProductsAsync(context);
 
         var skipListed = Filter.For<ProductEntity>()
             .Where(x => x.Rating).IsNull()
@@ -414,7 +409,10 @@ public class NumberFilterTests
                 .And(x => x.Rating).GreaterThanOrEqual(3))
             .Build();
 
-        var expected = _products.Where(p => p.Rating == null || (p.Stock == 0 && p.Rating >= 3));
+        var expected = _products.Where(p =>
+            p.Rating == null
+            || (p.Stock == 0
+                && p.Rating >= 3));
 
         // Act
 
@@ -428,10 +426,10 @@ public class NumberFilterTests
         actual.Should().Equal(expected);
     }
 
-    private static SqliteConnection CreateOpenConnection()
+    private static async Task<SqliteConnection> CreateOpenConnectionAsync()
     {
         SqliteConnection connection = new("Data Source=:memory:");
-        connection.Open();
+        await connection.OpenAsync();
 
         return connection;
     }
@@ -446,5 +444,17 @@ public class NumberFilterTests
         context.Database.EnsureCreated();
 
         return context;
+    }
+
+    private static async Task SeedProductsAsync(TestDbContext context)
+    {
+        context.Products.AddRange(_products.Select((p, i) => new ProductEntity
+        {
+            Id = i + 1,
+            Rating = p.Rating,
+            Stock = p.Stock
+        }));
+
+        await context.SaveChangesAsync();
     }
 }

@@ -15,10 +15,10 @@ internal sealed class PropertyEnumerableFilterBuilder<T, TElement, TGroupFilterB
     private readonly TGroupFilterBuilder _groupFilterBuilder;
     private readonly Expression<Func<T, IEnumerable<TElement>?>> _propertySelector;
 
-    internal PropertyEnumerableFilterBuilder(TGroupFilterBuilder groupFilterBuilder, Expression<Func<T, IEnumerable<TElement>>> propertySelector)
+    internal PropertyEnumerableFilterBuilder(TGroupFilterBuilder groupFilterBuilder, Expression<Func<T, IEnumerable<TElement>?>> propertySelector)
     {
         _groupFilterBuilder = groupFilterBuilder;
-        _propertySelector = Expression.Lambda<Func<T, IEnumerable<TElement>?>>(propertySelector.Body, propertySelector.Parameters);
+        _propertySelector = propertySelector;
     }
 
     /// <inheritdoc/>
@@ -29,20 +29,6 @@ internal sealed class PropertyEnumerableFilterBuilder<T, TElement, TGroupFilterB
     }
 
     /// <inheritdoc/>
-    public TGroupFilterBuilder IsNull()
-    {
-        FilterCondition<T, IEnumerable<TElement>?> node = new()
-        {
-            PropertySelector = _propertySelector,
-            ComparisonOperator = ComparisonOperator.IsNull,
-            Not = _not
-        };
-
-        _groupFilterBuilder.AddNode(node);
-        return _groupFilterBuilder;
-    }
-
-    /// <inheritdoc/>
     public TGroupFilterBuilder IsNullOrEmpty()
     {
         FilterCondition<T, IEnumerable<TElement>?> node = new()
@@ -50,21 +36,6 @@ internal sealed class PropertyEnumerableFilterBuilder<T, TElement, TGroupFilterB
             PropertySelector = _propertySelector,
             ComparisonOperator = ComparisonOperator.IsNullOrEmpty,
             Not = _not
-        };
-
-        _groupFilterBuilder.AddNode(node);
-        return _groupFilterBuilder;
-    }
-
-    /// <inheritdoc/>
-    public TGroupFilterBuilder Equal(IEnumerable<TElement>? value)
-    {
-        FilterConditionValue<T, IEnumerable<TElement>?> node = new()
-        {
-            PropertySelector = _propertySelector,
-            ComparisonOperator = ComparisonOperator.Equal,
-            Not = _not,
-            Value = value
         };
 
         _groupFilterBuilder.AddNode(node);

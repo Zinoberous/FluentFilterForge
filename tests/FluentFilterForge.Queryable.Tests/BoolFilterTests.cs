@@ -50,7 +50,7 @@ public class BoolFilterTests
     {
         // Arrange
 
-        await using var connection = CreateOpenConnection();
+        await using var connection = await CreateOpenConnectionAsync();
         await using var context = CreateContext(connection);
 
         await SeedCustomersAsync(context);
@@ -77,7 +77,7 @@ public class BoolFilterTests
     {
         // Arrange
 
-        await using var connection = CreateOpenConnection();
+        await using var connection = await CreateOpenConnectionAsync();
         await using var context = CreateContext(connection);
 
         await SeedCustomersAsync(context);
@@ -105,7 +105,7 @@ public class BoolFilterTests
     {
         // Arrange
 
-        await using var connection = CreateOpenConnection();
+        await using var connection = await CreateOpenConnectionAsync();
         await using var context = CreateContext(connection);
 
         await SeedCustomersAsync(context);
@@ -136,7 +136,7 @@ public class BoolFilterTests
     {
         // Arrange
 
-        await using var connection = CreateOpenConnection();
+        await using var connection = await CreateOpenConnectionAsync();
         await using var context = CreateContext(connection);
 
         await SeedCustomersAsync(context);
@@ -164,7 +164,7 @@ public class BoolFilterTests
     {
         // Arrange
 
-        await using var connection = CreateOpenConnection();
+        await using var connection = await CreateOpenConnectionAsync();
         await using var context = CreateContext(connection);
 
         await SeedCustomersAsync(context);
@@ -192,7 +192,7 @@ public class BoolFilterTests
     {
         // Arrange
 
-        await using var connection = CreateOpenConnection();
+        await using var connection = await CreateOpenConnectionAsync();
         await using var context = CreateContext(connection);
 
         await SeedCustomersAsync(context);
@@ -221,7 +221,7 @@ public class BoolFilterTests
     {
         // Arrange
 
-        await using var connection = CreateOpenConnection();
+        await using var connection = await CreateOpenConnectionAsync();
         await using var context = CreateContext(connection);
 
         await SeedCustomersAsync(context);
@@ -251,7 +251,7 @@ public class BoolFilterTests
     {
         // Arrange
 
-        await using var connection = CreateOpenConnection();
+        await using var connection = await CreateOpenConnectionAsync();
         await using var context = CreateContext(connection);
 
         await SeedCustomersAsync(context);
@@ -287,7 +287,7 @@ public class BoolFilterTests
     {
         // Arrange
 
-        await using var connection = CreateOpenConnection();
+        await using var connection = await CreateOpenConnectionAsync();
         await using var context = CreateContext(connection);
 
         await SeedCustomersAsync(context);
@@ -316,10 +316,10 @@ public class BoolFilterTests
         actual.Should().Equal(expected);
     }
 
-    private static SqliteConnection CreateOpenConnection()
+    private static async Task<SqliteConnection> CreateOpenConnectionAsync()
     {
         SqliteConnection connection = new("Data Source=:memory:");
-        connection.Open();
+        await connection.OpenAsync();
 
         return connection;
     }

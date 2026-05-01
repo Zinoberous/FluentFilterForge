@@ -152,7 +152,7 @@ public interface IGroupOrFilterBuilder<T> : IGroupFilterBuilder<T>
     IPropertyCustomNegatableFilterBuilder<T, TProperty, IGroupOrFilterBuilder<T>> Or<TProperty>(Expression<Func<T, TProperty>> propertySelector);
 
     /// <inheritdoc cref="Or" />
-    IPropertyEnumerableNegatableFilterBuilder<T, TElement, IGroupOrFilterBuilder<T>> Or<TElement>(Expression<Func<T, IEnumerable<TElement>>> propertySelector);
+    IPropertyEnumerableNegatableFilterBuilder<T, TElement, IGroupOrFilterBuilder<T>> Or<TElement>(Expression<Func<T, IEnumerable<TElement>?>> propertySelector);
 
     /// <summary>
     /// Adds a nested <c>OR</c> group. All conditions inside the delegate are evaluated
