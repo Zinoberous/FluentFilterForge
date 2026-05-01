@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <IsPackage>true</IsPackage>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <PackageId>FluentFilterForge</PackageId>
     <Title>FluentFilterForge</Title>
     <Description>
@@ -13,6 +12,30 @@
     </Description>
     <PackageTags>filter;fluent;linq;queryable;enumerable;predicate;expression;efcore</PackageTags>
   </PropertyGroup>
+
+  <!-- NuGet package metadata -->
+  <PropertyGroup>
+    <Authors>Jannek-Alexander Karge</Authors>
+    <Copyright>Copyright © Jannek-Alexander Karge $([System.DateTime]::UtcNow.Year)</Copyright>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/Zinoberous/FluentFilterForge</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Zinoberous/FluentFilterForge</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(MSBuildProjectName).xml</DocumentationFile>
+    <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+
+  <!-- Include README.md in the NuGet package -->
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
 
   <ItemGroup>
     <InternalsVisibleTo Include="FluentFilterForge.Enumerable.Tests" />
