@@ -3,7 +3,7 @@ using FluentFilterForge;
 
 namespace FluentFilterForge.Enumerable.Tests;
 
-public class GuidFilterTests
+public sealed class GuidFilterTests
 {
     private sealed record Item(Guid? CategoryId, Guid OwnerId);
 

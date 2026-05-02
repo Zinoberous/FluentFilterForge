@@ -3,7 +3,7 @@ using FluentFilterForge;
 
 namespace FluentFilterForge.Enumerable.Tests;
 
-public class DateTimeFilterTests
+public sealed class DateTimeFilterTests
 {
     private sealed record Event(DateTime? ScheduledAt, DateTime OccurredAt);
 

@@ -1,29 +1,28 @@
 ﻿using FluentAssertions;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
 namespace FluentFilterForge.Queryable.Tests;
 
-public class NumberFilterTests
+public sealed class ProductEntity
 {
-    private sealed class ProductEntity
-    {
-        public int Id { get; set; }
-        public int? Rating { get; set; }
-        public int Stock { get; set; }
-    }
+    public int Id { get; set; }
+    public int? Rating { get; set; }
+    public int Stock { get; set; }
+}
 
-    private sealed class TestDbContext(DbContextOptions<TestDbContext> options) : DbContext(options)
-    {
-        public DbSet<ProductEntity> Products => Set<ProductEntity>();
-    }
+public sealed class NumberFilterTestsDbContext(DbContextOptions<NumberFilterTestsDbContext> options) : DbContext(options)
+{
+    public DbSet<ProductEntity> Products => Set<ProductEntity>();
+}
 
-    private sealed record Product(int? Rating, int Stock)
-    {
-        internal static Product Map(ProductEntity entity) => new(entity.Rating, entity.Stock);
-    }
+public sealed record Product(int? Rating, int Stock)
+{
+    internal static Product Map(ProductEntity entity) => new(entity.Rating, entity.Stock);
+}
 
-    private static readonly Product[] _products = [
+public sealed class NumberFilterTestsFixture : DatabaseTestsFixture<NumberFilterTestsDbContext>
+{
+    public IEnumerable<Product> Products { get; } = [
         new(null, 0),
         new(null, 10),
         new(1, 0),
@@ -38,28 +37,39 @@ public class NumberFilterTests
         new(5, 25),
     ];
 
+    protected override async Task InitializeAsync(NumberFilterTestsDbContext context)
+    {
+        context.Products.AddRange(Products.Select(p => new ProductEntity
+        {
+            Rating = p.Rating,
+            Stock = p.Stock
+        }));
+
+        await context.SaveChangesAsync();
+    }
+}
+
+public sealed class NumberFilterTests(NumberFilterTestsFixture fixture) : DatabaseTests<NumberFilterTestsDbContext, NumberFilterTestsFixture>(fixture)
+{
+    private readonly NumberFilterTestsFixture _fixture = fixture;
+
     [Fact]
     public async Task IsNull_WhenApplied_ShouldReturnOnlyNullValues()
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedProductsAsync(context);
-
         var isUnrated = Filter.For<ProductEntity>()
             .Where(x => x.Rating).IsNull()
             .Build();
 
-        var expected = _products.Where(p => p.Rating == null);
+        var expected = _fixture.Products.Where(p => p.Rating == null);
 
         // Act
 
-        var actual = await context.Products
+        var actual = await Context.Products
             .Where(isUnrated)
             .Select(x => Product.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -73,23 +83,18 @@ public class NumberFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedProductsAsync(context);
-
         var equalValue = Filter.For<ProductEntity>()
             .Where(x => x.Rating).Equal(value)
             .Build();
 
-        var expected = _products.Where(p => p.Rating == value);
+        var expected = _fixture.Products.Where(p => p.Rating == value);
 
         // Act
 
-        var actual = await context.Products
+        var actual = await Context.Products
             .Where(equalValue)
             .Select(x => Product.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -101,23 +106,18 @@ public class NumberFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedProductsAsync(context);
-
         var isNotThree = Filter.For<ProductEntity>()
             .Where(x => x.Rating).Not().Equal(3)
             .Build();
 
-        var expected = _products.Where(p => p.Rating != 3);
+        var expected = _fixture.Products.Where(p => p.Rating != 3);
 
         // Act
 
-        var actual = await context.Products
+        var actual = await Context.Products
             .Where(isNotThree)
             .Select(x => Product.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -129,23 +129,18 @@ public class NumberFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedProductsAsync(context);
-
         var highlyRated = Filter.For<ProductEntity>()
             .Where(x => x.Rating).GreaterThan(3)
             .Build();
 
-        var expected = _products.Where(p => p.Rating > 3);
+        var expected = _fixture.Products.Where(p => p.Rating > 3);
 
         // Act
 
-        var actual = await context.Products
+        var actual = await Context.Products
             .Where(highlyRated)
             .Select(x => Product.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -157,23 +152,18 @@ public class NumberFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedProductsAsync(context);
-
         var goodOrBetter = Filter.For<ProductEntity>()
             .Where(x => x.Rating).GreaterThanOrEqual(4)
             .Build();
 
-        var expected = _products.Where(p => p.Rating >= 4);
+        var expected = _fixture.Products.Where(p => p.Rating >= 4);
 
         // Act
 
-        var actual = await context.Products
+        var actual = await Context.Products
             .Where(goodOrBetter)
             .Select(x => Product.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -185,23 +175,18 @@ public class NumberFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedProductsAsync(context);
-
         var poorlyRated = Filter.For<ProductEntity>()
             .Where(x => x.Rating).LessThan(3)
             .Build();
 
-        var expected = _products.Where(p => p.Rating < 3);
+        var expected = _fixture.Products.Where(p => p.Rating < 3);
 
         // Act
 
-        var actual = await context.Products
+        var actual = await Context.Products
             .Where(poorlyRated)
             .Select(x => Product.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -213,23 +198,18 @@ public class NumberFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedProductsAsync(context);
-
         var belowAverage = Filter.For<ProductEntity>()
             .Where(x => x.Rating).LessThanOrEqual(2)
             .Build();
 
-        var expected = _products.Where(p => p.Rating <= 2);
+        var expected = _fixture.Products.Where(p => p.Rating <= 2);
 
         // Act
 
-        var actual = await context.Products
+        var actual = await Context.Products
             .Where(belowAverage)
             .Select(x => Product.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -241,23 +221,18 @@ public class NumberFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedProductsAsync(context);
-
         var midRange = Filter.For<ProductEntity>()
             .Where(x => x.Rating).Between(2, 4)
             .Build();
 
-        var expected = _products.Where(p => p.Rating >= 2 && p.Rating <= 4);
+        var expected = _fixture.Products.Where(p => p.Rating >= 2 && p.Rating <= 4);
 
         // Act
 
-        var actual = await context.Products
+        var actual = await Context.Products
             .Where(midRange)
             .Select(x => Product.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -269,25 +244,20 @@ public class NumberFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedProductsAsync(context);
-
         int?[] set = [1, 3, 5];
 
         var inSet = Filter.For<ProductEntity>()
             .Where(x => x.Rating).In(set)
             .Build();
 
-        var expected = _products.Where(p => set.Contains(p.Rating));
+        var expected = _fixture.Products.Where(p => set.Contains(p.Rating));
 
         // Act
 
-        var actual = await context.Products
+        var actual = await Context.Products
             .Where(inSet)
             .Select(x => Product.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -299,26 +269,21 @@ public class NumberFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedProductsAsync(context);
-
         var highRatedInStock = Filter.For<ProductEntity>()
             .Where(x => x.Rating).GreaterThanOrEqual(4)
             .And(x => x.Stock).GreaterThan(0)
             .Build();
 
-        var expected = _products.Where(p =>
+        var expected = _fixture.Products.Where(p =>
             p.Rating >= 4
             && p.Stock > 0);
 
         // Act
 
-        var actual = await context.Products
+        var actual = await Context.Products
             .Where(highRatedInStock)
             .Select(x => Product.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -330,26 +295,21 @@ public class NumberFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedProductsAsync(context);
-
         var unavailable = Filter.For<ProductEntity>()
             .Where(x => x.Rating).IsNull()
             .Or(x => x.Stock).Equal(0)
             .Build();
 
-        var expected = _products.Where(p =>
+        var expected = _fixture.Products.Where(p =>
             p.Rating == null
             || p.Stock == 0);
 
         // Act
 
-        var actual = await context.Products
+        var actual = await Context.Products
             .Where(unavailable)
             .Select(x => Product.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -360,12 +320,6 @@ public class NumberFilterTests
     public async Task AndNestedOr_WhenApplied_ShouldReturnItemsMatchingAndWithNestedOr()
     {
         // Arrange
-        // Filter: Rating >= 3 AND (Stock > 0 OR Rating == 5)
-
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedProductsAsync(context);
 
         var recommended = Filter.For<ProductEntity>()
             .Where(x => x.Rating).GreaterThanOrEqual(3)
@@ -374,17 +328,17 @@ public class NumberFilterTests
                 .Or(x => x.Rating).Equal(5))
             .Build();
 
-        var expected = _products.Where(p =>
+        var expected = _fixture.Products.Where(p =>
             p.Rating >= 3
             && (p.Stock > 0
                 || p.Rating == 5));
 
         // Act
 
-        var actual = await context.Products
+        var actual = await Context.Products
             .Where(recommended)
             .Select(x => Product.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -395,12 +349,6 @@ public class NumberFilterTests
     public async Task OrNestedAnd_WhenApplied_ShouldReturnItemsMatchingOrWithNestedAnd()
     {
         // Arrange
-        // Filter: Rating == null OR (Stock == 0 AND Rating >= 3)
-
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedProductsAsync(context);
 
         var skipListed = Filter.For<ProductEntity>()
             .Where(x => x.Rating).IsNull()
@@ -409,52 +357,20 @@ public class NumberFilterTests
                 .And(x => x.Rating).GreaterThanOrEqual(3))
             .Build();
 
-        var expected = _products.Where(p =>
+        var expected = _fixture.Products.Where(p =>
             p.Rating == null
             || (p.Stock == 0
                 && p.Rating >= 3));
 
         // Act
 
-        var actual = await context.Products
+        var actual = await Context.Products
             .Where(skipListed)
             .Select(x => Product.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
         actual.Should().Equal(expected);
-    }
-
-    private static async Task<SqliteConnection> CreateOpenConnectionAsync()
-    {
-        SqliteConnection connection = new("Data Source=:memory:");
-        await connection.OpenAsync();
-
-        return connection;
-    }
-
-    private static TestDbContext CreateContext(SqliteConnection connection)
-    {
-        var options = new DbContextOptionsBuilder<TestDbContext>()
-            .UseSqlite(connection)
-            .Options;
-
-        TestDbContext context = new(options);
-        context.Database.EnsureCreated();
-
-        return context;
-    }
-
-    private static async Task SeedProductsAsync(TestDbContext context)
-    {
-        context.Products.AddRange(_products.Select((p, i) => new ProductEntity
-        {
-            Id = i + 1,
-            Rating = p.Rating,
-            Stock = p.Stock
-        }));
-
-        await context.SaveChangesAsync();
     }
 }

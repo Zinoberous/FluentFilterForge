@@ -1,29 +1,28 @@
 ﻿using FluentAssertions;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
 namespace FluentFilterForge.Queryable.Tests;
 
-public class CharFilterTests
+public sealed class TokenEntity
 {
-    private sealed class TokenEntity
-    {
-        public int Id { get; set; }
-        public char? Category { get; set; }
-        public char Grade { get; set; }
-    }
+    public int Id { get; set; }
+    public char? Category { get; set; }
+    public char Grade { get; set; }
+}
 
-    private sealed class TestDbContext(DbContextOptions<TestDbContext> options) : DbContext(options)
-    {
-        public DbSet<TokenEntity> Tokens => Set<TokenEntity>();
-    }
+public sealed class CharFilterTestsDbContext(DbContextOptions<CharFilterTestsDbContext> options) : DbContext(options)
+{
+    public DbSet<TokenEntity> Tokens => Set<TokenEntity>();
+}
 
-    private sealed record Token(char? Category, char Grade)
-    {
-        internal static Token Map(TokenEntity entity) => new(entity.Category, entity.Grade);
-    }
+public sealed record Token(char? Category, char Grade)
+{
+    internal static Token Map(TokenEntity entity) => new(entity.Category, entity.Grade);
+}
 
-    private static readonly Token[] _tokens = [
+public sealed class CharFilterTestsFixture : DatabaseTestsFixture<CharFilterTestsDbContext>
+{
+    public Token[] Tokens { get; } = [
         new(null, 'F'),
         new(null, 'D'),
         new('A', 'F'),
@@ -34,28 +33,39 @@ public class CharFilterTests
         new('C', 'A'),
     ];
 
+    protected override async Task InitializeAsync(CharFilterTestsDbContext context)
+    {
+        context.Tokens.AddRange(Tokens.Select(t => new TokenEntity
+        {
+            Category = t.Category,
+            Grade = t.Grade
+        }));
+
+        await context.SaveChangesAsync();
+    }
+}
+
+public sealed class CharFilterTests(CharFilterTestsFixture fixture) : DatabaseTests<CharFilterTestsDbContext, CharFilterTestsFixture>(fixture)
+{
+    private readonly CharFilterTestsFixture _fixture = fixture;
+
     [Fact]
     public async Task IsNull_WhenApplied_ShouldReturnOnlyNullValues()
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedTokensAsync(context);
-
         var isNull = Filter.For<TokenEntity>()
             .Where(x => x.Category).IsNull()
             .Build();
 
-        var expected = _tokens.Where(t => t.Category == null);
+        var expected = _fixture.Tokens.Where(t => t.Category == null);
 
         // Act
 
-        var actual = await context.Tokens
+        var actual = await Context.Tokens
             .Where(isNull)
             .Select(x => Token.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -69,23 +79,18 @@ public class CharFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedTokensAsync(context);
-
         var equalValue = Filter.For<TokenEntity>()
             .Where(x => x.Category).Equal(value)
             .Build();
 
-        var expected = _tokens.Where(t => t.Category == value);
+        var expected = _fixture.Tokens.Where(t => t.Category == value);
 
         // Act
 
-        var actual = await context.Tokens
+        var actual = await Context.Tokens
             .Where(equalValue)
             .Select(x => Token.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -97,23 +102,18 @@ public class CharFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedTokensAsync(context);
-
         var isNotA = Filter.For<TokenEntity>()
             .Where(x => x.Category).Not().Equal('A')
             .Build();
 
-        var expected = _tokens.Where(t => t.Category != 'A');
+        var expected = _fixture.Tokens.Where(t => t.Category != 'A');
 
         // Act
 
-        var actual = await context.Tokens
+        var actual = await Context.Tokens
             .Where(isNotA)
             .Select(x => Token.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -125,25 +125,20 @@ public class CharFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedTokensAsync(context);
-
         char?[] set = ['A', 'C'];
 
         var inSet = Filter.For<TokenEntity>()
             .Where(x => x.Category).In(set)
             .Build();
 
-        var expected = _tokens.Where(t => set.Contains(t.Category));
+        var expected = _fixture.Tokens.Where(t => set.Contains(t.Category));
 
         // Act
 
-        var actual = await context.Tokens
+        var actual = await Context.Tokens
             .Where(inSet)
             .Select(x => Token.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -155,26 +150,21 @@ public class CharFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedTokensAsync(context);
-
         var filter = Filter.For<TokenEntity>()
             .Where(x => x.Category).Equal('A')
             .And(x => x.Grade).Equal('C')
             .Build();
 
-        var expected = _tokens.Where(t =>
+        var expected = _fixture.Tokens.Where(t =>
             t.Category == 'A'
             && t.Grade == 'C');
 
         // Act
 
-        var actual = await context.Tokens
+        var actual = await Context.Tokens
             .Where(filter)
             .Select(x => Token.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -186,61 +176,24 @@ public class CharFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedTokensAsync(context);
-
         var filter = Filter.For<TokenEntity>()
             .Where(x => x.Category).IsNull()
             .Or(x => x.Grade).Equal('A')
             .Build();
 
-        var expected = _tokens.Where(t =>
+        var expected = _fixture.Tokens.Where(t =>
             t.Category == null
             || t.Grade == 'A');
 
         // Act
 
-        var actual = await context.Tokens
+        var actual = await Context.Tokens
             .Where(filter)
             .Select(x => Token.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
         actual.Should().Equal(expected);
-    }
-
-    private static async Task<SqliteConnection> CreateOpenConnectionAsync()
-    {
-        SqliteConnection connection = new("Data Source=:memory:");
-        await connection.OpenAsync();
-
-        return connection;
-    }
-
-    private static TestDbContext CreateContext(SqliteConnection connection)
-    {
-        var options = new DbContextOptionsBuilder<TestDbContext>()
-            .UseSqlite(connection)
-            .Options;
-
-        TestDbContext context = new(options);
-        context.Database.EnsureCreated();
-
-        return context;
-    }
-
-    private static async Task SeedTokensAsync(TestDbContext context)
-    {
-        context.Tokens.AddRange(_tokens.Select((t, i) => new TokenEntity
-        {
-            Id = i + 1,
-            Category = t.Category,
-            Grade = t.Grade
-        }));
-
-        await context.SaveChangesAsync();
     }
 }

@@ -1,31 +1,32 @@
 ﻿using FluentAssertions;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
 namespace FluentFilterForge.Queryable.Tests;
 
-public class DateTimeFilterTests
+public sealed class EventEntity
 {
-    private sealed class EventEntity
-    {
-        public int Id { get; set; }
-        public DateTime? ScheduledAt { get; set; }
-        public DateTime OccurredAt { get; set; }
-    }
+    public int Id { get; set; }
+    public DateTime? ScheduledAt { get; set; }
+    public DateTime OccurredAt { get; set; }
+}
 
-    private sealed class TestDbContext(DbContextOptions<TestDbContext> options) : DbContext(options)
-    {
-        public DbSet<EventEntity> Events => Set<EventEntity>();
-    }
+public sealed class DateTimeFilterTestsDbContext(DbContextOptions<DateTimeFilterTestsDbContext> options) : DbContext(options)
+{
+    public DbSet<EventEntity> Events => Set<EventEntity>();
+}
 
-    private sealed record Event(DateTime? ScheduledAt, DateTime OccurredAt)
-    {
-        internal static Event Map(EventEntity entity) => new(entity.ScheduledAt, entity.OccurredAt);
-    }
+public sealed record Event(DateTime? ScheduledAt, DateTime OccurredAt)
+{
+    internal static Event Map(EventEntity entity) => new(entity.ScheduledAt, entity.OccurredAt);
+}
 
+public sealed class DateTimeFilterTestsFixture : DatabaseTestsFixture<DateTimeFilterTestsDbContext>
+{
     private static readonly DateTime _base = new(2024, 6, 15, 12, 0, 0, DateTimeKind.Utc);
 
-    private static readonly Event[] _events = [
+    public DateTime Base { get; } = _base;
+
+    public IEnumerable<Event> Events { get; } = [
         new(null, _base.AddDays(-10)),
         new(null, _base),
         new(_base.AddDays(-5), _base.AddDays(-5)),
@@ -36,28 +37,39 @@ public class DateTimeFilterTests
         new(_base.AddDays(10), _base.AddDays(10)),
     ];
 
+    protected override async Task InitializeAsync(DateTimeFilterTestsDbContext context)
+    {
+        context.Events.AddRange(Events.Select(e => new EventEntity
+        {
+            ScheduledAt = e.ScheduledAt,
+            OccurredAt = e.OccurredAt
+        }));
+
+        await context.SaveChangesAsync();
+    }
+}
+
+public sealed class DateTimeFilterTests(DateTimeFilterTestsFixture fixture) : DatabaseTests<DateTimeFilterTestsDbContext, DateTimeFilterTestsFixture>(fixture)
+{
+    private readonly DateTimeFilterTestsFixture _fixture = fixture;
+
     [Fact]
     public async Task IsNull_WhenApplied_ShouldReturnOnlyNullValues()
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedEventsAsync(context);
-
         var isUnscheduled = Filter.For<EventEntity>()
             .Where(x => x.ScheduledAt).IsNull()
             .Build();
 
-        var expected = _events.Where(e => e.ScheduledAt == null);
+        var expected = _fixture.Events.Where(e => e.ScheduledAt == null);
 
         // Act
 
-        var actual = await context.Events
+        var actual = await Context.Events
             .Where(isUnscheduled)
             .Select(x => Event.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -69,23 +81,18 @@ public class DateTimeFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedEventsAsync(context);
-
         var equalValue = Filter.For<EventEntity>()
-            .Where(x => x.ScheduledAt).Equal(_base)
+            .Where(x => x.ScheduledAt).Equal(_fixture.Base)
             .Build();
 
-        var expected = _events.Where(e => e.ScheduledAt == _base);
+        var expected = _fixture.Events.Where(e => e.ScheduledAt == _fixture.Base);
 
         // Act
 
-        var actual = await context.Events
+        var actual = await Context.Events
             .Where(equalValue)
             .Select(x => Event.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -97,23 +104,18 @@ public class DateTimeFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedEventsAsync(context);
-
         var isNotBase = Filter.For<EventEntity>()
-            .Where(x => x.ScheduledAt).Not().Equal(_base)
+            .Where(x => x.ScheduledAt).Not().Equal(_fixture.Base)
             .Build();
 
-        var expected = _events.Where(e => e.ScheduledAt != _base);
+        var expected = _fixture.Events.Where(e => e.ScheduledAt != _fixture.Base);
 
         // Act
 
-        var actual = await context.Events
+        var actual = await Context.Events
             .Where(isNotBase)
             .Select(x => Event.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -125,23 +127,18 @@ public class DateTimeFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedEventsAsync(context);
-
         var future = Filter.For<EventEntity>()
-            .Where(x => x.OccurredAt).GreaterThan(_base)
+            .Where(x => x.OccurredAt).GreaterThan(_fixture.Base)
             .Build();
 
-        var expected = _events.Where(e => e.OccurredAt > _base);
+        var expected = _fixture.Events.Where(e => e.OccurredAt > _fixture.Base);
 
         // Act
 
-        var actual = await context.Events
+        var actual = await Context.Events
             .Where(future)
             .Select(x => Event.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -153,23 +150,18 @@ public class DateTimeFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedEventsAsync(context);
-
         var todayOrLater = Filter.For<EventEntity>()
-            .Where(x => x.OccurredAt).GreaterThanOrEqual(_base)
+            .Where(x => x.OccurredAt).GreaterThanOrEqual(_fixture.Base)
             .Build();
 
-        var expected = _events.Where(e => e.OccurredAt >= _base);
+        var expected = _fixture.Events.Where(e => e.OccurredAt >= _fixture.Base);
 
         // Act
 
-        var actual = await context.Events
+        var actual = await Context.Events
             .Where(todayOrLater)
             .Select(x => Event.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -181,23 +173,18 @@ public class DateTimeFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedEventsAsync(context);
-
         var past = Filter.For<EventEntity>()
-            .Where(x => x.OccurredAt).LessThan(_base)
+            .Where(x => x.OccurredAt).LessThan(_fixture.Base)
             .Build();
 
-        var expected = _events.Where(e => e.OccurredAt < _base);
+        var expected = _fixture.Events.Where(e => e.OccurredAt < _fixture.Base);
 
         // Act
 
-        var actual = await context.Events
+        var actual = await Context.Events
             .Where(past)
             .Select(x => Event.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -209,23 +196,18 @@ public class DateTimeFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedEventsAsync(context);
-
         var todayOrEarlier = Filter.For<EventEntity>()
-            .Where(x => x.OccurredAt).LessThanOrEqual(_base)
+            .Where(x => x.OccurredAt).LessThanOrEqual(_fixture.Base)
             .Build();
 
-        var expected = _events.Where(e => e.OccurredAt <= _base);
+        var expected = _fixture.Events.Where(e => e.OccurredAt <= _fixture.Base);
 
         // Act
 
-        var actual = await context.Events
+        var actual = await Context.Events
             .Where(todayOrEarlier)
             .Select(x => Event.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -237,23 +219,18 @@ public class DateTimeFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedEventsAsync(context);
-
         var inRange = Filter.For<EventEntity>()
-            .Where(x => x.OccurredAt).Between(_base.AddDays(-5), _base)
+            .Where(x => x.OccurredAt).Between(_fixture.Base.AddDays(-5), _fixture.Base)
             .Build();
 
-        var expected = _events.Where(e => e.OccurredAt >= _base.AddDays(-5) && e.OccurredAt <= _base);
+        var expected = _fixture.Events.Where(e => e.OccurredAt >= _fixture.Base.AddDays(-5) && e.OccurredAt <= _fixture.Base);
 
         // Act
 
-        var actual = await context.Events
+        var actual = await Context.Events
             .Where(inRange)
             .Select(x => Event.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -265,25 +242,20 @@ public class DateTimeFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedEventsAsync(context);
-
-        DateTime?[] set = [_base.AddDays(-5), _base, _base.AddDays(10)];
+        DateTime?[] set = [_fixture.Base.AddDays(-5), _fixture.Base, _fixture.Base.AddDays(10)];
 
         var inSet = Filter.For<EventEntity>()
             .Where(x => x.ScheduledAt).In(set)
             .Build();
 
-        var expected = _events.Where(e => set.Contains(e.ScheduledAt));
+        var expected = _fixture.Events.Where(e => set.Contains(e.ScheduledAt));
 
         // Act
 
-        var actual = await context.Events
+        var actual = await Context.Events
             .Where(inSet)
             .Select(x => Event.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -295,26 +267,21 @@ public class DateTimeFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedEventsAsync(context);
-
         var filter = Filter.For<EventEntity>()
-            .Where(x => x.ScheduledAt).GreaterThan(_base)
-            .And(x => x.OccurredAt).Equal(_base)
+            .Where(x => x.ScheduledAt).GreaterThan(_fixture.Base)
+            .And(x => x.OccurredAt).Equal(_fixture.Base)
             .Build();
 
-        var expected = _events.Where(e =>
-            e.ScheduledAt > _base
-            && e.OccurredAt == _base);
+        var expected = _fixture.Events.Where(e =>
+            e.ScheduledAt > _fixture.Base
+            && e.OccurredAt == _fixture.Base);
 
         // Act
 
-        var actual = await context.Events
+        var actual = await Context.Events
             .Where(filter)
             .Select(x => Event.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -326,61 +293,24 @@ public class DateTimeFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedEventsAsync(context);
-
         var filter = Filter.For<EventEntity>()
             .Where(x => x.ScheduledAt).IsNull()
-            .Or(x => x.OccurredAt).GreaterThan(_base)
+            .Or(x => x.OccurredAt).GreaterThan(_fixture.Base)
             .Build();
 
-        var expected = _events.Where(e =>
+        var expected = _fixture.Events.Where(e =>
             e.ScheduledAt == null
-            || e.OccurredAt > _base);
+            || e.OccurredAt > _fixture.Base);
 
         // Act
 
-        var actual = await context.Events
+        var actual = await Context.Events
             .Where(filter)
             .Select(x => Event.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
         actual.Should().Equal(expected);
-    }
-
-    private static async Task<SqliteConnection> CreateOpenConnectionAsync()
-    {
-        SqliteConnection connection = new("Data Source=:memory:");
-        await connection.OpenAsync();
-
-        return connection;
-    }
-
-    private static TestDbContext CreateContext(SqliteConnection connection)
-    {
-        var options = new DbContextOptionsBuilder<TestDbContext>()
-            .UseSqlite(connection)
-            .Options;
-
-        TestDbContext context = new(options);
-        context.Database.EnsureCreated();
-
-        return context;
-    }
-
-    private static async Task SeedEventsAsync(TestDbContext context)
-    {
-        context.Events.AddRange(_events.Select((e, i) => new EventEntity
-        {
-            Id = i + 1,
-            ScheduledAt = e.ScheduledAt,
-            OccurredAt = e.OccurredAt
-        }));
-
-        await context.SaveChangesAsync();
     }
 }

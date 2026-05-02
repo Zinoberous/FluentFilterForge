@@ -3,7 +3,7 @@ using FluentFilterForge;
 
 namespace FluentFilterForge.Enumerable.Tests;
 
-public class NumberFilterTests
+public sealed class NumberFilterTests
 {
     private sealed record Product(int? Rating, int Stock);
 

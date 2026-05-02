@@ -3,7 +3,7 @@ using FluentFilterForge;
 
 namespace FluentFilterForge.Enumerable.Tests;
 
-public class CharFilterTests
+public sealed class CharFilterTests
 {
     private sealed record Token(char? Category, char Grade);
 

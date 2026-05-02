@@ -3,7 +3,7 @@ using FluentFilterForge;
 
 namespace FluentFilterForge.Enumerable.Tests;
 
-public class StringFilterTests
+public sealed class StringFilterTests
 {
     private sealed record Article(string? Category, string Title);
 

@@ -3,7 +3,7 @@ using FluentFilterForge;
 
 namespace FluentFilterForge.Enumerable.Tests;
 
-public class BoolFilterTests
+public sealed class BoolFilterTests
 {
     private sealed record Customer(bool? IsVerified, bool? IsInsured, bool IsDeleted);
 

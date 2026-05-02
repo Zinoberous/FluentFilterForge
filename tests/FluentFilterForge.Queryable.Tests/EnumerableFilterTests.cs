@@ -1,38 +1,37 @@
 ﻿using FluentAssertions;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
 namespace FluentFilterForge.Queryable.Tests;
 
-public class EnumerableFilterTests
+public sealed class TagEntity
 {
-    private sealed class TagEntity
+    public int Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public OrderEntity Order { get; set; } = null!;
+}
+
+public sealed class OrderEntity
+{
+    public int Id { get; set; }
+    public string OrderId { get; set; } = string.Empty;
+    public IEnumerable<TagEntity> Tags { get; set; } = [];
+}
+
+public sealed class EnumerableFilterTestsDbContext(DbContextOptions<EnumerableFilterTestsDbContext> options) : DbContext(options)
+{
+    public DbSet<OrderEntity> Orders => Set<OrderEntity>();
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        public int Id { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public OrderEntity Order { get; set; } = null!;
+        modelBuilder.Entity<OrderEntity>()
+            .HasMany(o => o.Tags)
+            .WithOne(t => t.Order);
     }
+}
 
-    private sealed class OrderEntity
-    {
-        public int Id { get; set; }
-        public string OrderId { get; set; } = string.Empty;
-        public IEnumerable<TagEntity> Tags { get; set; } = [];
-    }
-
-    private sealed class TestDbContext(DbContextOptions<TestDbContext> options) : DbContext(options)
-    {
-        public DbSet<OrderEntity> Orders => Set<OrderEntity>();
-
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<OrderEntity>()
-                .HasMany(o => o.Tags)
-                .WithOne(t => t.Order);
-        }
-    }
-
-    private static readonly (string OrderId, string[] Tags)[] _seedData = [
+public sealed class EnumerableFilterTestsFixture : DatabaseTestsFixture<EnumerableFilterTestsDbContext>
+{
+    public IEnumerable<(string OrderId, string[] Tags)> SeedData { get; } = [
         ("O2", []),
         ("O3", ["urgent"]),
         ("O4", ["urgent", "review"]),
@@ -40,31 +39,47 @@ public class EnumerableFilterTests
         ("O6", ["bulk", "review"]),
     ];
 
+    protected override async Task InitializeAsync(EnumerableFilterTestsDbContext context)
+    {
+        foreach (var (orderId, tags) in SeedData)
+        {
+            var order = new OrderEntity
+            {
+                OrderId = orderId,
+                Tags = [.. tags.Select(t => new TagEntity { Name = t })]
+            };
+
+            context.Orders.Add(order);
+        }
+
+        await context.SaveChangesAsync();
+    }
+}
+
+public sealed class EnumerableFilterTests(EnumerableFilterTestsFixture fixture) : DatabaseTests<EnumerableFilterTestsDbContext, EnumerableFilterTestsFixture>(fixture)
+{
+    private readonly EnumerableFilterTestsFixture _fixture = fixture;
+
     [Fact]
     public async Task IsNullOrEmpty_WhenApplied_ShouldReturnOrdersWithNoTags()
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedOrdersAsync(context);
-
         var isNullOrEmpty = Filter.For<OrderEntity>()
             .Where(x => x.Tags).IsNullOrEmpty()
             .Build();
 
-        var expected = _seedData
+        var expected = _fixture.SeedData
             .Where(d => d.Tags.Length == 0)
             .Select(d => d.OrderId);
 
         // Act
 
-        var actual = await context.Orders
+        var actual = await Context.Orders
             .Include(o => o.Tags)
             .Where(isNullOrEmpty)
             .Select(x => x.OrderId)
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -76,26 +91,21 @@ public class EnumerableFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedOrdersAsync(context);
-
         var hasItems = Filter.For<OrderEntity>()
             .Where(x => x.Tags).Not().IsNullOrEmpty()
             .Build();
 
-        var expected = _seedData
+        var expected = _fixture.SeedData
             .Where(d => d.Tags.Length > 0)
             .Select(d => d.OrderId);
 
         // Act
 
-        var actual = await context.Orders
+        var actual = await Context.Orders
             .Include(o => o.Tags)
             .Where(hasItems)
             .Select(x => x.OrderId)
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -107,26 +117,21 @@ public class EnumerableFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedOrdersAsync(context);
-
         var hasUrgentTag = Filter.For<OrderEntity>()
             .Where(x => x.Tags).Any(tags => tags
                 .Where(t => t.Name).Equal("urgent"))
             .Build();
 
-        var expected = _seedData
+        var expected = _fixture.SeedData
             .Where(d => d.Tags.Contains("urgent"))
             .Select(d => d.OrderId);
 
         // Act
 
-        var actual = await context.Orders
+        var actual = await Context.Orders
             .Where(hasUrgentTag)
             .Select(x => x.OrderId)
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -138,26 +143,21 @@ public class EnumerableFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedOrdersAsync(context);
-
         var noUrgentTag = Filter.For<OrderEntity>()
             .Where(x => x.Tags).Not().Any(tags => tags
                 .Where(t => t.Name).Equal("urgent"))
             .Build();
 
-        var expected = _seedData
+        var expected = _fixture.SeedData
             .Where(d => !d.Tags.Contains("urgent"))
             .Select(d => d.OrderId);
 
         // Act
 
-        var actual = await context.Orders
+        var actual = await Context.Orders
             .Where(noUrgentTag)
             .Select(x => x.OrderId)
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -169,26 +169,21 @@ public class EnumerableFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedOrdersAsync(context);
-
         var allReview = Filter.For<OrderEntity>()
             .Where(x => x.Tags).All(tags => tags
                 .Where(t => t.Name).Equal("review"))
             .Build();
 
-        var expected = _seedData
+        var expected = _fixture.SeedData
             .Where(d => d.Tags.All(t => t == "review"))
             .Select(d => d.OrderId);
 
         // Act
 
-        var actual = await context.Orders
+        var actual = await Context.Orders
             .Where(allReview)
             .Select(x => x.OrderId)
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -200,11 +195,6 @@ public class EnumerableFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedOrdersAsync(context);
-
         var filter = Filter.For<OrderEntity>()
             .Where(x => x.Tags).Any(tags => tags
                 .Where(t => t.Name).Equal("urgent"))
@@ -212,7 +202,7 @@ public class EnumerableFilterTests
                 .Where(t => t.Name).Equal("review"))
             .Build();
 
-        var expected = _seedData
+        var expected = _fixture.SeedData
             .Where(d =>
                 d.Tags.Contains("urgent")
                 && d.Tags.Contains("review"))
@@ -220,10 +210,10 @@ public class EnumerableFilterTests
 
         // Act
 
-        var actual = await context.Orders
+        var actual = await Context.Orders
             .Where(filter)
             .Select(x => x.OrderId)
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -235,18 +225,13 @@ public class EnumerableFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedOrdersAsync(context);
-
         var filter = Filter.For<OrderEntity>()
             .Where(x => x.Tags).IsNullOrEmpty()
             .Or(x => x.Tags).Any(tags => tags
                 .Where(t => t.Name).Equal("bulk"))
             .Build();
 
-        var expected = _seedData
+        var expected = _fixture.SeedData
             .Where(d =>
                 d.Tags.Length == 0
                 || d.Tags.Contains("bulk"))
@@ -254,54 +239,14 @@ public class EnumerableFilterTests
 
         // Act
 
-        var actual = await context.Orders
+        var actual = await Context.Orders
             .Include(o => o.Tags)
             .Where(filter)
             .Select(x => x.OrderId)
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
         actual.Should().Equal(expected);
-    }
-
-    private static async Task<SqliteConnection> CreateOpenConnectionAsync()
-    {
-        SqliteConnection connection = new("Data Source=:memory:");
-        await connection.OpenAsync();
-
-        return connection;
-    }
-
-    private static TestDbContext CreateContext(SqliteConnection connection)
-    {
-        var options = new DbContextOptionsBuilder<TestDbContext>()
-            .UseSqlite(connection)
-            .Options;
-
-        TestDbContext context = new(options);
-        context.Database.EnsureCreated();
-
-        return context;
-    }
-
-    private static async Task SeedOrdersAsync(TestDbContext context)
-    {
-        var id = 1;
-        var tagId = 1;
-
-        foreach (var (orderId, tags) in _seedData)
-        {
-            var order = new OrderEntity
-            {
-                Id = id++,
-                OrderId = orderId,
-                Tags = [.. tags.Select(t => new TagEntity { Id = tagId++, Name = t })]
-            };
-
-            context.Orders.Add(order);
-        }
-
-        await context.SaveChangesAsync();
     }
 }

@@ -1,29 +1,28 @@
 ﻿using FluentAssertions;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 
 namespace FluentFilterForge.Queryable.Tests;
 
-public class StringFilterTests
+public sealed class ArticleEntity
 {
-    private sealed class ArticleEntity
-    {
-        public int Id { get; set; }
-        public string? Category { get; set; }
-        public string Title { get; set; } = string.Empty;
-    }
+    public int Id { get; set; }
+    public string? Category { get; set; }
+    public string Title { get; set; } = string.Empty;
+}
 
-    private sealed class TestDbContext(DbContextOptions<TestDbContext> options) : DbContext(options)
-    {
-        public DbSet<ArticleEntity> Articles => Set<ArticleEntity>();
-    }
+public sealed class StringFilterTestsDbContext(DbContextOptions<StringFilterTestsDbContext> options) : DbContext(options)
+{
+    public DbSet<ArticleEntity> Articles => Set<ArticleEntity>();
+}
 
-    private sealed record Article(string? Category, string Title)
-    {
-        internal static Article Map(ArticleEntity entity) => new(entity.Category, entity.Title);
-    }
+public sealed record Article(string? Category, string Title)
+{
+    internal static Article Map(ArticleEntity entity) => new(entity.Category, entity.Title);
+}
 
-    private static readonly Article[] _articles = [
+public sealed class StringFilterTestsFixture : DatabaseTestsFixture<StringFilterTestsDbContext>
+{
+    public IEnumerable<Article> Articles { get; } = [
         new(null, "Introduction to C#"),
         new(null, "Getting Started with .NET"),
         new("Tech", "Advanced C# Patterns"),
@@ -33,28 +32,39 @@ public class StringFilterTests
         new("News", "Daily Update"),
     ];
 
+    protected override async Task InitializeAsync(StringFilterTestsDbContext context)
+    {
+        context.Articles.AddRange(Articles.Select(a => new ArticleEntity
+        {
+            Category = a.Category,
+            Title = a.Title
+        }));
+
+        await context.SaveChangesAsync();
+    }
+}
+
+public sealed class StringFilterTests(StringFilterTestsFixture fixture) : DatabaseTests<StringFilterTestsDbContext, StringFilterTestsFixture>(fixture)
+{
+    private readonly StringFilterTestsFixture _fixture = fixture;
+
     [Fact]
     public async Task IsNull_WhenApplied_ShouldReturnOnlyNullValues()
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedArticlesAsync(context);
-
         var isNull = Filter.For<ArticleEntity>()
             .Where(x => x.Category).IsNull()
             .Build();
 
-        var expected = _articles.Where(a => a.Category == null);
+        var expected = _fixture.Articles.Where(a => a.Category == null);
 
         // Act
 
-        var actual = await context.Articles
+        var actual = await Context.Articles
             .Where(isNull)
             .Select(x => Article.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -66,16 +76,15 @@ public class StringFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
+        await Context.Articles.ExecuteDeleteAsync(TestContext.Current.CancellationToken);
 
-        context.Articles.AddRange(
-            new() { Id = 1, Category = null, Title = "A" },
-            new() { Id = 2, Category = "", Title = "B" },
-            new() { Id = 3, Category = "Tech", Title = "C" }
+        Context.Articles.AddRange(
+            new() { Category = null, Title = "A" },
+            new() { Category = "", Title = "B" },
+            new() { Category = "Tech", Title = "C" }
         );
 
-        await context.SaveChangesAsync();
+        await Context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
         var isNullOrEmpty = Filter.For<ArticleEntity>()
             .Where(x => x.Category).IsNullOrEmpty()
@@ -85,10 +94,10 @@ public class StringFilterTests
 
         // Act
 
-        var actual = await context.Articles
+        var actual = await Context.Articles
             .Where(isNullOrEmpty)
             .Select(x => x.Title)
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -100,17 +109,16 @@ public class StringFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
+        await Context.Articles.ExecuteDeleteAsync(TestContext.Current.CancellationToken);
 
-        context.Articles.AddRange(
-            new() { Id = 1, Category = null, Title = "A" },
-            new() { Id = 2, Category = "", Title = "B" },
-            new() { Id = 3, Category = "   ", Title = "C" },
-            new() { Id = 4, Category = "Tech", Title = "D" }
+        Context.Articles.AddRange(
+            new() { Category = null, Title = "A" },
+            new() { Category = "", Title = "B" },
+            new() { Category = "   ", Title = "C" },
+            new() { Category = "Tech", Title = "D" }
         );
 
-        await context.SaveChangesAsync();
+        await Context.SaveChangesAsync(TestContext.Current.CancellationToken);
 
         var isNullOrWhitespace = Filter.For<ArticleEntity>()
             .Where(x => x.Category).IsNullOrWhitespace()
@@ -120,10 +128,10 @@ public class StringFilterTests
 
         // Act
 
-        var actual = await context.Articles
+        var actual = await Context.Articles
             .Where(isNullOrWhitespace)
             .Select(x => x.Title)
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -137,23 +145,18 @@ public class StringFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedArticlesAsync(context);
-
         var equalValue = Filter.For<ArticleEntity>()
             .Where(x => x.Category).Equal(value)
             .Build();
 
-        var expected = _articles.Where(a => a.Category == value);
+        var expected = _fixture.Articles.Where(a => a.Category == value);
 
         // Act
 
-        var actual = await context.Articles
+        var actual = await Context.Articles
             .Where(equalValue)
             .Select(x => Article.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -165,23 +168,18 @@ public class StringFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedArticlesAsync(context);
-
         var isNotTech = Filter.For<ArticleEntity>()
             .Where(x => x.Category).Not().Equal("Tech")
             .Build();
 
-        var expected = _articles.Where(a => a.Category != "Tech");
+        var expected = _fixture.Articles.Where(a => a.Category != "Tech");
 
         // Act
 
-        var actual = await context.Articles
+        var actual = await Context.Articles
             .Where(isNotTech)
             .Select(x => Article.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -193,23 +191,18 @@ public class StringFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedArticlesAsync(context);
-
         var startsWithAdv = Filter.For<ArticleEntity>()
             .Where(x => x.Title).StartsWith("Advanced")
             .Build();
 
-        var expected = _articles.Where(a => a.Title.StartsWith("Advanced", StringComparison.OrdinalIgnoreCase));
+        var expected = _fixture.Articles.Where(a => a.Title.StartsWith("Advanced", StringComparison.OrdinalIgnoreCase));
 
         // Act
 
-        var actual = await context.Articles
+        var actual = await Context.Articles
             .Where(startsWithAdv)
             .Select(x => Article.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -221,23 +214,18 @@ public class StringFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedArticlesAsync(context);
-
         var endsWithSharp = Filter.For<ArticleEntity>()
             .Where(x => x.Title).EndsWith("C#")
             .Build();
 
-        var expected = _articles.Where(a => a.Title.EndsWith("C#", StringComparison.OrdinalIgnoreCase));
+        var expected = _fixture.Articles.Where(a => a.Title.EndsWith("C#", StringComparison.OrdinalIgnoreCase));
 
         // Act
 
-        var actual = await context.Articles
+        var actual = await Context.Articles
             .Where(endsWithSharp)
             .Select(x => Article.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -249,23 +237,18 @@ public class StringFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedArticlesAsync(context);
-
         var containsNet = Filter.For<ArticleEntity>()
             .Where(x => x.Title).Contains(".NET")
             .Build();
 
-        var expected = _articles.Where(a => a.Title.Contains(".NET", StringComparison.OrdinalIgnoreCase));
+        var expected = _fixture.Articles.Where(a => a.Title.Contains(".NET", StringComparison.OrdinalIgnoreCase));
 
         // Act
 
-        var actual = await context.Articles
+        var actual = await Context.Articles
             .Where(containsNet)
             .Select(x => Article.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -277,25 +260,20 @@ public class StringFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedArticlesAsync(context);
-
         string?[] set = ["Tech", "News"];
 
         var inSet = Filter.For<ArticleEntity>()
             .Where(x => x.Category).In(set)
             .Build();
 
-        var expected = _articles.Where(a => set.Contains(a.Category));
+        var expected = _fixture.Articles.Where(a => set.Contains(a.Category));
 
         // Act
 
-        var actual = await context.Articles
+        var actual = await Context.Articles
             .Where(inSet)
             .Select(x => Article.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -307,24 +285,19 @@ public class StringFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedArticlesAsync(context);
-
         var filter = Filter.For<ArticleEntity>()
             .Where(x => x.Category).Equal("Tech")
             .And(x => x.Title).Contains("C#")
             .Build();
 
-        var expected = _articles.Where(a => a.Category == "Tech" && a.Title.Contains("C#", StringComparison.OrdinalIgnoreCase));
+        var expected = _fixture.Articles.Where(a => a.Category == "Tech" && a.Title.Contains("C#", StringComparison.OrdinalIgnoreCase));
 
         // Act
 
-        var actual = await context.Articles
+        var actual = await Context.Articles
             .Where(filter)
             .Select(x => Article.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
@@ -336,61 +309,24 @@ public class StringFilterTests
     {
         // Arrange
 
-        await using var connection = await CreateOpenConnectionAsync();
-        await using var context = CreateContext(connection);
-
-        await SeedArticlesAsync(context);
-
         var filter = Filter.For<ArticleEntity>()
             .Where(x => x.Category).IsNull()
             .Or(x => x.Title).StartsWith("Daily")
             .Build();
 
-        var expected = _articles.Where(a =>
+        var expected = _fixture.Articles.Where(a =>
             a.Category == null
             || a.Title.StartsWith("Daily", StringComparison.OrdinalIgnoreCase));
 
         // Act
 
-        var actual = await context.Articles
+        var actual = await Context.Articles
             .Where(filter)
             .Select(x => Article.Map(x))
-            .ToListAsync();
+            .ToListAsync(TestContext.Current.CancellationToken);
 
         // Assert
 
         actual.Should().Equal(expected);
-    }
-
-    private static async Task<SqliteConnection> CreateOpenConnectionAsync()
-    {
-        SqliteConnection connection = new("Data Source=:memory:");
-        await connection.OpenAsync();
-
-        return connection;
-    }
-
-    private static TestDbContext CreateContext(SqliteConnection connection)
-    {
-        var options = new DbContextOptionsBuilder<TestDbContext>()
-            .UseSqlite(connection)
-            .Options;
-
-        TestDbContext context = new(options);
-        context.Database.EnsureCreated();
-
-        return context;
-    }
-
-    private static async Task SeedArticlesAsync(TestDbContext context)
-    {
-        context.Articles.AddRange(_articles.Select((a, i) => new ArticleEntity
-        {
-            Id = i + 1,
-            Category = a.Category,
-            Title = a.Title
-        }));
-
-        await context.SaveChangesAsync();
     }
 }

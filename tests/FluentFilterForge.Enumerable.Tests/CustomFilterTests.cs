@@ -3,7 +3,7 @@ using FluentFilterForge;
 
 namespace FluentFilterForge.Enumerable.Tests;
 
-public class CustomFilterTests
+public sealed class CustomFilterTests
 {
     public enum Priority { Low, Medium, High }
 

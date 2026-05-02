@@ -3,7 +3,7 @@ using FluentFilterForge;
 
 namespace FluentFilterForge.Enumerable.Tests;
 
-public class EnumerableFilterTests
+public sealed class EnumerableFilterTests
 {
     private sealed record Order(string Id, IEnumerable<string>? Tags);
 
